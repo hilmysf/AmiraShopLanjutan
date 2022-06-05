@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="hilmysf.amirashoplanjutan.ui.dashboard.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_detailProductActivity"
+            app:destination="@id/detailProductActivity">
+            <argument
+                android:name="product"
+                android:defaultValue="@null"
+                app:argType="hilmysf.amirashoplanjutan.data.source.entities.Products"
+                app:nullable="true" />
+        </action>
+        <action
+            android:id="@+id/action_home_to_product"
+            app:destination="@id/product" />
+        <action
+            android:id="@+id/action_home_to_lowStockProductActivity"
+            app:destination="@id/lowStockProductActivity" />
+        <action
+            android:id="@+id/action_home_to_sellActivity"
+            app:destination="@id/sellActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/history"
+        android:name="hilmysf.amirashoplanjutan.ui.log.LogFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_log" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="hilmysf.amirashoplanjutan.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_nav_graph"
+            app:destination="@id/nav_graph" />
+    </fragment>
+    <fragment
+        android:id="@+id/product"
+        android:name="hilmysf.amirashoplanjutan.ui.product.opname.ProductFragment"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product">
+
+        <action
+            android:id="@+id/action_product_to_detailProductActivity"
+            app:destination="@id/detailProductActivity">
+            <argument
+                android:name="product"
+                android:defaultValue="@null"
+                app:argType="hilmysf.amirashoplanjutan.data.source.entities.Products"
+                app:nullable="true" />
+        </action>
+    </fragment>
+    <include app:graph="@navigation/auth_nav_graph" />
+    <activity
+        android:id="@+id/detailProductActivity"
+        android:name="hilmysf.amirashoplanjutan.ui.product.opname.DetailProductActivity"
+        android:label="activity_detail_product"
+        tools:layout="@layout/activity_detail_product">
+        <argument
+            android:name="product"
+            android:defaultValue="@null"
+            app:argType="hilmysf.amirashoplanjutan.data.source.entities.Products"
+            app:nullable="true" />
+    </activity>
+    <activity
+        android:id="@+id/sellActivity"
+        android:name="hilmysf.amirashoplanjutan.ui.product.sell.SellActivity"
+        android:label="activity_sell"
+        tools:layout="@layout/activity_sell" />
+    <activity
+        android:id="@+id/lowStockProductActivity"
+        android:name="hilmysf.amirashoplanjutan.ui.product.opname.LowStockProductActivity"
+        android:label="activity_low_stock_product"
+        tools:layout="@layout/activity_low_stock_product" />
+</navigation>

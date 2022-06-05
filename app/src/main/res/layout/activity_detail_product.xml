@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.product.opname.DetailProductActivity">
+
+    <View
+        android:id="@+id/view_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/detail_product_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_product"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:background="@drawable/round_corner"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintBottom_toTopOf="@+id/view_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_background" />
+
+    <EditText
+        android:id="@+id/edt_product_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Nama Barang"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/naming_tips"
+        app:layout_constraintEnd_toEndOf="@+id/view_background"
+        app:layout_constraintStart_toStartOf="@+id/view_background"
+        app:layout_constraintTop_toBottomOf="@+id/img_product" />
+
+    <TextView
+        android:id="@+id/naming_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:text="@string/naming_tips"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_quantity"
+        app:layout_constraintStart_toStartOf="@+id/edt_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/edt_product_name" />
+
+    <TextView
+        android:id="@+id/tv_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Jumlah Stok"
+        app:layout_constraintBottom_toTopOf="@+id/tv_min_quantity"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/view_background"
+        app:layout_constraintTop_toBottomOf="@+id/naming_tips" />
+
+    <TextView
+        android:id="@+id/tv_min_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Stok Minimum"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_category"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/view_background"
+        app:layout_constraintTop_toBottomOf="@+id/tv_quantity" />
+
+    <com.travijuu.numberpicker.library.NumberPicker
+        android:id="@+id/quantity_number_picker"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        app:custom_layout=" @layout/number_picker_layout"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_quantity"
+        app:layout_constraintEnd_toEndOf="@+id/view_background"
+        app:layout_constraintTop_toTopOf="@+id/tv_quantity" />
+
+    <com.travijuu.numberpicker.library.NumberPicker
+        android:id="@+id/min_quantity_number_picker"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        app:custom_layout=" @layout/number_picker_layout"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_min_quantity"
+        app:layout_constraintEnd_toEndOf="@+id/view_background"
+        app:layout_constraintTop_toTopOf="@+id/tv_min_quantity" />
+
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintBottom_toTopOf="@+id/edt_price"
+        app:layout_constraintEnd_toEndOf="@+id/view_background"
+        app:layout_constraintStart_toStartOf="@+id/view_background"
+        app:layout_constraintTop_toBottomOf="@+id/tv_min_quantity" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_price"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Rp. "
+        app:boxBackgroundColor="@color/grey"
+        app:boxCornerRadiusBottomEnd="4dp"
+        app:boxCornerRadiusBottomStart="4dp"
+        app:boxCornerRadiusTopEnd="4dp"
+        app:boxCornerRadiusTopStart="4dp"
+        app:boxStrokeWidth="0dp"
+        app:expandedHintEnabled="true"
+        app:hintAnimationEnabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/price_hint"
+        app:layout_constraintEnd_toEndOf="@+id/view_background"
+        app:layout_constraintStart_toStartOf="@+id/view_background"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_category"
+        app:placeholderText="0"
+        app:placeholderTextColor="@color/black">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_price_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/price_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_hint"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_item"
+        app:layout_constraintStart_toStartOf="@+id/edt_price"
+        app:layout_constraintTop_toBottomOf="@+id/edt_price" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:padding="12dp"
+        android:text="@string/add_item_confirm"
+        android:textColor="@color/black"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_background"
+        app:layout_constraintEnd_toEndOf="@+id/edt_price"
+        app:layout_constraintStart_toStartOf="@+id/edt_price"
+        app:layout_constraintTop_toBottomOf="@+id/price_hint" />
+</androidx.constraintlayout.widget.ConstraintLayout>

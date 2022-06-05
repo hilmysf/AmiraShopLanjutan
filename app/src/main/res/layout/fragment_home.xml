@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/yellow_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/background"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@id/box" />
+
+        <TextView
+            android:id="@+id/tv_hallo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="Hallo"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
+            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView" />
+
+        <ImageView
+            android:id="@+id/box"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/box"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/yellow_background"
+            app:layout_constraintEnd_toEndOf="@+id/yellow_background"
+            app:layout_constraintStart_toStartOf="@+id/yellow_background"
+            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDDDDD"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/box"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toTopOf="@+id/box" />
+
+        <TextView
+            android:id="@+id/stockin_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:elevation="3dp"
+            android:text="10"
+            android:textColor="@color/yellow"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintEnd_toEndOf="@+id/stockin_caption"
+            app:layout_constraintStart_toStartOf="@+id/stockin_caption" />
+
+        <TextView
+            android:id="@+id/stockout_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:elevation="3dp"
+            android:text="10"
+            android:textColor="@color/yellow"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/line"
+            app:layout_constraintEnd_toEndOf="@+id/stockout_caption"
+            app:layout_constraintStart_toStartOf="@+id/stockout_caption" />
+
+        <TextView
+            android:id="@+id/stockin_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:elevation="3dp"
+            android:text="Stock In"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/line"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
+
+        <TextView
+            android:id="@+id/stockout_caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:elevation="3dp"
+            android:text="Stock Out"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/line"
+            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="205dp" />
+
+        <TextView
+            android:id="@+id/tv_quick_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Quick Action"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/box" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_add_tem"
+            android:layout_width="93dp"
+            android:layout_height="93dp"
+            android:background="@color/yellow"
+            android:backgroundTint="@color/yellow"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toTopOf="@+id/cv_sell_item" />
+
+        <ImageView
+            android:id="@+id/img_add"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            android:src="@drawable/ic_add_white"
+            app:layout_constraintBottom_toTopOf="@+id/tv_add"
+            app:layout_constraintEnd_toEndOf="@+id/cv_add_tem"
+            app:layout_constraintStart_toStartOf="@+id/cv_add_tem"
+            app:layout_constraintTop_toTopOf="@+id/cv_add_tem" />
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="Add Item"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_add_tem"
+            app:layout_constraintEnd_toEndOf="@+id/img_add"
+            app:layout_constraintStart_toStartOf="@+id/img_add" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_sell_item"
+            android:layout_width="93dp"
+            android:layout_height="93dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/cv_low_stock"
+            app:layout_constraintStart_toEndOf="@+id/cv_add_tem"
+            app:layout_constraintTop_toBottomOf="@+id/tv_quick_action" />
+
+        <ImageView
+            android:id="@+id/img_sell"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            android:src="@drawable/ic_sell_yellow"
+            app:layout_constraintBottom_toTopOf="@+id/tv_sell"
+            app:layout_constraintEnd_toEndOf="@+id/cv_sell_item"
+            app:layout_constraintStart_toStartOf="@+id/cv_sell_item"
+            app:layout_constraintTop_toTopOf="@+id/cv_sell_item" />
+
+        <TextView
+            android:id="@+id/tv_sell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="Sell Item"
+            android:textColor="@color/yellow"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_sell_item"
+            app:layout_constraintEnd_toEndOf="@+id/cv_sell_item"
+            app:layout_constraintStart_toStartOf="@+id/cv_sell_item" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_low_stock"
+            android:layout_width="93dp"
+            android:layout_height="93dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintTop_toTopOf="@+id/cv_sell_item" />
+
+        <ImageView
+            android:id="@+id/img_low_stock"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            android:src="@drawable/ic_low_stock_yellow"
+            app:layout_constraintBottom_toTopOf="@+id/tv_low_stock"
+            app:layout_constraintEnd_toEndOf="@+id/cv_low_stock"
+            app:layout_constraintStart_toStartOf="@+id/cv_low_stock"
+            app:layout_constraintTop_toTopOf="@+id/cv_low_stock" />
+
+        <TextView
+            android:id="@+id/tv_low_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:elevation="2dp"
+            android:text="Low Stock"
+            android:textColor="@color/yellow"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cv_low_stock"
+            app:layout_constraintEnd_toEndOf="@+id/cv_low_stock"
+            app:layout_constraintStart_toStartOf="@+id/cv_low_stock" />
+
+        <TextView
+            android:id="@+id/tv_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Products"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/cv_add_tem"
+            app:layout_constraintTop_toBottomOf="@+id/cv_add_tem" />
+
+        <ImageView
+            android:id="@+id/products_box"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/box"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/tv_products" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_products"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/products_box"
+            app:layout_constraintEnd_toEndOf="@+id/products_box"
+            app:layout_constraintStart_toStartOf="@+id/products_box"
+            app:layout_constraintTop_toTopOf="@+id/products_box"
+            tools:listitem="@layout/item_product_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

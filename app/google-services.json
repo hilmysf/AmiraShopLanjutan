@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "30828655041",
+    "project_id": "skripsi-amirashop",
+    "storage_bucket": "skripsi-amirashop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30828655041:android:80306a0eb72f843b8abf40",
+        "android_client_info": {
+          "package_name": "hilmysf.amirashoplanjutan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30828655041-7r6lkskrcd3u60r3ai3ct8t7skq33gec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiBAxHHvz_uXAEPjZvMdaoprj5_hEVVnE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30828655041-7r6lkskrcd3u60r3ai3ct8t7skq33gec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
