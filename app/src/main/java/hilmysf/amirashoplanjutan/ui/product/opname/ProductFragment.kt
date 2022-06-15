@@ -1,6 +1,5 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +16,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import hilmysf.amirashoplanjutan.R
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.FragmentProductBinding
 import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
@@ -30,6 +29,7 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentProductBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var options: FirestoreRecyclerOptions<Products>
+    private var query: String = ""
     private lateinit var storageReference: StorageReference
     private lateinit var navController: NavController
     private val viewModel: ProductViewModel by viewModels()
@@ -46,23 +46,22 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         firestore = FirebaseFirestore.getInstance()
         storageReference = Firebase.storage.reference
         navController = Navigation.findNavController(view)
-        options = viewModel.searchProducts("")
+        options = viewModel.getProducts(query)
         searchViewConfiguration(binding)
-        getProductsList(navController, storageReference, options)
+        getProductsList(navController, storageReference)
         binding.productsFab.setOnClickListener {
             navController.navigate(R.id.action_product_to_detailProductActivity)
         }
     }
 
-    private fun getProductsList(navController: NavController, storageReference: StorageReference, options: FirestoreRecyclerOptions<Products>) {
-//        options = viewModel.searchProducts(q)
-//        options = viewModel.searchProducts(query)
+    private fun getProductsList(navController: NavController, storageReference: StorageReference) {
         Log.d(TAG, "DocumentSnapshot Home: $options")
         productGridAdapter = ProductGridAdapter(context, options, navController, storageReference)
         with(binding.rvProducts) {
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
             adapter = productGridAdapter
+            Log.d(TAG, "jumlah item ${adapter!!.itemCount}")
         }
     }
 
@@ -77,19 +76,12 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-//        Log.d(TAG, "Query: $query")
-//        viewModel.isQueryChanged.observe(this, {
-//            if(it.equals(true)){
-//                options = viewModel.searchProducts(query)
-//            }
-//        })
-        options = viewModel.searchProducts(query.toString())
-        Log.d(TAG, "options terpanggil : $options")
-        getProductsList(navController, storageReference, options)
         return true
     }
 
     override fun onQueryTextChange(query: String): Boolean {
+        val newOptions = viewModel.getProducts(query)
+        productGridAdapter?.updateOptions(newOptions)
         return true
     }
 
@@ -98,12 +90,4 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         searchView.setOnQueryTextListener(this)
         searchView.isSubmitButtonEnabled = false
     }
-//    private fun searchDatabase(query: String) {
-//        val searchQuery = "%$query%"
-//
-//        viewModel.searchQuery(searchQuery)
-//            .observe(viewLifecycleOwner, {
-//                noteAdapter.submitList(it)
-//            })
-//    }
 }

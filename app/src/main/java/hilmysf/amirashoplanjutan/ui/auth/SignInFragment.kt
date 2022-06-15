@@ -28,7 +28,7 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
-        val navController = Navigation.findNavController(view)
+        val navController = Navigation.findNavController(requireView())
         binding.btnLogin.setOnClickListener {
             val email = binding.emailValue.text.toString()
             val password = binding.passwordValue.text.toString()
@@ -37,22 +37,9 @@ class SignInFragment : Fragment() {
                 viewModel.login(email, password, context)
                 viewModel.isSuccessful.observe(requireActivity(), {
                     if (it.equals(true)) {
-                        navController.navigate(R.id.action_signInFragment_to_homeFragment)
+                        navController.navigate(R.id.action_signInFragment_to_homeActivity)
                     }
                 })
-//                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        navController.navigate(R.id.action_signInFragment_to_homeFragment)
-//                    } else {
-//                        val alertDialog = AlertDialog.Builder(context).create()
-//                        alertDialog.setTitle("Invalid Login")
-//                        alertDialog.setMessage(it.exception?.message)
-//                        alertDialog.setButton(
-//                            AlertDialog.BUTTON_NEUTRAL, "Coba Lagi",
-//                            DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
-//                        alertDialog.show()
-//                    }
-//                }
             } else {
 
             }

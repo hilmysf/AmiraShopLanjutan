@@ -14,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.databinding.FragmentProfileBinding
 import hilmysf.amirashoplanjutan.helper.Constant
-import hilmysf.amirashoplanjutan.ui.auth.AuthViewModel
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -41,7 +40,7 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             viewModel.signOut()
             Log.d(TAG, "current user is null ${mAuth.currentUser == null}")
-            navController.navigate(R.id.action_profile_to_nav_graph)
+            navController.navigate(R.id.action_profile_to_mainActivity)
         }
     }
 
@@ -49,10 +48,10 @@ class ProfileFragment : Fragment() {
         viewModel.getUser(userId)
             .addOnSuccessListener { document ->
                 if (document != null) {
-//                    val name = document.getString(Constant.NAME)
-                    val name = mAuth.currentUser!!.displayName.toString()
+                    val name = document.getString(Constant.NAME)
+                    val email = document.getString(Constant.EMAIL)
                     binding.tvUser.text = name
-                    binding.tvEmail.text = userEmail
+                    binding.tvEmail.text = email
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 } else {
                     Log.d(TAG, "No such document")

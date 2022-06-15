@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/yellow_background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="128dp"
             android:scaleType="fitXY"
             android:src="@drawable/background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,12 +24,12 @@
             android:id="@+id/circleImageView"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="32dp"
             android:src="@drawable/background"
             app:civ_border_color="@color/white"
             app:civ_border_width="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/box"
-            app:layout_constraintStart_toStartOf="@id/box" />
+            app:layout_constraintStart_toStartOf="@id/search_view"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_hallo"
@@ -43,81 +43,25 @@
             app:layout_constraintStart_toEndOf="@+id/circleImageView"
             app:layout_constraintTop_toTopOf="@+id/circleImageView" />
 
-        <ImageView
-            android:id="@+id/box"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_view"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/box"
+            app:icon="@drawable/ic_search"
+            app:iconGravity="start"
+            app:iconTint="@color/text_grey"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="64dp"
             android:elevation="2dp"
+            app:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="@+id/yellow_background"
             app:layout_constraintEnd_toEndOf="@+id/yellow_background"
             app:layout_constraintStart_toStartOf="@+id/yellow_background"
-            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
+            app:layout_constraintTop_toBottomOf="@+id/yellow_background"
+            app:searchIcon="@drawable/ic_search" />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="#DDDDDD"
-            android:elevation="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/box"
-            app:layout_constraintEnd_toEndOf="@+id/box"
-            app:layout_constraintStart_toStartOf="@+id/box"
-            app:layout_constraintTop_toTopOf="@+id/box" />
-
-        <TextView
-            android:id="@+id/stockin_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:elevation="3dp"
-            android:text="10"
-            android:textColor="@color/yellow"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/line"
-            app:layout_constraintEnd_toEndOf="@+id/stockin_caption"
-            app:layout_constraintStart_toStartOf="@+id/stockin_caption" />
-
-        <TextView
-            android:id="@+id/stockout_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:elevation="3dp"
-            android:text="10"
-            android:textColor="@color/yellow"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/line"
-            app:layout_constraintEnd_toEndOf="@+id/stockout_caption"
-            app:layout_constraintStart_toStartOf="@+id/stockout_caption" />
-
-        <TextView
-            android:id="@+id/stockin_caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:elevation="3dp"
-            android:text="Stock In"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/line"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
-
-        <TextView
-            android:id="@+id/stockout_caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:elevation="3dp"
-            android:text="Stock Out"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/line"
-            app:layout_constraintTop_toBottomOf="@+id/yellow_background" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -134,8 +78,8 @@
             android:text="Quick Action"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/box"
-            app:layout_constraintTop_toBottomOf="@+id/box" />
+            app:layout_constraintStart_toStartOf="@+id/search_view"
+            app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_add_tem"
@@ -144,7 +88,7 @@
             android:background="@color/yellow"
             android:backgroundTint="@color/yellow"
             app:cardCornerRadius="16dp"
-            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/search_view"
             app:layout_constraintTop_toTopOf="@+id/cv_sell_item" />
 
         <ImageView
@@ -212,7 +156,7 @@
             android:layout_width="93dp"
             android:layout_height="93dp"
             app:cardCornerRadius="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintEnd_toEndOf="@+id/search_view"
             app:layout_constraintTop_toTopOf="@+id/cv_sell_item" />
 
         <ImageView
@@ -262,8 +206,8 @@
             android:background="@drawable/box"
             android:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/box"
-            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintEnd_toEndOf="@+id/search_view"
+            app:layout_constraintStart_toStartOf="@+id/search_view"
             app:layout_constraintTop_toBottomOf="@+id/tv_products" />
 
         <androidx.recyclerview.widget.RecyclerView

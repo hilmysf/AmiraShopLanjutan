@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/box.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/custom_button_to_cart.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/custom_home_searchview.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/custom_price.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/custom_searchview.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/detail_product_background.xml" value="0.26614583333333336" />
@@ -11,27 +13,36 @@
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/ic_add_white.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/ic_back.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/ic_camera.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/ic_cart.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/ic_edit.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/round_corner.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/spinner_background.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/drawable/status_rounded_corner.xml" value="0.26614583333333336" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_detail_product.xml" value="0.4" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/font/neue.xml" value="0.28020833333333334" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_cart.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_detail_product.xml" value="0.264" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_low_stock_product.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_sell.xml" value="0.25" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_sell.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/empty_product_state.xml" value="0.25" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_detail_product.xml" value="0.12916666666666668" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_history.xml" value="0.25" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_home.xml" value="0.41702867072111205" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_log.xml" value="0.264" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_product.xml" value="0.2" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_sign_in.xml" value="0.2" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_sell.xml" value="0.25" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_sign_in.xml" value="0.4519119351100811" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_sign_up.xml" value="0.5214050493962679" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_log_list.xml" value="0.4" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product.xml" value="0.34173669467787116" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_card.xml" value="0.12708333333333333" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_grid.xml" value="0.176" />
-        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_list.xml" value="0.2" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_grid.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_list.xml" value="0.4" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_sell.xml" value="0.25" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/loading_state.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/number_picker_layout.xml" value="0.536" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/menu/menu.xml" value="0.1" />

@@ -123,7 +123,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:hint="Rp. "
-        app:boxBackgroundColor="@color/grey"
+        app:boxBackgroundColor="@color/soft_grey"
         app:boxCornerRadiusBottomEnd="4dp"
         app:boxCornerRadiusBottomStart="4dp"
         app:boxCornerRadiusTopEnd="4dp"
@@ -170,4 +170,16 @@
         app:layout_constraintEnd_toEndOf="@+id/edt_price"
         app:layout_constraintStart_toStartOf="@+id/edt_price"
         app:layout_constraintTop_toBottomOf="@+id/price_hint" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firestore = FirebaseFirestore.getInstance()
-        val navController = Navigation.findNavController(view)
+        val navController = Navigation.findNavController(requireView())
         mAuth = FirebaseAuth.getInstance()
         binding.tvToLogin.setOnClickListener {
             navController.navigate(R.id.action_signUpFragment_to_signInFragment)
@@ -63,7 +63,7 @@ class SignUpFragment : Fragment() {
                             .addOnFailureListener {
 
                             }
-                        navController.navigate(R.id.action_signUpFragment_to_homeFragment)
+                        navController.navigate(R.id.action_signUpFragment_to_homeActivity)
                     }
                 }
                 )

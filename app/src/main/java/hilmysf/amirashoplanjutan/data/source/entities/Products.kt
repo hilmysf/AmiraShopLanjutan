@@ -9,7 +9,7 @@ data class Products(
     var name: String = "",
     var price: Long = 0,
     var image: String = "",
-    var quantity: Long = 0,
-    var minQuantity: Long = 0,
+    var quantity: Int = 0,
+    var minQuantity: Int = 0,
     var category: String = "",
 ) : Parcelable

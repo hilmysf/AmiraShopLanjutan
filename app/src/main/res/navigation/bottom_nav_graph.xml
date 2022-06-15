@@ -40,8 +40,8 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
         <action
-            android:id="@+id/action_profile_to_nav_graph"
-            app:destination="@id/nav_graph" />
+            android:id="@+id/action_profile_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
     <fragment
         android:id="@+id/product"
@@ -59,7 +59,6 @@
                 app:nullable="true" />
         </action>
     </fragment>
-    <include app:graph="@navigation/auth_nav_graph" />
     <activity
         android:id="@+id/detailProductActivity"
         android:name="hilmysf.amirashoplanjutan.ui.product.opname.DetailProductActivity"
@@ -72,13 +71,18 @@
             app:nullable="true" />
     </activity>
     <activity
-        android:id="@+id/sellActivity"
-        android:name="hilmysf.amirashoplanjutan.ui.product.sell.SellActivity"
-        android:label="activity_sell"
-        tools:layout="@layout/activity_sell" />
-    <activity
         android:id="@+id/lowStockProductActivity"
         android:name="hilmysf.amirashoplanjutan.ui.product.opname.LowStockProductActivity"
         android:label="activity_low_stock_product"
         tools:layout="@layout/activity_low_stock_product" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="hilmysf.amirashoplanjutan.ui.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/sellActivity"
+        android:name="hilmysf.amirashoplanjutan.ui.product.sell.SellActivity"
+        android:label="activity_sell"
+        tools:layout="@layout/activity_sell" />
 </navigation>

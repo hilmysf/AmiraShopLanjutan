@@ -2,14 +2,11 @@ package hilmysf.amirashoplanjutan.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.R
-import hilmysf.amirashoplanjutan.databinding.ActivityHomeBinding
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {

@@ -11,6 +11,7 @@ import com.google.firebase.storage.StorageReference
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductListBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
+import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.ui.product.opname.ProductListAdapter.ProductViewHolder
 
 class ProductListAdapter(
@@ -40,9 +41,9 @@ class ProductListAdapter(
                     .load(pathReference)
                     .into(imgProduct)
             }
-            tvProductName.text = model.name
-            tvProductPrice.text = model.price.toString()
-            tvProductStock.text = model.quantity.toString()
+            tvProductName.text = Helper.camelCase(model.name)
+            tvProductPrice.text = "Rp. ${model.price}"
+            tvProductStock.text = "Stock: ${model.quantity}"
         }
     }
 }

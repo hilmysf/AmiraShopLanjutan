@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -22,26 +23,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
 import androidx.navigation.navArgs
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
-import hilmysf.amirashoplanjutan.databinding.ActivityDetailProductBinding
-import hilmysf.amirashoplanjutan.helper.Constant
-import hilmysf.amirashoplanjutan.helper.Helper
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.AndroidEntryPoint
+import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Products
+import hilmysf.amirashoplanjutan.databinding.ActivityDetailProductBinding
+import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.DateHelper
 import hilmysf.amirashoplanjutan.helper.GlideApp
+import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 import java.io.ByteArrayOutputStream
-import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -52,6 +50,7 @@ class DetailProductActivity : AppCompatActivity(),
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        const val PRODUCTS_BUNDLE = "products_bundle"
     }
 
     private lateinit var storage: FirebaseStorage
@@ -75,6 +74,11 @@ class DetailProductActivity : AppCompatActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
+        val item = menu?.findItem(R.id.action_delete_item)
+        if (product == null) {
+            item?.isVisible = false
+            this.invalidateOptionsMenu()
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -141,31 +145,31 @@ class DetailProductActivity : AppCompatActivity(),
             )
         }
         val arguments = args
+        val intent = intent.getParcelableExtra<Products>(PRODUCTS_BUNDLE)
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser!!.uid
-        product = arguments.product
+        product = if (arguments.product == null) {
+            intent
+        } else {
+            arguments.product
+        }
         storage = Firebase.storage
         storageRef = storage.reference
         spinner = binding.spinnerCategory
         firestore = FirebaseFirestore.getInstance()
         hashMapProduct = HashMap()
         hashMapLog = HashMap()
-        getUser()
         spinnerAdapterConf(product)
         attachProduct(product)
         onClick(product)
 
     }
 
-//    private fun currencyFormatter(number: Long): String =
-//        NumberFormat.getNumberInstance(Locale.US).format(number)
 
     private fun attachProduct(product: Products?) {
         if (product != null) {
             binding.apply {
-//                productId = product.productId
                 name = product.name
-                Log.d(TAG, "uri foto: ${product.image}")
                 val pathReference = storageRef.child(product.image)
                 GlideApp.with(applicationContext)
                     .load(pathReference)
@@ -173,7 +177,6 @@ class DetailProductActivity : AppCompatActivity(),
                 edtProductName.setText(product.name)
                 quantityNumberPicker.value = product.quantity.toInt()
                 minQuantityNumberPicker.value = product.minQuantity.toInt()
-//                edtPriceValue.setText(currencyFormatter(product.price))
                 edtPriceValue.setText(product.price.toString())
             }
         }
@@ -209,7 +212,6 @@ class DetailProductActivity : AppCompatActivity(),
                         status = "Mengubah"
                         editData(product)
                     }
-                    addLogData()
                     Log.d(TAG, "Add Log Data ya")
                     finish()
                 } else {
@@ -244,79 +246,89 @@ class DetailProductActivity : AppCompatActivity(),
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 
-    private fun bind(isEdit: Boolean) {
-        name = binding.edtProductName.text.toString()
+    private fun bind() {
+        name = binding.edtProductName.text.toString().lowercase()
         quantity = binding.quantityNumberPicker.value.toLong()
         val minQuantity = binding.minQuantityNumberPicker.value.toLong()
         val category = binding.spinnerCategory.selectedItem.toString()
         val price = binding.edtPriceValue.text
         val priceCheck = if (price.isNullOrEmpty()) 0 else price.toString().toLong()
-        imageReference = if (!isEdit) {
-            "products/$name.png"
-    //            productId = "$name-$category"
-    //            hashMapProduct[Constant.PRODUCT_ID] = productId
-        } else {
-            "products/${product?.name}.png"
-    //            productId = product?.productId.toString()
-    //            hashMapProduct[Constant.PRODUCT_ID] = product?.productId.toString()
-        }
         hashMapProduct = hashMapOf(
             Constant.NAME to name,
             Constant.QUANTITY to quantity,
             Constant.MIN_QUANTITY to minQuantity,
             Constant.CATEGORY to category,
             Constant.PRICE to priceCheck,
-            Constant.IMAGE to imageReference
+//            Constant.IMAGE to imageReference
         )
     }
 
     private fun deleteData(product: Products?) {
         Log.d(TAG, "delete data: $product")
-        product?.let { viewModel.deleteProduct(it) }
+        product?.let {
+            viewModel.deleteProduct(it)
+            viewModel.deleteImage(it)
+        }
     }
 
     private fun addData() {
-        bind(false)
-        uploadToCloud(imageReference, selectedImgUri)
-//        firestore.collection(Constant.PRODUCTS).document(productId)
-//            .set(hashMapProduct)
+        bind()
         viewModel.addProduct(hashMapProduct)
+            .addSnapshotListener { value, _ ->
+                if (value != null) {
+                    val image = value.getString(Constant.IMAGE)
+                    imageReference = image.toString()
+                    Log.d(TAG, "imageref: $imageReference dan uri: $selectedImgUri")
+                    uploadToCloud(imageReference, selectedImgUri)
+                    addLogData(imageReference)
+                }
+            }
         Log.d(TAG, "nambah data $product")
+
     }
 
     private fun editData(product: Products?) {
-        bind(true)
+        bind()
         Log.d(TAG, "edit data $product")
         if (product != null) {
+            val image = product.image
             hashMapProduct[Constant.PRODUCT_ID] = product.productId
+            hashMapProduct[Constant.IMAGE] = image
+            if (selectedImgUri != Uri.EMPTY) {
+                Log.d(TAG, "edit foto")
+                uploadToCloud(image, selectedImgUri)
+                Log.d(TAG, "edit imageref: $image dan uri: $selectedImgUri")
+            }
+            addLogData(product.image)
         }
         product?.let { viewModel.editProduct(it, hashMapProduct) }
+//        imageReference = "products/${product?.productId}.png"
     }
 
-    private fun getUser() {
+    private fun getUser(hashMapLog: HashMap<String, Any>) {
         viewModel.getUser(userId)
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val name = document.getString(Constant.NAME)
+                    Log.d(TAG, "userName $name")
                     val message = "${messageBuilder()} oleh $name"
                     hashMapLog[Constant.MESSAGE] = message
+                    viewModel.addLogData(hashMapLog)
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 } else {
                     Log.d(TAG, "No such document")
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
     }
 
-    private fun addLogData() {
+    private fun addLogData(imageReference: String) {
         val date = DateHelper.dateFormat()
         val time = DateHelper.timeFormat()
         val created = DateHelper.createdFormat()
         val quantityString = "$quantity Barang"
-//        val message = "${messageBuilder()} oleh $userName"
+//        val message = "${messageBuilder()} oleh ${getUser()}"
 //        val timestamp = FieldValue.serverTimestamp()
+
         hashMapLog = hashMapOf(
             Constant.CREATED to created,
             Constant.NAME to name,
@@ -327,7 +339,7 @@ class DetailProductActivity : AppCompatActivity(),
             Constant.IMAGE to imageReference,
 //            Constant.MESSAGE to message
         )
-        viewModel.addLogData(hashMapLog)
+        getUser(hashMapLog)
     }
 
     private fun messageBuilder(): String {
@@ -398,9 +410,21 @@ class DetailProductActivity : AppCompatActivity(),
     }
 
     private fun uploadToCloud(imageReference: String, file: Uri?) {
-        val productRef = storageRef.child(imageReference)
-        if (file != null) {
-            productRef.putFile(file)
-        }
+        val progressBar = binding.progressBar
+        viewModel.uploadImage(imageReference, file)
+            .addOnProgressListener {
+                progressBar.visibility = View.VISIBLE
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
+            }
+            .addOnSuccessListener {
+                Log.d(TAG, "Berhasil upload foto")
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "gagal upload foto")
+            }
     }
 }

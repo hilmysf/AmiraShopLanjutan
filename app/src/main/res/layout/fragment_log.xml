@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="16dp"
-            app:queryHint="Cari Produk"
+            app:queryHint="Cari Transaksi"
             android:layout_marginEnd="32dp"
             android:background="@drawable/custom_searchview"
             android:focusableInTouchMode="true"

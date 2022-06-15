@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.R
 
@@ -14,7 +12,6 @@ import hilmysf.amirashoplanjutan.R
 class MainActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private var currentUser: FirebaseUser? = null
-    lateinit var reference: DatabaseReference
     lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.currentUser
-        reference = FirebaseDatabase.getInstance().getReference("Users")
     }
 
     override fun onStart() {
