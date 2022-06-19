@@ -22,48 +22,48 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:checked="true"
-            android:text="Semua" />
+            android:text="@string/category_all" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_makanan"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Makanan" />
+            android:text="@string/category_foods" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_minuman"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Minuman" />
+            android:text="@string/category_drinks" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_pakaian"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Pakaian" />
+            android:text="@string/category_clothes" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_alat_tulis"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Alat Tulis" />
+            android:text="@string/category_stationary" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_rumah_tangga"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Rumah Tangga" />
+            android:text="@string/category_domestic" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_lain_lain"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Lain-lain" />
+            android:text="@string/category_etc" />
     </com.google.android.material.chip.ChipGroup>
 </HorizontalScrollView>

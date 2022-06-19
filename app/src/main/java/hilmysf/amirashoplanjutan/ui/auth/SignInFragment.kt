@@ -41,7 +41,7 @@ class SignInFragment : Fragment() {
                     }
                 })
             } else {
-
+                binding.btnLogin.isClickable = false
             }
         }
         binding.tvToSignup.setOnClickListener { navController.navigate(R.id.action_signInFragment_to_signUpFragment) }

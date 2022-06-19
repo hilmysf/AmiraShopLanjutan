@@ -1,7 +1,17 @@
 package hilmysf.amirashoplanjutan.helper
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.view.View
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
+import androidx.databinding.DataBindingComponent
+import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import hilmysf.amirashoplanjutan.databinding.ActivityLowStockProductBinding
 import java.text.NumberFormat
 import java.util.*
 
@@ -31,6 +41,27 @@ object Helper {
     fun currencyFormatter(number: Long): String =
         NumberFormat.getNumberInstance(Locale.US).format(number)
 
+    fun showNetworkMessage(isConnected: Boolean, activity: AppCompatActivity, binding: ViewBinding) {
+        val snackbar = Snackbar.make(
+            activity.findViewById(android.R.id.content),
+            "You are offline",
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.setAction("Try Again") {
+            activity.finish();
+            activity.overridePendingTransition(0, 0);
+            activity.startActivity(activity.intent);
+            activity.overridePendingTransition(0, 0);
+        }
+        snackbar.duration = BaseTransientBottomBar.LENGTH_INDEFINITE
+        if (!isConnected) {
+            snackbar.show()
+            binding.root.visibility = View.INVISIBLE
+        } else {
+            snackbar.dismiss()
+            binding.root.visibility = View.VISIBLE
+        }
+    }
 //    fun isLowChecker(products: Products): Boolean {
 //        return products.quantity <= products.minQuantity
 //    }

@@ -16,10 +16,10 @@ import hilmysf.amirashoplanjutan.ui.product.opname.LowStockProductActivity
 import java.util.concurrent.atomic.AtomicInteger
 
 object NotificationManagers {
-    const val CHANNEL_ID = "channel_1"
+    private const val CHANNEL_ID = "channel_1"
     private const val CHANNEL_NAME = "channel_name"
     private val c: AtomicInteger = AtomicInteger(0)
-    fun getID(): Int {
+    private fun getID(): Int {
         return c.incrementAndGet()
     }
 

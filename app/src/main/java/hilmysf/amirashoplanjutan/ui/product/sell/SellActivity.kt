@@ -2,6 +2,8 @@ package hilmysf.amirashoplanjutan.ui.product.sell
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +19,10 @@ import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivitySellBinding
 import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 
 @AndroidEntryPoint
-class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener, InternetChangeReceiver.ConnectivityReceiverListener {
     companion object {
         const val HASH_MAP_PRODUCTS = "hashMapProducts"
     }
@@ -35,6 +38,10 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySellBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        registerReceiver(
+            InternetChangeReceiver(),
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         supportActionBar?.hide()
         val storageReference = Firebase.storage.reference
         searchViewConfiguration(binding)
@@ -96,7 +103,7 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             Log.d(TAG, "key: $k, values: $v")
             totalPrice += value
             binding.tvTotalPrice.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
-            if (totalPrice.equals(0)) {
+            if (totalPrice.toInt() == 0) {
                 binding.tvTotalPrice.text = "Rp. 0"
             }
         }
@@ -128,5 +135,14 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val newOptions = viewModel.getProducts(query, Constant.SEMUA)
         sellAdapter?.updateOptions(newOptions)
         return true
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        Helper.showNetworkMessage(isConnected, this, binding)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        InternetChangeReceiver.connectivityReceiverListener = this
     }
 }

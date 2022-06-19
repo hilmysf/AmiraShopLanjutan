@@ -1,13 +1,14 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
 import android.Manifest
-import android.app.PendingIntent
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_OPEN_DOCUMENT
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,7 +24,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.navArgs
 import com.google.firebase.auth.FirebaseAuth
@@ -40,8 +40,8 @@ import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.DateHelper
 import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
-import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
@@ -49,7 +49,7 @@ import kotlin.collections.HashMap
 
 @AndroidEntryPoint
 class DetailProductActivity : AppCompatActivity(),
-    AdapterView.OnItemSelectedListener {
+    AdapterView.OnItemSelectedListener, InternetChangeReceiver.ConnectivityReceiverListener {
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -138,6 +138,10 @@ class DetailProductActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         binding = ActivityDetailProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        registerReceiver(
+            InternetChangeReceiver(),
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         supportActionBar?.title = "Stok Barang"
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(
@@ -302,16 +306,15 @@ class DetailProductActivity : AppCompatActivity(),
                 Log.d(TAG, "edit foto uri: $selectedImgUri")
                 uploadToCloud(image, selectedImgUri)
                 Log.d(TAG, "edit imageref: $image dan uri: $selectedImgUri")
-            }else{
+            } else {
                 Log.d(TAG, "Selected IMG URI: $selectedImgUri")
             }
             addLogData(product.image)
         }
-        if(hashMapProduct[Constant.IS_LOW] == true){
+        if (hashMapProduct[Constant.IS_LOW] == true) {
             NotificationManagers.triggerNotification(applicationContext, hashMapProduct)
         }
         product?.let { viewModel.editProduct(it, hashMapProduct) }
-//        imageReference = "products/${product?.productId}.png"
     }
 
     private fun getUser(hashMapLog: HashMap<String, Any>) {
@@ -440,6 +443,15 @@ class DetailProductActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
         NotificationManagers.createNotificationChannel(this)
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        Helper.showNetworkMessage(isConnected, this, binding)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        InternetChangeReceiver.connectivityReceiverListener = this
     }
 }
 

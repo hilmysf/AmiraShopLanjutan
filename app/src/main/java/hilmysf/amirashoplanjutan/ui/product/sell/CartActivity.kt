@@ -2,6 +2,8 @@ package hilmysf.amirashoplanjutan.ui.product.sell
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +17,12 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivityCartBinding
-import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
 
 @AndroidEntryPoint
-class CartActivity : AppCompatActivity() {
+class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityReceiverListener {
     private lateinit var binding: ActivityCartBinding
     private val viewModel: SellViewModel by viewModels()
     private lateinit var options: FirestoreRecyclerOptions<Products>
@@ -30,6 +32,10 @@ class CartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        registerReceiver(
+            InternetChangeReceiver(),
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         supportActionBar?.title = "Keranjang"
         supportActionBar?.hide()
         val storageReference = Firebase.storage.reference
@@ -84,7 +90,7 @@ class CartActivity : AppCompatActivity() {
             Log.d(TAG, "key: $k, values: $v")
             totalPrice += productPrice
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
-            if (totalPrice.equals(0)) {
+            if (totalPrice.toInt() == 0) {
                 binding.tvTotalValue.text = "Rp. 0"
             }
             checkoutHashMap[k] = reduceQuantity(k, productQuantity)
@@ -106,7 +112,7 @@ class CartActivity : AppCompatActivity() {
             val value: Long = v[0] as Long
             totalPrice += value
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
-            if (totalPrice.equals(0)) {
+            if (totalPrice.toInt() == 0) {
                 binding.tvTotalValue.text = "Rp. 0"
             }
         }
@@ -153,5 +159,14 @@ class CartActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         cartAdapter?.stopListening()
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        Helper.showNetworkMessage(isConnected, this, binding)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        InternetChangeReceiver.connectivityReceiverListener = this
     }
 }

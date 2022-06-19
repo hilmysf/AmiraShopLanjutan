@@ -1,4 +1,4 @@
-package hilmysf.amirashoplanjutan.ui.product
+package hilmysf.amirashoplanjutan.ui.product.opname
 
 import android.net.Uri
 import androidx.lifecycle.*
@@ -19,9 +19,7 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
     val products: LiveData<FirestoreRecyclerOptions<Products>> get() = _products
 
     fun addProduct(hashMapProduct: HashMap<String, Any>) =
-//        viewModelScope.launch(Dispatchers.IO) {
         productsRepository.addProduct(hashMapProduct)
-//        }
 
 
     fun editProduct(product: Products, hashMapProduct: HashMap<String, Any>) {
@@ -50,10 +48,7 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
     fun getUser(userId: String) = productsRepository.getUser(userId)
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
-//        viewModelScope.launch(Dispatchers.IO) {
         productsRepository.uploadImage(imageReference, file)
-//        }
-//    }
 
     fun deleteImage(product: Products) {
         viewModelScope.launch(Dispatchers.IO) {

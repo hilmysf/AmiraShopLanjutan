@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:backgroundTint="@color/white"
         android:padding="0dp"
-        android:text="—"
+        android:text="@string/btn_min"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:cornerRadius="16dp"
@@ -23,9 +23,11 @@
         android:id="@+id/display"
         android:layout_width="70dp"
         android:layout_height="match_parent"
+        android:autofillHints="0"
         android:background="@android:color/white"
         android:gravity="center"
-        android:text="0"
+        android:inputType="number"
+        android:text="@string/number_default"
         android:textColor="@android:color/black" />
 
     <com.google.android.material.button.MaterialButton
@@ -34,7 +36,7 @@
         android:layout_height="match_parent"
         android:backgroundTint="@color/white"
         android:padding="0dp"
-        android:text="+"
+        android:text="@string/btn_plus"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:cornerRadius="16dp"

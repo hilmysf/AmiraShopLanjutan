@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.FragmentProductBinding
 import hilmysf.amirashoplanjutan.helper.Constant
-import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 
 @AndroidEntryPoint
 class ProductFragment : Fragment(), SearchView.OnQueryTextListener {

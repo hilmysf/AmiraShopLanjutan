@@ -1,6 +1,8 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -13,11 +15,13 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivityLowStockProductBinding
+import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.ui.HomeActivity
-import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 
 @AndroidEntryPoint
-class LowStockProductActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class LowStockProductActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
+    InternetChangeReceiver.ConnectivityReceiverListener {
     private lateinit var binding: ActivityLowStockProductBinding
     private var lowStockProductAdapter: LowStockProductAdapter? = null
     private val viewModel: ProductViewModel by viewModels()
@@ -28,6 +32,10 @@ class LowStockProductActivity : AppCompatActivity(), SearchView.OnQueryTextListe
         super.onCreate(savedInstanceState)
         binding = ActivityLowStockProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        registerReceiver(
+            InternetChangeReceiver(),
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
         supportActionBar?.hide()
         storageReference = Firebase.storage.reference
         searchViewConfiguration(binding)
@@ -76,5 +84,14 @@ class LowStockProductActivity : AppCompatActivity(), SearchView.OnQueryTextListe
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(this)
         searchView.isSubmitButtonEnabled = false
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        Helper.showNetworkMessage(isConnected, this, binding)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        InternetChangeReceiver.connectivityReceiverListener = this
     }
 }

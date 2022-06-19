@@ -66,6 +66,8 @@ class SignUpFragment : Fragment() {
                     }
                 }
                 )
+            } else {
+                binding.btnSignup.isClickable = false
             }
         }
     }

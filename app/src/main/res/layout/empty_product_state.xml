@@ -20,7 +20,7 @@
         android:id="@+id/tv_empty_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Maaf Produk Masih Kosong"
+        android:text="@string/empty_state_message"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"

@@ -35,7 +35,6 @@ class ProductListAdapter(
         holder.binding.apply {
             val pathReference = storageReference.child(model.image)
             if (context != null) {
-//                Glide.with(context).load(model.image).into(imgProduct)
                 GlideApp.with(context)
                     .load(pathReference)
                     .into(imgProduct)
