@@ -45,6 +45,4 @@ class AuthViewModel @Inject constructor(private val productsRepository: Products
             }
         }
     }
-
-    fun signOut() = viewModelScope.launch(Dispatchers.IO) { productsRepository.signOut() }
 }

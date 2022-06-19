@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.data.source.firebase
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
@@ -18,7 +19,8 @@ import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.helper.Constant
 import java.util.*
 import kotlin.collections.ArrayList
-
+import com.google.firebase.firestore.DocumentSnapshot
+import hilmysf.amirashoplanjutan.notification.NotificationManagers
 
 class FirebaseSource {
     private val firebaseAuth: FirebaseAuth by lazy {
@@ -84,13 +86,25 @@ class FirebaseSource {
         document.set(hashMapLog)
     }
 
-    fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>) {
+    fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) {
         val productList: List<Products> = checkoutHashMap.keys.toList()
         Log.d(TAG, "checkoutHashMap: $checkoutHashMap")
         for (product in productList) {
+            val isLow = checkoutHashMap[product]!! <= product.minQuantity
+            val checkoutQuantity: Int? = checkoutHashMap[product]
+            if (isLow) {
+                NotificationManagers.triggerNotification(context, product, checkoutQuantity)
+            }
+            Log.d(TAG, "${product.quantity} <= ${product.minQuantity} adalah $isLow")
             firestore.collection(Constant.PRODUCTS)
                 .document(product.productId)
-                .update(Constant.QUANTITY, checkoutHashMap[product])
+                .update(
+                    mapOf(
+                        Constant.QUANTITY to checkoutQuantity,
+                        Constant.IS_LOW to isLow
+                    )
+                )
+
                 .addOnSuccessListener {
                     Log.d(TAG, "Berhasil mengubah kuantitas produk ${product.name}")
 
@@ -102,9 +116,9 @@ class FirebaseSource {
     }
 
     fun getCartProducts(cartHashMap: HashMap<Products, ArrayList<Any>>): FirestoreRecyclerOptions<Products> {
-        var productNameList: MutableList<String> = mutableListOf()
+        val productNameList: MutableList<String> = mutableListOf()
         val product: List<Products> = cartHashMap.keys.toList()
-        product.forEach { it ->
+        product.forEach {
             productNameList.add(it.name)
         }
         Log.d(TAG, "productName: $productNameList")
@@ -122,12 +136,19 @@ class FirebaseSource {
     }
 
     fun getProducts(
-        searchQuery: String
+        searchQuery: String,
+        category: String
     ): FirestoreRecyclerOptions<Products> {
         Log.d(TAG, "query firebase source: $searchQuery")
-        val query = if (!TextUtils.isEmpty(searchQuery)) {
+        val query = if (!TextUtils.isEmpty(searchQuery) && category != "") {
             firestore.collection(Constant.PRODUCTS)
-                .orderBy(Constant.NAME, Query.Direction.ASCENDING)
+                .whereEqualTo(Constant.NAME, searchQuery)
+                .whereEqualTo(Constant.CATEGORY, category)
+        } else if (TextUtils.isEmpty(searchQuery) && category != "") {
+            firestore.collection(Constant.PRODUCTS)
+                .whereEqualTo(Constant.CATEGORY, category)
+        } else if (!TextUtils.isEmpty(searchQuery) && category == "") {
+            firestore.collection(Constant.PRODUCTS)
                 .whereEqualTo(Constant.NAME, searchQuery)
         } else {
             Log.d(TAG, "daftar semua")
@@ -140,9 +161,18 @@ class FirebaseSource {
     }
 
     fun getLowStockProducts(
+        searchQuery: String
     ): FirestoreRecyclerOptions<Products> {
-        val query = firestore.collection(Constant.PRODUCTS)
-            .whereLessThanOrEqualTo(Constant.MIN_QUANTITY, Constant.QUANTITY)
+        val query = if (!TextUtils.isEmpty(searchQuery)) {
+            firestore.collection(Constant.PRODUCTS)
+                .whereEqualTo(Constant.IS_LOW, true)
+                .whereEqualTo(Constant.NAME, searchQuery)
+
+        } else {
+            firestore.collection(Constant.PRODUCTS)
+                .whereEqualTo(Constant.IS_LOW, true)
+        }
+
         return FirestoreRecyclerOptions.Builder<Products>()
             .setQuery(query, Products::class.java)
             .build()
@@ -158,7 +188,7 @@ class FirebaseSource {
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> {
         var productRef = storageRef.child(imageReference)
-        var name = "products/${productRef.name}"
+        val name = "products/${productRef.name}"
         Log.d(TAG, "nama vs reference $name dan $imageReference")
         if (name == imageReference) {
             productRef.delete()
@@ -175,7 +205,7 @@ class FirebaseSource {
 
 
     fun deleteImage(product: Products) {
-        var productRef = storageRef.child(product.image)
+        val productRef = storageRef.child(product.image)
         productRef.delete()
             .addOnSuccessListener {
                 product.image = ""

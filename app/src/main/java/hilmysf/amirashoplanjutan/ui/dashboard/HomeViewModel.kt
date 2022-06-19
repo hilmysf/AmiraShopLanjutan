@@ -14,7 +14,8 @@ class HomeViewModel @Inject constructor(private val productsRepository: Products
         productsRepository.getUser(userId)
 
     fun getProducts(
-        query: String
-    ): FirestoreRecyclerOptions<Products> = productsRepository.getProducts(query)
+        query: String,
+        category: String
+    ): FirestoreRecyclerOptions<Products> = productsRepository.getProducts(query, category)
 
 }

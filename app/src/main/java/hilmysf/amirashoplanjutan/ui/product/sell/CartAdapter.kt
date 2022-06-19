@@ -20,7 +20,6 @@ class CartAdapter(
     private val storageReference: StorageReference,
     private val cartHashMap: HashMap<Products, ArrayList<Any>>
 ) : FirestoreRecyclerAdapter<Products, CartAdapter.CartViewHolder?>(options) {
-    var onItemClick: ((product: Products, itemCount: Int) -> Unit)? = null
     var onValueClick: ((product: Products, productTotalPrice: Long, itemQuantity: Int) -> Unit)? =
         null
 //    var totalPrice: Long = 0
@@ -43,7 +42,7 @@ class CartAdapter(
         model: Products
     ) {
         holder.binding.apply {
-            var cartQuantity = cartHashMap[model]?.get(1) as? Number
+            val cartQuantity = cartHashMap[model]?.get(1) as? Number
             val pathReference = storageReference.child(model.image)
             if (context != null) {
                 GlideApp.with(context)
@@ -52,7 +51,7 @@ class CartAdapter(
             }
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${model.price}"
-            quantityNumberPicker.max = model.quantity.toInt()
+            quantityNumberPicker.max = model.quantity
             tvProductStock.text = model.quantity.toString()
             if (cartQuantity != null) {
                 quantityNumberPicker.value = cartQuantity.toInt()

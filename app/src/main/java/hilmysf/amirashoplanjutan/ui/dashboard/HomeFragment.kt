@@ -1,21 +1,22 @@
 package hilmysf.amirashoplanjutan.ui.dashboard
 
+import android.app.PendingIntent
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isEmpty
-import androidx.core.view.isNotEmpty
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
@@ -24,22 +25,24 @@ import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.FragmentHomeBinding
 import hilmysf.amirashoplanjutan.helper.Constant
+import hilmysf.amirashoplanjutan.notification.NotificationManagers
 import hilmysf.amirashoplanjutan.ui.product.opname.ProductListAdapter
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
     private var productListAdapter: ProductListAdapter? = null
-    private lateinit var query: Query
     private lateinit var options: FirestoreRecyclerOptions<Products>
     private val viewModel: HomeViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -56,7 +59,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getProductsData(storageReference: StorageReference) {
-        options = viewModel.getProducts("")
+        options = viewModel.getProducts("", Constant.SEMUA)
         productListAdapter = ProductListAdapter(context, options, storageReference)
         with(binding.rvProducts) {
             layoutManager = LinearLayoutManager(context)
@@ -70,7 +73,7 @@ class HomeFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val name = document.getString(Constant.NAME)
-                    binding.tvHallo.text = "Hallo $name"
+                    binding.tvHallo.text = "Hallo, $name!"
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                 } else {
                     Log.d(TAG, "No such document")
@@ -99,6 +102,7 @@ class HomeFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        NotificationManagers.createNotificationChannel(activity!!)
         productListAdapter?.startListening()
     }
 

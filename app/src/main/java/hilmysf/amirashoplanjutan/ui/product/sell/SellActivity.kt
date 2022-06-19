@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -15,10 +15,11 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivitySellBinding
+import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.Helper
 
 @AndroidEntryPoint
-class SellActivity : AppCompatActivity() {
+class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     companion object {
         const val HASH_MAP_PRODUCTS = "hashMapProducts"
     }
@@ -36,8 +37,13 @@ class SellActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         val storageReference = Firebase.storage.reference
+        searchViewConfiguration(binding)
         getProductsData(storageReference)
         onProductsClick()
+        navigation()
+    }
+
+    private fun navigation() {
         binding.ibBack.setOnClickListener {
             onBackPressed()
         }
@@ -50,7 +56,7 @@ class SellActivity : AppCompatActivity() {
     }
 
     private fun getProductsData(storageReference: StorageReference) {
-        options = viewModel.getProducts("")
+        options = viewModel.getProducts("", Constant.SEMUA)
         sellAdapter = SellAdapter(applicationContext, options, storageReference)
         with(binding.rvProducts) {
             layoutManager = LinearLayoutManager(context)
@@ -85,7 +91,7 @@ class SellActivity : AppCompatActivity() {
         var totalPrice: Long = 0
         hashMapProducts[product] = arrayListOf(productPrice.toLong(), productQuantity)
         hashMapProducts.forEach { (k, v) ->
-            var value: Long = v[0] as Long
+            val value: Long = v[0] as Long
             Log.d(TAG, "nilai value: $value")
             Log.d(TAG, "key: $k, values: $v")
             totalPrice += value
@@ -106,5 +112,21 @@ class SellActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         sellAdapter?.stopListening()
+    }
+
+    private fun searchViewConfiguration(binding: ActivitySellBinding) {
+        val searchView = binding.searchView
+        searchView.setOnQueryTextListener(this)
+        searchView.isSubmitButtonEnabled = false
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(query: String): Boolean {
+        val newOptions = viewModel.getProducts(query, Constant.SEMUA)
+        sellAdapter?.updateOptions(newOptions)
+        return true
     }
 }

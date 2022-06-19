@@ -6,25 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.StorageReference
-import com.google.rpc.Help
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductGridBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-import androidx.annotation.NonNull
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-import com.firebase.ui.firestore.ObservableSnapshotArray
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import java.text.NumberFormat
-import java.util.*
 
 class ProductGridAdapter(
     val context: Context?,
@@ -48,7 +36,7 @@ class ProductGridAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int, model: Products) {
         holder.binding.apply {
             if (context != null) {
-                var pathReference = storageReference.child(model.image)
+                val pathReference = storageReference.child(model.image)
                 GlideApp.with(context)
                     .load(pathReference)
                     .into(imgProduct)

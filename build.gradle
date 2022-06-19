@@ -19,6 +19,7 @@ buildscript {
         roomVersion = '2.4.1'
         lifeCycleVersion = '2.5.0-alpha01'
         nav_version = "2.4.2"
+        core_version = "1.6.0"
     }
 }
 

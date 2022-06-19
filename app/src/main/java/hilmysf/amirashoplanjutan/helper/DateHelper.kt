@@ -1,6 +1,5 @@
 package hilmysf.amirashoplanjutan.helper
 
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -8,7 +7,7 @@ object DateHelper {
     private lateinit var date: String
     private lateinit var time: String
     private lateinit var created: String
-    val calendar: Calendar = Calendar.getInstance()
+    private val calendar: Calendar = Calendar.getInstance()
     private lateinit var simpleDateFormat: SimpleDateFormat
     fun dateFormat(): String {
         simpleDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())

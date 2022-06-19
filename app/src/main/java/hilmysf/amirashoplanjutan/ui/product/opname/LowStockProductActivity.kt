@@ -1,48 +1,80 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
-import android.content.ContentValues
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import hilmysf.amirashoplanjutan.R
+import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivityLowStockProductBinding
+import hilmysf.amirashoplanjutan.ui.HomeActivity
 import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
-import hilmysf.amirashoplanjutan.ui.product.sell.SellAdapter
 
-class LowStockProductActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class LowStockProductActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var binding: ActivityLowStockProductBinding
     private var lowStockProductAdapter: LowStockProductAdapter? = null
     private val viewModel: ProductViewModel by viewModels()
     private lateinit var storageReference: StorageReference
     private lateinit var options: FirestoreRecyclerOptions<Products>
-    private lateinit var navController: NavController
+    private val query: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLowStockProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        navController = Navigation.findNavController(binding.root)
+        supportActionBar?.hide()
         storageReference = Firebase.storage.reference
+        searchViewConfiguration(binding)
         getProductsList(storageReference)
+        binding.ibBack.setOnClickListener {
+            if (this.isTaskRoot) {
+                startActivity(Intent(this, HomeActivity::class.java))
+            } else {
+                onBackPressed()
+            }
+        }
     }
 
     private fun getProductsList(storageReference: StorageReference) {
-        Log.d(ContentValues.TAG, "DocumentSnapshot Home: $options")
-        lowStockProductAdapter = LowStockProductAdapter(applicationContext, options, storageReference)
+        options = viewModel.getLowStockProduct(query)
+        lowStockProductAdapter =
+            LowStockProductAdapter(applicationContext, options, storageReference)
         with(binding.rvProducts) {
             layoutManager = GridLayoutManager(context, 2)
             setHasFixedSize(true)
             adapter = lowStockProductAdapter
-            android.util.Log.d(android.content.ContentValues.TAG, "jumlah item ${adapter!!.itemCount}")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        lowStockProductAdapter?.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        lowStockProductAdapter?.stopListening()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(query: String): Boolean {
+        val newOptions = viewModel.getLowStockProduct(query)
+        lowStockProductAdapter?.updateOptions(newOptions)
+        return true
+    }
+
+    private fun searchViewConfiguration(binding: ActivityLowStockProductBinding) {
+        val searchView = binding.searchView
+        searchView.setOnQueryTextListener(this)
+        searchView.isSubmitButtonEnabled = false
     }
 }

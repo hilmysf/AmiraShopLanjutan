@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.StorageReference
-import com.travijuu.numberpicker.library.Enums.ActionEnum
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductSellBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
@@ -45,7 +44,7 @@ class SellAdapter(
             }
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${model.price}"
-            quantityNumberPicker.max = model.quantity.toInt()
+            quantityNumberPicker.max = model.quantity
             tvProductStock.text = model.quantity.toString()
             quantityNumberPicker.setValueChangedListener { itemCount, action ->
                 if (itemCount == 0) {

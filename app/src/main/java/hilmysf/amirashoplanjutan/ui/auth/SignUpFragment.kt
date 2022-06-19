@@ -1,6 +1,5 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -26,7 +25,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -48,15 +47,15 @@ class SignUpFragment : Fragment() {
                 viewModel.signUp(email, password, context)
                 viewModel.isSuccessful.observe(requireActivity(), {
                     if (it.equals(true)) {
-                        var userId = mAuth.currentUser!!.uid
+                        val userId = mAuth.currentUser!!.uid
                         val documentReference = firestore.collection("users").document(userId)
-                        var user = hashMapOf<String, String>()
+                        val user = hashMapOf<String, String>()
                         user[Constant.NAME] = name
                         user[Constant.EMAIL] = email
                         documentReference.set(user)
                             .addOnSuccessListener {
                                 Log.d(
-                                    ContentValues.TAG,
+                                    TAG,
                                     "onSuccess: user profile is created for $userId"
                                 )
                             }

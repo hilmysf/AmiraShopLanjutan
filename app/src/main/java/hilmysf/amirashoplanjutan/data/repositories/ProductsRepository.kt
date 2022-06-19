@@ -1,8 +1,7 @@
 package hilmysf.amirashoplanjutan.data.repositories
 
+import android.content.Context
 import android.net.Uri
-import android.widget.ProgressBar
-import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -40,16 +39,17 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
     fun addLogData(hashMapLog: HashMap<String, Any>) = firebaseSource.addLog(hashMapLog)
 
     fun getProducts(
-        searchQuery: String
-    ): FirestoreRecyclerOptions<Products> = firebaseSource.getProducts(searchQuery)
+        searchQuery: String,
+        category: String
+    ): FirestoreRecyclerOptions<Products> = firebaseSource.getProducts(searchQuery, category)
 
-    fun getLowStockProducts(): FirestoreRecyclerOptions<Products> = firebaseSource.getLowStockProducts()
+    fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> = firebaseSource.getLowStockProducts(searchQuery)
     fun getLogs(): FirestoreRecyclerOptions<Logs> = firebaseSource.getLogs()
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         firebaseSource.uploadImage(imageReference, file)
 
     fun deleteImage(product: Products) = firebaseSource.deleteImage(product)
-    fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>) =
-        firebaseSource.checkoutProducts(checkoutHashMap)
+    fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) =
+        firebaseSource.checkoutProducts(checkoutHashMap, context)
 }

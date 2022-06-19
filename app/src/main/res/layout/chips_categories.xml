@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chips_categories"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:scrollbars="none">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chips_categories_group"
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:checkedChip="@id/chip_all"
+        app:singleLine="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_all"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:text="Semua" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_makanan"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Makanan" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_minuman"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Minuman" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_pakaian"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Pakaian" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_alat_tulis"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Alat Tulis" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_rumah_tangga"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Rumah Tangga" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_lain_lain"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Lain-lain" />
+    </com.google.android.material.chip.ChipGroup>
+</HorizontalScrollView>

@@ -30,4 +30,8 @@ object Helper {
 
     fun currencyFormatter(number: Long): String =
         NumberFormat.getNumberInstance(Locale.US).format(number)
+
+//    fun isLowChecker(products: Products): Boolean {
+//        return products.quantity <= products.minQuantity
+//    }
 }

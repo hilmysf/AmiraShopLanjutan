@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
 import android.Manifest
+import android.app.PendingIntent
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -22,6 +23,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.navArgs
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +40,7 @@ import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.DateHelper
 import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.notification.NotificationManagers
 import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -59,14 +62,13 @@ class DetailProductActivity : AppCompatActivity(),
     private lateinit var spinner: Spinner
     private lateinit var firestore: FirebaseFirestore
     private var imageReference: String = ""
-    private var productId: String = ""
     private var name: String = ""
     private var quantity: Long = 0
     private var status: String = ""
     private var product: Products? = null
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
-    private lateinit var selectedImgUri: Uri
+    private var selectedImgUri: Uri = Uri.EMPTY
     private lateinit var hashMapLog: HashMap<String, Any>
     private lateinit var hashMapProduct: HashMap<String, Any>
     private val viewModel: ProductViewModel by viewModels()
@@ -162,7 +164,6 @@ class DetailProductActivity : AppCompatActivity(),
         spinnerAdapterConf(product)
         attachProduct(product)
         onClick(product)
-
     }
 
 
@@ -175,8 +176,8 @@ class DetailProductActivity : AppCompatActivity(),
                     .load(pathReference)
                     .into(imgProduct)
                 edtProductName.setText(product.name)
-                quantityNumberPicker.value = product.quantity.toInt()
-                minQuantityNumberPicker.value = product.minQuantity.toInt()
+                quantityNumberPicker.value = product.quantity
+                minQuantityNumberPicker.value = product.minQuantity
                 edtPriceValue.setText(product.price.toString())
             }
         }
@@ -211,6 +212,7 @@ class DetailProductActivity : AppCompatActivity(),
                         Log.d(TAG, "Ini edit data")
                         status = "Mengubah"
                         editData(product)
+                        Log.d(TAG, "islow: $product")
                     }
                     Log.d(TAG, "Add Log Data ya")
                     finish()
@@ -253,13 +255,15 @@ class DetailProductActivity : AppCompatActivity(),
         val category = binding.spinnerCategory.selectedItem.toString()
         val price = binding.edtPriceValue.text
         val priceCheck = if (price.isNullOrEmpty()) 0 else price.toString().toLong()
+        val isLow: Boolean = quantity <= minQuantity
+        Log.d(TAG, "isLow bind: $isLow")
         hashMapProduct = hashMapOf(
             Constant.NAME to name,
             Constant.QUANTITY to quantity,
             Constant.MIN_QUANTITY to minQuantity,
             Constant.CATEGORY to category,
             Constant.PRICE to priceCheck,
-//            Constant.IMAGE to imageReference
+            Constant.IS_LOW to isLow
         )
     }
 
@@ -295,11 +299,16 @@ class DetailProductActivity : AppCompatActivity(),
             hashMapProduct[Constant.PRODUCT_ID] = product.productId
             hashMapProduct[Constant.IMAGE] = image
             if (selectedImgUri != Uri.EMPTY) {
-                Log.d(TAG, "edit foto")
+                Log.d(TAG, "edit foto uri: $selectedImgUri")
                 uploadToCloud(image, selectedImgUri)
                 Log.d(TAG, "edit imageref: $image dan uri: $selectedImgUri")
+            }else{
+                Log.d(TAG, "Selected IMG URI: $selectedImgUri")
             }
             addLogData(product.image)
+        }
+        if(hashMapProduct[Constant.IS_LOW] == true){
+            NotificationManagers.triggerNotification(applicationContext, hashMapProduct)
         }
         product?.let { viewModel.editProduct(it, hashMapProduct) }
 //        imageReference = "products/${product?.productId}.png"
@@ -421,10 +430,16 @@ class DetailProductActivity : AppCompatActivity(),
             }
             .addOnSuccessListener {
                 Log.d(TAG, "Berhasil upload foto")
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
             .addOnFailureListener {
                 Log.d(TAG, "gagal upload foto")
             }
     }
+
+    override fun onStart() {
+        super.onStart()
+        NotificationManagers.createNotificationChannel(this)
+    }
 }
+

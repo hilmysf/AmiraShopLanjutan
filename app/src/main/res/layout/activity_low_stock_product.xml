@@ -45,7 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:spanCount="2"
         tools:listitem="@layout/item_product_grid" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

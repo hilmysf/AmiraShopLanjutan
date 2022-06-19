@@ -43,6 +43,8 @@ android {
 }
 
 dependencies {
+    implementation "androidx.core:core-ktx:$core_version"
+
     //View Library
     implementation 'com.github.travijuu:numberpicker:1.0.7'
 

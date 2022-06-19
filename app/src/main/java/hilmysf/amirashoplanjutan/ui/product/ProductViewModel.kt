@@ -1,10 +1,8 @@
 package hilmysf.amirashoplanjutan.ui.product
 
 import android.net.Uri
-import android.widget.ProgressBar
 import androidx.lifecycle.*
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,9 +41,10 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
     }
 
     fun getProducts(
-        searchQuery: String
+        searchQuery: String,
+        category: String
     ): FirestoreRecyclerOptions<Products> {
-        return productsRepository.getProducts(searchQuery)
+        return productsRepository.getProducts(searchQuery, category)
     }
 
     fun getUser(userId: String) = productsRepository.getUser(userId)
@@ -62,6 +61,6 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
         }
     }
 
-    fun lowStockProduct(): FirestoreRecyclerOptions<Products> =
-        productsRepository.getLowStockProducts()
+    fun getLowStockProduct(searchQuery: String): FirestoreRecyclerOptions<Products> =
+        productsRepository.getLowStockProducts(searchQuery)
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="center"
+    app:cardElevation="0dp"
     android:layout_margin="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +16,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
             android:background="@drawable/box"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -73,8 +73,7 @@
             android:id="@+id/btn_add_to_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:cornerRadius="8dp"
+            app:cornerRadius="4dp"
             app:icon="@drawable/ic_add_white"
             android:text="Add To Cart"
             android:textSize="11sp"

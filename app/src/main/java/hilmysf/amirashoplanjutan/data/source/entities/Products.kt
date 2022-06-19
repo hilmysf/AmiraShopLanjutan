@@ -12,4 +12,6 @@ data class Products(
     var quantity: Int = 0,
     var minQuantity: Int = 0,
     var category: String = "",
+    @field:JvmField
+    var isLow: Boolean = false
 ) : Parcelable

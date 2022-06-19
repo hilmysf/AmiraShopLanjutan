@@ -15,7 +15,9 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivityCartBinding
+import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.notification.NotificationManagers
 
 @AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
@@ -42,9 +44,9 @@ class CartActivity : AppCompatActivity() {
         }
         onItemClick(cartHashMap, binding)
         binding.btnCheckout.setOnClickListener {
-            viewModel.checkoutProducts(checkoutHashMap)
+            viewModel.checkoutProducts(checkoutHashMap, applicationContext)
             startActivity(Intent(this, SellActivity::class.java).apply {
-                this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             })
         }
     }
@@ -77,8 +79,8 @@ class CartActivity : AppCompatActivity() {
     private fun totalPrice(hashMapProducts: HashMap<Products, ArrayList<Any>>) {
         var totalPrice: Long = 0
         hashMapProducts.forEach { (k, v) ->
-            var productPrice = v[0] as Long
-            var productQuantity = v[1] as Int
+            val productPrice = v[0] as Long
+            val productQuantity = v[1] as Int
             Log.d(TAG, "key: $k, values: $v")
             totalPrice += productPrice
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
@@ -101,7 +103,7 @@ class CartActivity : AppCompatActivity() {
         hashMapProducts[product] = arrayListOf(productPrice.toLong(), productQuantity)
         checkoutHashMap[product] = reduceQuantity(product, productQuantity)
         hashMapProducts.forEach { (k, v) ->
-            var value: Long = v[0] as Long
+            val value: Long = v[0] as Long
             totalPrice += value
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
             if (totalPrice.equals(0)) {
@@ -144,6 +146,7 @@ class CartActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        NotificationManagers.createNotificationChannel(this)
         cartAdapter?.startListening()
     }
 

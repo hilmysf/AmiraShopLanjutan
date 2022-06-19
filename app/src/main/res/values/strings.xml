@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AmiraShopLanjutan</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_title">Amira Shop</string>
     <string name="home_btm_nav">Home</string>
@@ -11,7 +10,6 @@
     <string name="price_hint">Harga satuan</string>
     <string name="add_item_confirm">Konfirmasi</string>
     <string-array name="products_category">
-        <item>Semua</item>
         <item>Makanan</item>
         <item>Minuman</item>
         <item>Pakaian</item>

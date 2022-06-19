@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -21,6 +22,7 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.FragmentProductBinding
+import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.ui.product.ProductViewModel
 
 @AndroidEntryPoint
@@ -30,13 +32,14 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var options: FirestoreRecyclerOptions<Products>
     private var query: String = ""
+    private var category: String = Constant.SEMUA
     private lateinit var storageReference: StorageReference
     private lateinit var navController: NavController
     private val viewModel: ProductViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProductBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -46,11 +49,30 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         firestore = FirebaseFirestore.getInstance()
         storageReference = Firebase.storage.reference
         navController = Navigation.findNavController(view)
-        options = viewModel.getProducts(query)
+        options = viewModel.getProducts(query, category)
         searchViewConfiguration(binding)
         getProductsList(navController, storageReference)
         binding.productsFab.setOnClickListener {
             navController.navigate(R.id.action_product_to_detailProductActivity)
+        }
+//        binding.chipsCategories.chipsCategoriesGroup.check(R.id.chip_all)
+        binding.chipsCategories.chipsCategoriesGroup.setOnCheckedChangeListener { group, checkedId ->
+            val newId = if (checkedId == -1) {
+                2131296885
+            } else {
+                checkedId
+            }
+            var category = ""
+            Log.d(TAG, "checkId: $newId")
+            val chip: Chip = group.findViewById(newId)
+            category = if (chip.text.toString() != "Semua") {
+                chip.text.toString()
+            } else {
+                Constant.SEMUA
+            }
+            Log.d(TAG, "category: $category")
+            val newOptions = viewModel.getProducts(query, category)
+            productGridAdapter?.updateOptions(newOptions)
         }
     }
 
@@ -80,7 +102,7 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String): Boolean {
-        val newOptions = viewModel.getProducts(query)
+        val newOptions = viewModel.getProducts(query, category)
         productGridAdapter?.updateOptions(newOptions)
         return true
     }

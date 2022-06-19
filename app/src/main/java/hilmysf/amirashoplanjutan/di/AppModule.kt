@@ -1,7 +1,5 @@
 package hilmysf.amirashoplanjutan.di
 
-import android.content.Context
-import android.view.View
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
