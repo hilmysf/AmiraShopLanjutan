@@ -55,7 +55,6 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.productsFab.setOnClickListener {
             navController.navigate(R.id.action_product_to_detailProductActivity)
         }
-//        binding.chipsCategories.chipsCategoriesGroup.check(R.id.chip_all)
         binding.chipsCategories.chipsCategoriesGroup.setOnCheckedChangeListener { group, checkedId ->
             val newId = if (checkedId == -1) {
                 2131296885
@@ -102,6 +101,7 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextChange(query: String): Boolean {
+        this.query = query
         val newOptions = viewModel.getProducts(query, category)
         productGridAdapter?.updateOptions(newOptions)
         return true

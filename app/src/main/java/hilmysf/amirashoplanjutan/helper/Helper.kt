@@ -39,7 +39,7 @@ object Helper {
     }
 
     fun currencyFormatter(number: Long): String =
-        NumberFormat.getNumberInstance(Locale.US).format(number)
+        NumberFormat.getNumberInstance(Locale.GERMAN).format(number)
 
     fun showNetworkMessage(isConnected: Boolean, activity: AppCompatActivity, binding: ViewBinding) {
         val snackbar = Snackbar.make(

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="center"
-    app:cardElevation="0dp"
-    android:layout_margin="1dp">
+    android:layout_margin="1dp"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -62,21 +62,22 @@
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
-            app:value="0"
             android:visibility="invisible"
             app:custom_layout=" @layout/number_picker_layout"
+            app:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/img_product"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/img_product" />
+            app:layout_constraintTop_toTopOf="@+id/img_product"
+            app:value="0" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_add_to_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cornerRadius="4dp"
-            app:icon="@drawable/ic_add_white"
             android:text="@string/btn_add_cart"
             android:textSize="11sp"
+            app:cornerRadius="4dp"
+            app:icon="@drawable/ic_add_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

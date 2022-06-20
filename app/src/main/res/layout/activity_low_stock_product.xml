@@ -24,6 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/custom_searchview"
+        app:queryBackground="@null"
         android:focusableInTouchMode="true"
         app:iconifiedByDefault="false"
         app:layout_constraintBottom_toBottomOf="@+id/ib_back"

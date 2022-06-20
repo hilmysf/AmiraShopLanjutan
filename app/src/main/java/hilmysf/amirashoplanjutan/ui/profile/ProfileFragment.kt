@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.databinding.FragmentProfileBinding
 import hilmysf.amirashoplanjutan.helper.Constant
+import hilmysf.amirashoplanjutan.helper.Helper
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -48,7 +49,7 @@ class ProfileFragment : Fragment() {
         viewModel.getUser(userId)
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val name = document.getString(Constant.NAME)
+                    val name = Helper.camelCase(document.getString(Constant.NAME).toString())
                     val email = document.getString(Constant.EMAIL)
                     binding.tvUser.text = name
                     binding.tvEmail.text = email

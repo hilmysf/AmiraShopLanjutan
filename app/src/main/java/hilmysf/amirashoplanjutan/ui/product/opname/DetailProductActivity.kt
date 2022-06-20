@@ -51,6 +51,7 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
+import android.widget.TextView
 
 
 @AndroidEntryPoint
@@ -432,23 +433,23 @@ class DetailProductActivity : AppCompatActivity(),
 
     private fun uploadToCloud(imageReference: String, file: Uri?) {
         val progressBar = binding.progressBar
-            viewModel.uploadImage(imageReference, file)
-                .addOnProgressListener {
-                    progressBar.visibility = View.VISIBLE
-                    window.setFlags(
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                    )
-                }
-                .addOnSuccessListener {
-                    Log.d(TAG, "Berhasil upload foto")
-                    progressBar.visibility = View.GONE
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                }
-                .addOnFailureListener {
-                    progressBar.visibility = View.GONE
-                    Log.d(TAG, "gagal upload foto")
-                }
+        viewModel.uploadImage(imageReference, file)
+            .addOnProgressListener {
+                progressBar.visibility = View.VISIBLE
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
+            }
+            .addOnSuccessListener {
+                Log.d(TAG, "Berhasil upload foto")
+                progressBar.visibility = View.GONE
+                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            }
+            .addOnFailureListener {
+                progressBar.visibility = View.GONE
+                Log.d(TAG, "gagal upload foto")
+            }
     }
 
     override fun onStart() {

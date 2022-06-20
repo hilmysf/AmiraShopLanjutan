@@ -32,10 +32,12 @@
 
         <activity
             android:name=".ui.product.sell.CartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.product.sell.SellActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.product.opname.LowStockProductActivity"
             android:exported="false" />

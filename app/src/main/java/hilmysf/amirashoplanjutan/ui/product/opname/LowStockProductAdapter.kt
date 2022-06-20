@@ -13,6 +13,7 @@ import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductGridBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
+
 class LowStockProductAdapter(
     val context: Context?,
     options: FirestoreRecyclerOptions<Products>,
@@ -40,7 +41,7 @@ class LowStockProductAdapter(
                     .into(imgProduct)
                 Log.d("TAG", "path reference: $model")
             }
-            tvStockNumber.text = model.quantity.toString()
+            tvStockNumber.text = "Stock: ${model.quantity}"
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
         }

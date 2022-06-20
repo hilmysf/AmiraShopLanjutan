@@ -43,9 +43,12 @@ class SellAdapter(
                     .into(imgProduct)
             }
             tvProductName.text = Helper.camelCase(model.name)
-            tvProductPrice.text = "Rp. ${model.price}"
-            quantityNumberPicker.max = model.quantity
+            tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
             tvProductStock.text = model.quantity.toString()
+            quantityNumberPicker.max = model.quantity
+            quantityNumberPicker.setOnClickListener {
+
+            }
             quantityNumberPicker.setValueChangedListener { itemCount, action ->
                 if (itemCount == 0) {
                     visibility(false, this)

@@ -50,7 +50,7 @@ class CartAdapter(
                     .into(imgProduct)
             }
             tvProductName.text = Helper.camelCase(model.name)
-            tvProductPrice.text = "Rp. ${model.price}"
+            tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
             quantityNumberPicker.max = model.quantity
             tvProductStock.text = model.quantity.toString()
             if (cartQuantity != null) {
