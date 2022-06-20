@@ -18,7 +18,7 @@
     <string name="product_name_hint">Nama Barang</string>
     <string name="product_stock">Jumlah Stok</string>
     <string name="product_min_stock">Stok Minimum</string>
-    <string name="product_price_hint">Rp. 0</string>
+    <string name="product_price_hint">Rp. </string>
     <string name="sell_total">Total 0 Produk</string>
     <string name="sell_total_price">Rp. 0</string>
     <string name="category_all">Semua</string>
@@ -54,7 +54,7 @@
     <string name="log_time">15:15</string>
     <string name="log_status">Diubah</string>
     <string name="log_product_stock">3 Barang</string>
-    <string name="grid_stock_number">14</string>
+    <string name="grid_stock_number">Stock: 0</string>
     <string name="product_name">product_name</string>
     <string name="product_price">product_price</string>
     <string name="btn_add_cart">Add To Cart</string>

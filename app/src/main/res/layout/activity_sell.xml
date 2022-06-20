@@ -29,6 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ib_back"
         app:layout_constraintTop_toTopOf="@+id/ib_back"
+        app:queryBackground="@null"
         app:queryHint="Cari Produk"
         app:searchIcon="@drawable/ic_search" />
 

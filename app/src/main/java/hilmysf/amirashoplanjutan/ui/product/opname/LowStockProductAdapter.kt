@@ -44,7 +44,7 @@ class LowStockProductAdapter(
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
         }
-        holder.binding.ibEditProduct.setOnClickListener {
+        holder.binding.cvItemProduct.setOnClickListener {
             context?.startActivity(Intent(context, DetailProductActivity::class.java).apply {
                 this.putExtra(DetailProductActivity.PRODUCTS_BUNDLE, model)
                 this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

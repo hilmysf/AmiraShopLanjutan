@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -24,7 +25,9 @@ class AuthViewModel @Inject constructor(private val productsRepository: Products
             productsRepository.login(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     _isSuccessful.postValue(true)
+                    Log.d(TAG, "Berhasil Login")
                 } else {
+                    Log.d(TAG, "gagal Login")
                     Helper.alertDialog(context, "Invalid Login", it.exception?.message)
                     _isSuccessful.postValue(false)
                 }

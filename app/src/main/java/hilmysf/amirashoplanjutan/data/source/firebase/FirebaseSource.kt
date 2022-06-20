@@ -79,13 +79,6 @@ class FirebaseSource {
 
     }
 
-    fun addLog(hashMapLog: HashMap<String, Any>) {
-        val document = firestore.collection(Constant.LOGS)
-            .document()
-        hashMapLog[Constant.LOG_ID] = document.id
-        document.set(hashMapLog)
-    }
-
     fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) {
         val productList: List<Products> = checkoutHashMap.keys.toList()
         Log.d(TAG, "checkoutHashMap: $checkoutHashMap")
@@ -178,28 +171,48 @@ class FirebaseSource {
             .build()
     }
 
-    fun getLogs(): FirestoreRecyclerOptions<Logs> {
-        val query = firestore.collection(Constant.LOGS)
-            .orderBy(Constant.DATE, Query.Direction.DESCENDING)
+    fun getLogs(sortBy: String): FirestoreRecyclerOptions<Logs> {
+        Log.d(TAG, "sortBy: $sortBy")
+        val query = when (sortBy) {
+            Constant.BY_DATE -> {
+                firestore.collection(Constant.LOGS)
+                    .orderBy(Constant.BY_DATE, Query.Direction.DESCENDING)
+            }
+            Constant.BY_NAME -> {
+                firestore.collection(Constant.LOGS)
+                    .orderBy(Constant.BY_NAME, Query.Direction.ASCENDING)
+            }
+            else -> {
+                firestore.collection(Constant.LOGS)
+                    .orderBy(Constant.BY_STATUS, Query.Direction.ASCENDING)
+            }
+        }
         return FirestoreRecyclerOptions.Builder<Logs>()
             .setQuery(query, Logs::class.java)
             .build()
     }
 
+    fun addLog(hashMapLog: HashMap<String, Any>) {
+        val document = firestore.collection(Constant.LOGS)
+            .document()
+        hashMapLog[Constant.LOG_ID] = document.id
+        document.set(hashMapLog)
+    }
+
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> {
         var productRef = storageRef.child(imageReference)
-        val name = "products/${productRef.name}"
-        Log.d(TAG, "nama vs reference $name dan $imageReference")
-        if (name == imageReference) {
-            productRef.delete()
-                .addOnSuccessListener {
-                    Log.d(TAG, "berhasil dihapus")
-                }
-                .addOnFailureListener {
-                    Log.d(TAG, "gagal menghapus")
-                }
-            productRef = storageRef.child(imageReference)
-        }
+//        val name = "products/${productRef.name}"
+//        Log.d(TAG, "nama vs reference $name dan $imageReference")
+//        if (name == imageReference) {
+//            productRef.delete()
+//                .addOnSuccessListener {
+//                    Log.d(TAG, "berhasil dihapus")
+//                }
+//                .addOnFailureListener {
+//                    Log.d(TAG, "gagal menghapus")
+//                }
+//            productRef = storageRef.child(imageReference)
+//        }
         return productRef.putFile(file!!)
     }
 

@@ -42,11 +42,11 @@ class ProductGridAdapter(
                     .into(imgProduct)
                 Log.d("TAG", "path reference: $model")
             }
-            tvStockNumber.text = model.quantity.toString()
+            tvStockNumber.text = "Stock: ${model.quantity}"
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
         }
-        holder.binding.ibEditProduct.setOnClickListener {
+        holder.binding.cvItemProduct.setOnClickListener {
             val directions = ProductFragmentDirections.actionProductToDetailProductActivity(model)
             navController.navigate(directions)
         }

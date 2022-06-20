@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -58,6 +59,7 @@ class HomeFragment : Fragment() {
         options = viewModel.getProducts("", Constant.SEMUA)
         productListAdapter = ProductListAdapter(context, options, storageReference)
         with(binding.rvProducts) {
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = productListAdapter

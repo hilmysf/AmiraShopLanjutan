@@ -44,7 +44,7 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
     ): FirestoreRecyclerOptions<Products> = firebaseSource.getProducts(searchQuery, category)
 
     fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> = firebaseSource.getLowStockProducts(searchQuery)
-    fun getLogs(): FirestoreRecyclerOptions<Logs> = firebaseSource.getLogs()
+    fun getLogs(sortBy: String): FirestoreRecyclerOptions<Logs> = firebaseSource.getLogs(sortBy)
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         firebaseSource.uploadImage(imageReference, file)

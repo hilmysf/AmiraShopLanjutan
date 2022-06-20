@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.*
@@ -79,7 +80,7 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         Log.d(TAG, "DocumentSnapshot Home: $options")
         productGridAdapter = ProductGridAdapter(context, options, navController, storageReference)
         with(binding.rvProducts) {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             adapter = productGridAdapter
             Log.d(TAG, "jumlah item ${adapter!!.itemCount}")

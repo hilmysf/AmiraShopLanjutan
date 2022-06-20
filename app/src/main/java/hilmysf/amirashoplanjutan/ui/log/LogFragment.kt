@@ -1,5 +1,6 @@
 package hilmysf.amirashoplanjutan.ui.log
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,14 @@ import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.FragmentLogBinding
+import android.content.Context
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.core.view.children
+import hilmysf.amirashoplanjutan.R
+import hilmysf.amirashoplanjutan.helper.Constant
+
 
 @AndroidEntryPoint
 class LogFragment : Fragment() {
@@ -26,6 +35,7 @@ class LogFragment : Fragment() {
     private lateinit var options: FirestoreRecyclerOptions<Logs>
     private lateinit var hashMapLog: HashMap<String, Any>
     private val viewModel: LogViewModel by viewModels()
+    private var sortBy = Constant.BY_DATE
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,28 +50,13 @@ class LogFragment : Fragment() {
         hashMapLog = HashMap()
         val storageReference = Firebase.storage.reference
         getLogsList(storageReference)
-//        val navController = Navigation.findNavController(view)
-//        fetchData()
-//        getProductsList(navController, storageReference)
-//        binding.productsFab.setOnClickListener {
-//            navController.navigate(R.id.action_product_to_detailProductActivity)
-//        }
+        binding.ibSort.setOnClickListener {
+            sortDialog()
+        }
     }
 
-    //    private fun addLogData(){
-//        hashMapLog = hashMapOf(
-//            Constant.NAME to name,
-//            Constant.QUANTITY to quantity,
-//            Constant.STATUS to status,
-//            Constant.DATE to date,
-//            Constant.TIME to time,
-//            Constant.IMAGE to imageReference,
-//
-//        )
-//        viewModel.addLogData(has)
-//    }
     private fun getLogsList(storageReference: StorageReference) {
-        options = viewModel.getLogsData()
+        options = viewModel.getLogsData(sortBy)
         Log.d(TAG, "DocumentSnapshot Home: $options")
         logAdapter = LogAdapter(context, options, storageReference)
         with(binding.rvLogs) {
@@ -71,6 +66,7 @@ class LogFragment : Fragment() {
             Log.d(TAG, "isi adapter: ${adapter?.itemCount}")
         }
     }
+
     override fun onStart() {
         super.onStart()
         logAdapter?.startListening()
@@ -79,5 +75,41 @@ class LogFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         logAdapter?.stopListening()
+    }
+
+    private fun sortBy(sortBy: String) {
+        when (sortBy) {
+            "Nama" -> this.sortBy = Constant.BY_NAME
+            "Waktu" -> this.sortBy = Constant.BY_DATE
+            "Tipe Transaksi" -> this.sortBy = Constant.BY_STATUS
+        }
+        Log.d(TAG, "sortBy: $sortBy")
+        val newOptions = viewModel.getLogsData(this.sortBy)
+        logAdapter?.updateOptions(newOptions)
+    }
+
+    private fun sortDialog() {
+        val inflater =
+            activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val formsView: View =
+            inflater.inflate(R.layout.radio_button_log_sort, binding.root, false)
+        val sort = formsView.findViewById<RadioGroup>(R.id.sort)
+        val builder = AlertDialog.Builder(context!!, R.style.MultiChoiceAlertDialog).apply {
+            setView(formsView)
+            setTitle("Urutkan berdasarkan")
+        }
+        val alert = builder.create()
+        sort.setOnCheckedChangeListener { group, checkedId ->
+            for (child in group.children) {
+                child as RadioButton
+                if (child.id == checkedId) {
+                    Toast.makeText(context, child.text, Toast.LENGTH_SHORT).show()
+                    child.isChecked = true
+                    sortBy(child.text.toString())
+                    alert.dismiss()
+                }
+            }
+        }
+        alert.show()
     }
 }

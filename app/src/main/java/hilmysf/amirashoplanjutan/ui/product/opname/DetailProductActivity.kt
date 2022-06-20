@@ -11,6 +11,8 @@ import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
@@ -25,8 +27,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -42,6 +46,8 @@ import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
@@ -69,8 +75,8 @@ class DetailProductActivity : AppCompatActivity(),
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
     private var selectedImgUri: Uri = Uri.EMPTY
-    private lateinit var hashMapLog: HashMap<String, Any>
-    private lateinit var hashMapProduct: HashMap<String, Any>
+    private var hashMapLog: HashMap<String, Any> = HashMap()
+    private var hashMapProduct: HashMap<String, Any> = HashMap()
     private val viewModel: ProductViewModel by viewModels()
     private val args: DetailProductActivityArgs by navArgs()
 
@@ -163,8 +169,6 @@ class DetailProductActivity : AppCompatActivity(),
         storageRef = storage.reference
         spinner = binding.spinnerCategory
         firestore = FirebaseFirestore.getInstance()
-        hashMapProduct = HashMap()
-        hashMapLog = HashMap()
         spinnerAdapterConf(product)
         attachProduct(product)
         onClick(product)
@@ -218,8 +222,13 @@ class DetailProductActivity : AppCompatActivity(),
                         editData(product)
                         Log.d(TAG, "islow: $product")
                     }
-                    Log.d(TAG, "Add Log Data ya")
-                    finish()
+                    binding.progressBar.visibility = View.VISIBLE
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                        binding.progressBar.visibility = View.GONE
+                    }, 3000)
+
+
                 } else {
                     Helper.alertDialog(
                         this@DetailProductActivity,
@@ -276,6 +285,7 @@ class DetailProductActivity : AppCompatActivity(),
         product?.let {
             viewModel.deleteProduct(it)
             viewModel.deleteImage(it)
+            addLogData(it.image)
         }
     }
 
@@ -321,9 +331,10 @@ class DetailProductActivity : AppCompatActivity(),
         viewModel.getUser(userId)
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val name = document.getString(Constant.NAME)
-                    Log.d(TAG, "userName $name")
-                    val message = "${messageBuilder()} oleh $name"
+                    val userName: String = document.getString(Constant.NAME).toString()
+                    Log.d(TAG, "userName $userName")
+                    val message = "${messageBuilder()} oleh $userName"
+                    hashMapLog[Constant.OWNER] = userName
                     hashMapLog[Constant.MESSAGE] = message
                     viewModel.addLogData(hashMapLog)
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
@@ -336,22 +347,20 @@ class DetailProductActivity : AppCompatActivity(),
     private fun addLogData(imageReference: String) {
         val date = DateHelper.dateFormat()
         val time = DateHelper.timeFormat()
-        val created = DateHelper.createdFormat()
+        val created = FieldValue.serverTimestamp()
         val quantityString = "$quantity Barang"
-//        val message = "${messageBuilder()} oleh ${getUser()}"
-//        val timestamp = FieldValue.serverTimestamp()
 
         hashMapLog = hashMapOf(
             Constant.CREATED to created,
-            Constant.NAME to name,
+            Constant.PRODUCT_NAME to name,
             Constant.QUANTITY to quantityString,
             Constant.STATUS to status,
             Constant.DATE to date,
             Constant.TIME to time,
             Constant.IMAGE to imageReference,
-//            Constant.MESSAGE to message
         )
         getUser(hashMapLog)
+        Log.d(TAG, "Add Log Data ya")
     }
 
     private fun messageBuilder(): String {
@@ -423,21 +432,23 @@ class DetailProductActivity : AppCompatActivity(),
 
     private fun uploadToCloud(imageReference: String, file: Uri?) {
         val progressBar = binding.progressBar
-        viewModel.uploadImage(imageReference, file)
-            .addOnProgressListener {
-                progressBar.visibility = View.VISIBLE
-                window.setFlags(
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                )
-            }
-            .addOnSuccessListener {
-                Log.d(TAG, "Berhasil upload foto")
-                window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "gagal upload foto")
-            }
+            viewModel.uploadImage(imageReference, file)
+                .addOnProgressListener {
+                    progressBar.visibility = View.VISIBLE
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
+                .addOnSuccessListener {
+                    Log.d(TAG, "Berhasil upload foto")
+                    progressBar.visibility = View.GONE
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                }
+                .addOnFailureListener {
+                    progressBar.visibility = View.GONE
+                    Log.d(TAG, "gagal upload foto")
+                }
     }
 
     override fun onStart() {
@@ -454,4 +465,3 @@ class DetailProductActivity : AppCompatActivity(),
         InternetChangeReceiver.connectivityReceiverListener = this
     }
 }
-

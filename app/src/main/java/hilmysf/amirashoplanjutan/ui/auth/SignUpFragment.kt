@@ -2,6 +2,7 @@ package hilmysf.amirashoplanjutan.ui.auth
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.databinding.FragmentSignUpBinding
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +40,25 @@ class SignUpFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         binding.tvToLogin.setOnClickListener {
             navController.navigate(R.id.action_signUpFragment_to_signInFragment)
+        }
+        binding.emailValue.addTextChangedListener { emailValue ->
+            binding.nameValue.addTextChangedListener { nameValue ->
+                binding.passwordValue.addTextChangedListener { password ->
+                    if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(emailValue) && !TextUtils.isEmpty(nameValue)) {
+                        binding.btnSignup.apply {
+                            isClickable = true
+                            backgroundTintList =
+                                ContextCompat.getColorStateList(context, R.color.yellow)
+                        }
+                    } else {
+                        binding.btnSignup.apply {
+                            isClickable = false
+                            backgroundTintList =
+                                ContextCompat.getColorStateList(context, R.color.text_grey)
+                        }
+                    }
+                }
+            }
         }
         binding.btnSignup.setOnClickListener {
             val email = binding.emailValue.text.toString()
@@ -66,8 +88,6 @@ class SignUpFragment : Fragment() {
                     }
                 }
                 )
-            } else {
-                binding.btnSignup.isClickable = false
             }
         }
     }

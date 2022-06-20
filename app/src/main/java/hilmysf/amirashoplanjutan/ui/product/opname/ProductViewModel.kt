@@ -33,9 +33,8 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
     }
 
     fun addLogData(hashMapLog: HashMap<String, Any>) {
-        viewModelScope.launch(Dispatchers.IO) {
             productsRepository.addLogData(hashMapLog)
-        }
+
     }
 
     fun getProducts(
@@ -45,7 +44,8 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
         return productsRepository.getProducts(searchQuery, category)
     }
 
-    fun getUser(userId: String) = productsRepository.getUser(userId)
+    fun getUser(userId: String) =
+        productsRepository.getUser(userId)
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         productsRepository.uploadImage(imageReference, file)

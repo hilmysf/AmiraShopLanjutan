@@ -37,7 +37,7 @@ class LogAdapter(
                     .load(pathReference)
                     .into(imgProduct)
             }
-            tvProductName.text = model.name
+            tvProductName.text = model.productName
             tvLogDate.text = model.date
             tvLogTime.text = model.time
             tvLogMessage.text = model.message
@@ -46,7 +46,6 @@ class LogAdapter(
             tvProductStock.text = model.quantity
         }
     }
-
 //    private fun setStatusColor(tv: TextView){
 //        when(tv.text){
 //            "Mengubah" -> {
