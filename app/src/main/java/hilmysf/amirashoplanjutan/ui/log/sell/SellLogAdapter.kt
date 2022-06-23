@@ -1,7 +1,8 @@
-package hilmysf.amirashoplanjutan.ui.log
+package hilmysf.amirashoplanjutan.ui.log.sell
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.databinding.ItemLogSellBinding
+import hilmysf.amirashoplanjutan.ui.log.sell.DetailSellLogActivity.Companion.SELL_LOGS_BUNDLE
 
 
 class SellLogAdapter(
@@ -22,7 +24,7 @@ class SellLogAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SellLogAdapter.SellLogViewHolder {
+    ): SellLogViewHolder {
         val binding =
             ItemLogSellBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SellLogViewHolder(binding)
@@ -30,16 +32,18 @@ class SellLogAdapter(
 
     override fun onBindViewHolder(holder: SellLogViewHolder, position: Int, model: SellLogs) {
         holder.binding.apply {
-            var productsName = ""
-            var totalPrice : Long = 0
-            model.arrayProducts[0].forEach { (name, list) ->
-                productsName = name
+            Log.d("adapter", "model: $model" )
+            var productsNameList = model.hashMapProducts.keys.toList()
+            var totalPrice: Long = 0
+            model.hashMapProducts.forEach { (_, list) ->
                 totalPrice += list[0] as Long
             }
-            tvProductName.text = productsName
+            tvProductName.text = productsNameList[0]
             tvTotalPrice.text = totalPrice.toString()
             itemSellLogs.setOnClickListener {
-//                context.startActivity(Intent(context, ))
+                context?.startActivity(Intent(context, DetailSellLogActivity::class.java).apply {
+                    putExtra(SELL_LOGS_BUNDLE, model)
+                })
             }
         }
     }

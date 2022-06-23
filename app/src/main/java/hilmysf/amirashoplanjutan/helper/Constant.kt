@@ -24,7 +24,7 @@ object Constant {
     const val LOG_ID = "logId"
     const val OWNER = "owner"
     const val PRODUCT_NAME = "productName"
-    const val PRODUCTS_ARRAY = "arrayProducts"
+    const val HASH_PRODUCTS = "hashMapProducts"
 
     const val SEMUA = ""
     const val MAKANAN = "Makanan"

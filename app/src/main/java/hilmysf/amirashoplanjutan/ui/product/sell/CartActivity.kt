@@ -33,7 +33,8 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     private var cartAdapter: CartAdapter? = null
     private var checkoutHashMap: HashMap<Products, Int> = HashMap()
     private var hashMapProductsLog: HashMap<String, ArrayList<Any>> = HashMap()
-    private var arrayProducts: ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
+
+    //    private var arrayProducts: ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +100,8 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
                 binding.tvTotalValue.text = "Rp. 0"
             }
             checkoutHashMap[k] = reducedQuantity
-            hashMapProductsLog[productName] = arrayListOf(productPrice, reducedQuantity)
+            hashMapProductsLog[productName] = arrayListOf(productPrice, productQuantity)
+            Log.d(TAG, "HashMapLogs: $hashMapProductsLog")
         }
     }
 
@@ -116,7 +118,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         var reducedQuantity = reduceQuantity(product, productQuantity)
         hashMapProducts[product] = arrayListOf(productPrice.toLong(), productQuantity)
         checkoutHashMap[product] = reducedQuantity
-        hashMapProductsLog[productName] = arrayListOf(productPrice, reducedQuantity)
+        hashMapProductsLog[productName] = arrayListOf(productPrice, productQuantity)
         hashMapProducts.forEach { (_, v) ->
             val value: Long = v[0] as Long
             totalPrice += value
@@ -162,7 +164,6 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     }
 
     private fun addSellLogsData() {
-        arrayProducts.addAll(listOf(hashMapProductsLog))
         val date = DateHelper.dateFormat()
         val time = DateHelper.timeFormat()
         val created = FieldValue.serverTimestamp()
@@ -170,7 +171,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
             Constant.CREATED to created,
             Constant.DATE to date,
             Constant.TIME to time,
-            Constant.PRODUCTS_ARRAY to arrayProducts
+            Constant.HASH_PRODUCTS to hashMapProductsLog
         )
         getUser(hashMapLog)
     }

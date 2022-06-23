@@ -3,6 +3,8 @@ package hilmysf.amirashoplanjutan.ui.log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import hilmysf.amirashoplanjutan.ui.log.opname.OpnameLogFragment
+import hilmysf.amirashoplanjutan.ui.log.sell.SellLogFragment
 
 class SectionsPagerAdapter(fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

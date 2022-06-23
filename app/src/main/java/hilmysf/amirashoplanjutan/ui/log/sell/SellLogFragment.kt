@@ -1,4 +1,4 @@
-package hilmysf.amirashoplanjutan.ui.log
+package hilmysf.amirashoplanjutan.ui.log.sell
 
 import android.content.ContentValues
 import android.os.Bundle
@@ -10,18 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
-import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
-import hilmysf.amirashoplanjutan.databinding.FragmentOpnameLogBinding
 import hilmysf.amirashoplanjutan.databinding.FragmentSellLogBinding
+import hilmysf.amirashoplanjutan.ui.log.LogViewModel
 
 @AndroidEntryPoint
 class SellLogFragment : Fragment() {
@@ -41,11 +38,10 @@ class SellLogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firestore = FirebaseFirestore.getInstance()
-        val storageReference = Firebase.storage.reference
-        getLogsList(storageReference)
+        getLogsList()
     }
 
-    private fun getLogsList(storageReference: StorageReference) {
+    private fun getLogsList() {
         options = viewModel.getSellLogs()
         Log.d(ContentValues.TAG, "DocumentSnapshot Home: $options")
         sellLogAdapter = SellLogAdapter(context, options)

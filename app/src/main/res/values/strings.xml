@@ -62,6 +62,8 @@
     <string name="btn_min">—</string>
     <string name="btn_plus">+</string>
     <string name="cart_total_price">Rp. 0</string>
+    <string name="sell_title">Penjualan</string>
+    <string name="product_quantity">x3</string>
     <string-array name="products_category">
         <item>Makanan</item>
         <item>Minuman</item>

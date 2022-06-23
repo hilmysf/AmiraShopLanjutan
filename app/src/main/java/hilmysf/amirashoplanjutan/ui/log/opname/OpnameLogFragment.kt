@@ -1,4 +1,4 @@
-package hilmysf.amirashoplanjutan.ui.log
+package hilmysf.amirashoplanjutan.ui.log.opname
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -25,6 +25,7 @@ import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.FragmentOpnameLogBinding
 import hilmysf.amirashoplanjutan.helper.Constant
+import hilmysf.amirashoplanjutan.ui.log.LogViewModel
 
 @AndroidEntryPoint
 class OpnameLogFragment : Fragment() {

@@ -58,7 +58,9 @@ class SellAdapter(
                 totalPrice(itemCount, model)
             }
             btnAddToCart.setOnClickListener {
-                visibility(true, this)
+                if(model.quantity != 0){
+                    visibility(true, this)
+                }
                 quantityNumberPicker.value = 1
                 onItemClick?.invoke(model, 1)
                 totalPrice(1, model)

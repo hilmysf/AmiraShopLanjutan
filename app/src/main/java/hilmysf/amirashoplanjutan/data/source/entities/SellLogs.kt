@@ -15,6 +15,6 @@ data class SellLogs(
     var created: Date? = null,
     var date: String = "",
     var time: String = "",
-    var quantity: String = "",
-    var arrayProducts: @RawValue ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
+    var owner: String = "",
+    var hashMapProducts: @RawValue HashMap<String, ArrayList<Any>> = hashMapOf()
 ) : Parcelable

@@ -23,7 +23,7 @@
         android:theme="@style/Theme.AmiraShopLanjutan"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.log.DetailSellLogActivity"
+            android:name=".ui.log.sell.DetailSellLogActivity"
             android:exported="false" />
 
         <receiver

@@ -1,4 +1,4 @@
-package hilmysf.amirashoplanjutan.ui.log
+package hilmysf.amirashoplanjutan.ui.log.opname
 
 import android.content.Context
 import android.view.LayoutInflater

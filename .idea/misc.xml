@@ -26,6 +26,7 @@
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/font/neue.xml" value="0.28020833333333334" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_cart.xml" value="0.2" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_detail_product.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_detail_sell_log.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_low_stock_product.xml" value="0.25" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -46,6 +47,7 @@
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/fragment_sign_up.xml" value="0.2" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_log_list.xml" value="0.4" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_log_sell.xml" value="0.264" />
+        <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_log_sell_detail.xml" value="0.264" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product.xml" value="0.34173669467787116" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_card.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/hilmy/AndroidStudioProjects/Android/AmiraShopLanjutan/app/src/main/res/layout/item_product_grid.xml" value="0.4" />
