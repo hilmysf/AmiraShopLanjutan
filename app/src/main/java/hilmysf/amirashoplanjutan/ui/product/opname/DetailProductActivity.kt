@@ -52,6 +52,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
 import android.widget.TextView
+import androidx.navigation.ActivityNavigator
 
 
 @AndroidEntryPoint

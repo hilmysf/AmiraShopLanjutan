@@ -12,4 +12,6 @@ class LogViewModel @Inject constructor(private val productsRepository: ProductsR
     ViewModel() {
 
     fun getLogsData(sortBy: String): FirestoreRecyclerOptions<Logs> = productsRepository.getLogs(sortBy)
+
+    fun getSellLogs() = productsRepository.getSellLogs()
 }

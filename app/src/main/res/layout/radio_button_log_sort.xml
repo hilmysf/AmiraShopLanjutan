@@ -16,15 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/sort_name"
-            style="@style/MyRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:text="Nama"
-            android:textAlignment="textStart" />
-
         <RadioButton
             android:id="@+id/sort_time"
             style="@style/MyRadioButton"
@@ -32,7 +23,18 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:text="Waktu"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/sort_name"
+            style="@style/MyRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:text="Nama"
+            android:textAlignment="textStart"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/sort_type"
@@ -41,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:text="Tipe Transaksi"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:textSize="16sp" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

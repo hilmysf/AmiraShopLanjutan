@@ -11,6 +11,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.data.source.entities.Products
+import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.data.source.firebase.FirebaseSource
 import javax.inject.Inject
 
@@ -38,6 +39,8 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
 
     fun addLogData(hashMapLog: HashMap<String, Any>) = firebaseSource.addLog(hashMapLog)
 
+    fun addSellLogsData(hashMapLog: HashMap<String, Any>) = firebaseSource.addSellLog(hashMapLog)
+
     fun getProducts(
         searchQuery: String,
         category: String
@@ -45,6 +48,7 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
 
     fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> = firebaseSource.getLowStockProducts(searchQuery)
     fun getLogs(sortBy: String): FirestoreRecyclerOptions<Logs> = firebaseSource.getLogs(sortBy)
+    fun getSellLogs(): FirestoreRecyclerOptions<SellLogs> = firebaseSource.getSellLogs()
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         firebaseSource.uploadImage(imageReference, file)

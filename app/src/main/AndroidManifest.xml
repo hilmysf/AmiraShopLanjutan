@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AmiraShopLanjutan"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.log.DetailSellLogActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".network.InternetChangeReceiver"
             android:exported="true">

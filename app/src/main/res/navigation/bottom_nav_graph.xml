@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_detailProductActivity"
-            app:destination="@id/detailProductActivity">
+            app:destination="@id/detailProductActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim">
             <argument
                 android:name="product"
                 android:defaultValue="@null"
@@ -24,10 +28,18 @@
             app:destination="@id/product" />
         <action
             android:id="@+id/action_home_to_lowStockProductActivity"
-            app:destination="@id/lowStockProductActivity" />
+            app:destination="@id/lowStockProductActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_home_to_sellActivity"
-            app:destination="@id/sellActivity" />
+            app:destination="@id/sellActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/history"
@@ -41,7 +53,11 @@
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profile_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            app:destination="@id/mainActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/product"
@@ -51,7 +67,11 @@
 
         <action
             android:id="@+id/action_product_to_detailProductActivity"
-            app:destination="@id/detailProductActivity">
+            app:destination="@id/detailProductActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" >
             <argument
                 android:name="product"
                 android:defaultValue="@null"

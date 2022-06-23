@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AmiraShopLanjutan</string>
+    <string name="app_name">AmiraShop</string>
     <string name="register_title">Amira Shop</string>
     <string name="home_btm_nav">Home</string>
     <string name="log_btm_nav">Log</string>
@@ -39,7 +39,7 @@
     <string name="email">your_email_here</string>
     <string name="phone">your_phone_here</string>
     <string name="user_log">Your Log</string>
-    <string name="btn_logout">LOGOUT</string>
+    <string name="btn_logout">Logout</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="btn_login">Log In</string>

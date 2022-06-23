@@ -2,12 +2,17 @@ package hilmysf.amirashoplanjutan.ui.log
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -16,63 +21,50 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.data.source.entities.Logs
-import hilmysf.amirashoplanjutan.databinding.FragmentLogBinding
-import android.content.Context
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.core.view.children
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayoutMediator
 import hilmysf.amirashoplanjutan.R
+import hilmysf.amirashoplanjutan.data.source.entities.Logs
+import hilmysf.amirashoplanjutan.databinding.FragmentOpnameLogBinding
 import hilmysf.amirashoplanjutan.helper.Constant
 
-
 @AndroidEntryPoint
-class LogFragment : Fragment() {
+class OpnameLogFragment : Fragment() {
     private var logAdapter: LogAdapter? = null
-    private lateinit var binding: FragmentLogBinding
+    private lateinit var binding: FragmentOpnameLogBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var options: FirestoreRecyclerOptions<Logs>
-    private lateinit var hashMapLog: HashMap<String, Any>
+    private var hashMapLog: HashMap<String, Any> = HashMap()
     private val viewModel: LogViewModel by viewModels()
     private var sortBy = Constant.BY_DATE
+    private var checkId = R.id.sort_time
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLogBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOpnameLogBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firestore = FirebaseFirestore.getInstance()
-        hashMapLog = HashMap()
         val storageReference = Firebase.storage.reference
-        val viewPager = binding.viewPager
-        val tabLayout = binding.tabs
-        tabLayout.setupWithViewPager(viewPager)
-        val adapter = SectionsPagerAdapter(childFragmentManager)
-        viewPager.adapter = adapter
-//        getLogsList(storageReference)
-//        binding.ibSort.setOnClickListener {
-//            sortDialog()
-//        }
+        getLogsList(storageReference)
+        binding.fabSort.setOnClickListener {
+            sortDialog()
+        }
     }
 
-//    private fun getLogsList(storageReference: StorageReference) {
-//        options = viewModel.getLogsData(sortBy)
-//        Log.d(TAG, "DocumentSnapshot Home: $options")
-//        logAdapter = LogAdapter(context, options, storageReference)
-//        with(binding.rvLogs) {
-//            layoutManager = LinearLayoutManager(context)
-//            setHasFixedSize(true)
-//            adapter = logAdapter
-//            Log.d(TAG, "isi adapter: ${adapter?.itemCount}")
-//        }
-//    }
+    private fun getLogsList(storageReference: StorageReference) {
+        options = viewModel.getLogsData(sortBy)
+        Log.d(TAG, "DocumentSnapshot Home: $options")
+        logAdapter = LogAdapter(context, options, storageReference)
+        with(binding.rvLogs) {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = logAdapter
+            Log.d(TAG, "isi adapter: ${adapter?.itemCount}")
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -101,6 +93,7 @@ class LogFragment : Fragment() {
         val formsView: View =
             inflater.inflate(R.layout.radio_button_log_sort, binding.root, false)
         val sort = formsView.findViewById<RadioGroup>(R.id.sort)
+        sort.check(checkId)
         val builder = AlertDialog.Builder(context!!, R.style.MultiChoiceAlertDialog).apply {
             setView(formsView)
             setTitle("Urutkan berdasarkan")
@@ -111,7 +104,7 @@ class LogFragment : Fragment() {
                 child as RadioButton
                 if (child.id == checkedId) {
                     Toast.makeText(context, child.text, Toast.LENGTH_SHORT).show()
-                    child.isChecked = true
+                    checkId = child.id
                     sortBy(child.text.toString())
                     alert.dismiss()
                 }

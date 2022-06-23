@@ -4,6 +4,7 @@ object Constant {
     const val USERS = "users"
     const val PRODUCTS = "products"
     const val LOGS = "logs"
+    const val SELL_LOGS = "sell_logs"
 
     const val PRODUCT_ID = "productId"
     const val NAME = "name"
@@ -23,6 +24,7 @@ object Constant {
     const val LOG_ID = "logId"
     const val OWNER = "owner"
     const val PRODUCT_NAME = "productName"
+    const val PRODUCTS_ARRAY = "arrayProducts"
 
     const val SEMUA = ""
     const val MAKANAN = "Makanan"
@@ -35,4 +37,5 @@ object Constant {
     const val BY_NAME = "owner"
     const val BY_DATE = "created"
     const val BY_STATUS = "status"
+
 }

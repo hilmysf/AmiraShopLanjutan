@@ -20,6 +20,7 @@ import hilmysf.amirashoplanjutan.helper.Constant
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.firebase.firestore.DocumentSnapshot
+import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
 
 class FirebaseSource {
@@ -192,8 +193,23 @@ class FirebaseSource {
             .build()
     }
 
+    fun getSellLogs(): FirestoreRecyclerOptions<SellLogs> {
+        val query = firestore.collection(Constant.SELL_LOGS)
+
+        return FirestoreRecyclerOptions.Builder<SellLogs>()
+            .setQuery(query, SellLogs::class.java)
+            .build()
+    }
+
     fun addLog(hashMapLog: HashMap<String, Any>) {
         val document = firestore.collection(Constant.LOGS)
+            .document()
+        hashMapLog[Constant.LOG_ID] = document.id
+        document.set(hashMapLog)
+    }
+
+    fun addSellLog(hashMapLog: HashMap<String, Any>) {
+        val document = firestore.collection(Constant.SELL_LOGS)
             .document()
         hashMapLog[Constant.LOG_ID] = document.id
         document.set(hashMapLog)

@@ -11,12 +11,16 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ActivityCartBinding
+import hilmysf.amirashoplanjutan.helper.Constant
+import hilmysf.amirashoplanjutan.helper.DateHelper
 import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
@@ -28,6 +32,10 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     private lateinit var options: FirestoreRecyclerOptions<Products>
     private var cartAdapter: CartAdapter? = null
     private var checkoutHashMap: HashMap<Products, Int> = HashMap()
+    private var hashMapProductsLog: HashMap<String, ArrayList<Any>> = HashMap()
+    private var arrayProducts: ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
@@ -38,6 +46,8 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         )
         supportActionBar?.title = "Keranjang"
         supportActionBar?.hide()
+        mAuth = FirebaseAuth.getInstance()
+        userId = mAuth.currentUser!!.uid
         val storageReference = Firebase.storage.reference
         val intent = intent
         val cartHashMap =
@@ -51,6 +61,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         onItemClick(cartHashMap, binding)
         binding.btnCheckout.setOnClickListener {
             viewModel.checkoutProducts(checkoutHashMap, applicationContext)
+            addSellLogsData()
             startActivity(Intent(this, SellActivity::class.java).apply {
                 this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             })
@@ -74,26 +85,21 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
     }
 
-    private fun reduceQuantity(product: Products, checkoutQuantity: Int): Int {
-        Log.d(
-            TAG,
-            "kuantitas asli: ${product.quantity}\n checkout: $checkoutQuantity\n Sisa: ${product.quantity - checkoutQuantity}"
-        )
-        return product.quantity - checkoutQuantity
-    }
-
     private fun totalPrice(hashMapProducts: HashMap<Products, ArrayList<Any>>) {
         var totalPrice: Long = 0
         hashMapProducts.forEach { (k, v) ->
+            val productName = k.name
             val productPrice = v[0] as Long
             val productQuantity = v[1] as Int
+            val reducedQuantity = reduceQuantity(k, productQuantity)
             Log.d(TAG, "key: $k, values: $v")
             totalPrice += productPrice
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
             if (totalPrice.toInt() == 0) {
                 binding.tvTotalValue.text = "Rp. 0"
             }
-            checkoutHashMap[k] = reduceQuantity(k, productQuantity)
+            checkoutHashMap[k] = reducedQuantity
+            hashMapProductsLog[productName] = arrayListOf(productPrice, reducedQuantity)
         }
     }
 
@@ -105,10 +111,13 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         hashMapProducts: HashMap<Products, ArrayList<Any>>
     ) {
         // totalPrice += currentStock x price
+        var productName = product.name
         var totalPrice: Long = 0
+        var reducedQuantity = reduceQuantity(product, productQuantity)
         hashMapProducts[product] = arrayListOf(productPrice.toLong(), productQuantity)
-        checkoutHashMap[product] = reduceQuantity(product, productQuantity)
-        hashMapProducts.forEach { (k, v) ->
+        checkoutHashMap[product] = reducedQuantity
+        hashMapProductsLog[productName] = arrayListOf(productPrice, reducedQuantity)
+        hashMapProducts.forEach { (_, v) ->
             val value: Long = v[0] as Long
             totalPrice += value
             binding.tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
@@ -118,6 +127,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
         Log.d(TAG, "Hashmap checkout: $checkoutHashMap")
         Log.d(TAG, "hashmap: $hashMapProducts")
+        Log.d(TAG, "HashMap logs: $hashMapProductsLog")
     }
 
     private fun onItemClick(
@@ -129,6 +139,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
                 Log.d(TAG, "item berubah")
                 cartHashMap.remove(product)
                 checkoutHashMap.remove(product)
+                hashMapProductsLog.remove(product.name)
                 Log.d(TAG, "new carthashmap: $cartHashMap")
                 val newOptions = viewModel.getCartProducts(cartHashMap)
                 cartAdapter?.updateOptions(newOptions)
@@ -150,6 +161,35 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
     }
 
+    private fun addSellLogsData() {
+        arrayProducts.addAll(listOf(hashMapProductsLog))
+        val date = DateHelper.dateFormat()
+        val time = DateHelper.timeFormat()
+        val created = FieldValue.serverTimestamp()
+        val hashMapLog = hashMapOf(
+            Constant.CREATED to created,
+            Constant.DATE to date,
+            Constant.TIME to time,
+            Constant.PRODUCTS_ARRAY to arrayProducts
+        )
+        getUser(hashMapLog)
+    }
+
+    private fun getUser(hashMapLog: HashMap<String, Any>) {
+        viewModel.getUser(userId)
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val userName: String = document.getString(Constant.NAME).toString()
+                    Log.d(TAG, "userName $userName")
+                    hashMapLog[Constant.OWNER] = userName
+                    viewModel.addSellLogsData(hashMapLog)
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+            }
+    }
+
     override fun onStart() {
         super.onStart()
         NotificationManagers.createNotificationChannel(this)
@@ -168,5 +208,13 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     override fun onResume() {
         super.onResume()
         InternetChangeReceiver.connectivityReceiverListener = this
+    }
+
+    private fun reduceQuantity(product: Products, checkoutQuantity: Int): Int {
+        Log.d(
+            TAG,
+            "kuantitas asli: ${product.quantity}\n checkout: $checkoutQuantity\n Sisa: ${product.quantity - checkoutQuantity}"
+        )
+        return product.quantity - checkoutQuantity
     }
 }

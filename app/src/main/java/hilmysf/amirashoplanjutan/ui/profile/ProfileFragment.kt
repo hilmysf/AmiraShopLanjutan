@@ -45,6 +45,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     private fun getUser() {
         viewModel.getUser(userId)
             .addOnSuccessListener { document ->

@@ -6,133 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-    <ImageView
-        android:id="@+id/profile_background"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:background="@color/yellow"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/tv_profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Profil"
+        android:textColor="@color/black"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/profile_background"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box"
+        android:backgroundTint="@color/yellow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_profile_title" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_profile"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/background"
         app:civ_border_color="@color/white"
         app:civ_border_width="2dp"
-        app:layout_constraintEnd_toEndOf="@+id/profile_background"
         app:layout_constraintStart_toStartOf="@+id/profile_background"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/profile_background" />
 
     <TextView
         android:id="@+id/tv_user"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/user_name"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_profile" />
-
-    <ImageView
-        android:id="@+id/box"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/box"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_background" />
-
-    <ImageView
-        android:id="@+id/img_email"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:elevation="1dp"
-        android:src="@drawable/ic_email"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_background"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/box"
-        app:layout_constraintTop_toTopOf="@+id/box" />
+        app:layout_constraintStart_toEndOf="@id/img_profile"
+        app:layout_constraintTop_toTopOf="@+id/img_profile" />
 
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:elevation="1dp"
         android:text="@string/email"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/box"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/box"
-        app:layout_constraintTop_toBottomOf="@+id/profile_background" />
-
-    <ImageView
-        android:id="@+id/img_phone"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:elevation="1dp"
-        android:src="@drawable/ic_phone"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_background"
-        app:layout_constraintEnd_toEndOf="@+id/box"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/box" />
-
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:elevation="1dp"
-        android:text="@string/phone"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/box"
-        app:layout_constraintEnd_toEndOf="@+id/box"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/profile_background" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+        app:layout_constraintStart_toEndOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user" />
 
     <TextView
         android:id="@+id/tv_log"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="@string/user_log"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/box" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_background" />
 
     <ImageView
         android:id="@+id/products_box"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginStart="32dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/box"
         android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_log" />
@@ -141,16 +97,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/products_box"
         app:layout_constraintEnd_toEndOf="@+id/products_box"
         app:layout_constraintStart_toStartOf="@+id/products_box"
-        app:layout_constraintTop_toTopOf="@+id/products_box" />
+        app:layout_constraintTop_toTopOf="@+id/products_box"
+        tools:listitem="@layout/item_log_list" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_logout"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="160dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/btn_logout"
+        android:textAllCaps="false"
+        android:textColor="#FC4A4A"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_logout"
+        app:iconTint="#FC4A4A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/products_box"
         app:layout_constraintStart_toStartOf="@+id/products_box"
