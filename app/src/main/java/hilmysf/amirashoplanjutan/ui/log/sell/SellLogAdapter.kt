@@ -10,6 +10,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.databinding.ItemLogSellBinding
+import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.ui.log.sell.DetailSellLogActivity.Companion.SELL_LOGS_BUNDLE
 
 
@@ -38,8 +39,8 @@ class SellLogAdapter(
             model.hashMapProducts.forEach { (_, list) ->
                 totalPrice += list[0] as Long
             }
-            tvProductName.text = productsNameList[0]
-            tvTotalPrice.text = totalPrice.toString()
+            tvProductName.text = Helper.camelCase(productsNameList[0])
+            tvTotalPrice.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
             itemSellLogs.setOnClickListener {
                 context?.startActivity(Intent(context, DetailSellLogActivity::class.java).apply {
                     putExtra(SELL_LOGS_BUNDLE, model)

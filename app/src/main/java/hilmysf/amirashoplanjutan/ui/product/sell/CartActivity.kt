@@ -53,7 +53,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         val intent = intent
         val cartHashMap =
             intent.getSerializableExtra(SellActivity.HASH_MAP_PRODUCTS) as? HashMap<Products, ArrayList<Any>>
-        cartHashMap?.let { totalPrice(it) }
+        cartHashMap?.let { defaultTotalPrice(it) }
         if (cartHashMap?.isNotEmpty()!!) {
             getProductsData(storageReference, cartHashMap)
         } else {
@@ -86,7 +86,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
     }
 
-    private fun totalPrice(hashMapProducts: HashMap<Products, ArrayList<Any>>) {
+    private fun defaultTotalPrice(hashMapProducts: HashMap<Products, ArrayList<Any>>) {
         var totalPrice: Long = 0
         hashMapProducts.forEach { (k, v) ->
             val productName = k.name
@@ -105,7 +105,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
     }
 
-    private fun totalPrice(
+    private fun setTotalPrice(
         binding: ActivityCartBinding,
         product: Products,
         productPrice: Int,
@@ -137,16 +137,19 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         binding: ActivityCartBinding
     ) {
         cartAdapter?.onValueClick = { product, productPrice, productQuantity ->
+            setTotalPrice(binding, product, productPrice.toInt(), productQuantity, cartHashMap)
             if (productQuantity == 0) {
-                Log.d(TAG, "item berubah")
                 cartHashMap.remove(product)
                 checkoutHashMap.remove(product)
                 hashMapProductsLog.remove(product.name)
+                if (cartHashMap.isEmpty()) {
+                    onBackPressed()
+                } else {
+                    val newOptions = viewModel.getCartProducts(cartHashMap)
+                    cartAdapter?.updateOptions(newOptions)
+                }
                 Log.d(TAG, "new carthashmap: $cartHashMap")
-                val newOptions = viewModel.getCartProducts(cartHashMap)
-                cartAdapter?.updateOptions(newOptions)
-            } else {
-                totalPrice(binding, product, productPrice.toInt(), productQuantity, cartHashMap)
+
             }
         }
     }

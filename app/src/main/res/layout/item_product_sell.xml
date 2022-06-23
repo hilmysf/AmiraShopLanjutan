@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="center"
+    android:id="@+id/cv_item_product"
     android:layout_margin="1dp"
     app:cardElevation="0dp">
 

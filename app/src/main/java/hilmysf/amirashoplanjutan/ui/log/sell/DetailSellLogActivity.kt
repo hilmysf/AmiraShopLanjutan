@@ -16,6 +16,7 @@ import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.databinding.ActivityDetailSellLogBinding
 import hilmysf.amirashoplanjutan.databinding.FragmentSellLogBinding
+import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.ui.log.LogViewModel
 
 @AndroidEntryPoint
@@ -43,12 +44,12 @@ class DetailSellLogActivity : AppCompatActivity() {
     private fun bind(sellLogs: SellLogs?) {
         var totalPrice: Long = 0
         binding.apply {
-            tvOwner.text = sellLogs?.owner
+            tvOwner.text = "Admin: ${sellLogs?.owner}"
             tvTimestamp.text = "${sellLogs?.date} ${sellLogs?.time}"
             sellLogs!!.hashMapProducts.forEach { (_, list) ->
                 totalPrice += list[0] as Long
             }
-            tvTotalValue.text = totalPrice.toString()
+            tvTotalValue.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
         }
     }
 

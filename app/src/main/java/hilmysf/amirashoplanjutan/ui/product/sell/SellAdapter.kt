@@ -19,8 +19,8 @@ class SellAdapter(
     private val storageReference: StorageReference
 ) : FirestoreRecyclerAdapter<Products, SellAdapter.SellViewHolder?>(options) {
     var onItemClick: ((product: Products, itemCount: Int) -> Unit)? = null
-    var onValueClick: ((product: Products, productTotalPrice: Long, itemQuantity: Int) -> Unit)? = null
-//    var totalPrice: Long = 0
+    var onValueClick: ((product: Products, productTotalPrice: Long, itemQuantity: Int) -> Unit)? =
+        null
 
     inner class SellViewHolder(val binding: ItemProductSellBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -42,6 +42,9 @@ class SellAdapter(
                     .load(pathReference)
                     .into(imgProduct)
             }
+            if (model.quantity <= 0){
+                btnAddToCart.isEnabled = false
+            }
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
             tvProductStock.text = model.quantity.toString()
@@ -58,7 +61,7 @@ class SellAdapter(
                 totalPrice(itemCount, model)
             }
             btnAddToCart.setOnClickListener {
-                if(model.quantity != 0){
+                if (model.quantity != 0) {
                     visibility(true, this)
                 }
                 quantityNumberPicker.value = 1

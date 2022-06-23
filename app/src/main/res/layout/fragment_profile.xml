@@ -31,18 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_profile_title" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_profile"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/background"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
-        app:layout_constraintStart_toStartOf="@+id/profile_background"
-        app:layout_constraintTop_toTopOf="@id/profile_background" />
-
     <TextView
         android:id="@+id/tv_user"
         android:layout_width="wrap_content"
@@ -53,8 +41,10 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/img_profile"
-        app:layout_constraintTop_toTopOf="@+id/img_profile" />
+        app:layout_constraintBottom_toTopOf="@id/tv_email"
+        app:layout_constraintStart_toStartOf="@id/profile_background"
+        app:layout_constraintTop_toTopOf="@+id/profile_background"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/tv_email"
@@ -65,7 +55,8 @@
         android:elevation="1dp"
         android:text="@string/email"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/img_profile"
+        app:layout_constraintBottom_toBottomOf="@+id/profile_background"
+        app:layout_constraintStart_toStartOf="@id/profile_background"
         app:layout_constraintTop_toBottomOf="@+id/tv_user" />
 
     <TextView

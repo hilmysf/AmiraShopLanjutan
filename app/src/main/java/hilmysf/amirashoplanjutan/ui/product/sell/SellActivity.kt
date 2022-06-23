@@ -22,7 +22,8 @@ import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 
 @AndroidEntryPoint
-class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener, InternetChangeReceiver.ConnectivityReceiverListener {
+class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
+    InternetChangeReceiver.ConnectivityReceiverListener {
     companion object {
         const val HASH_MAP_PRODUCTS = "hashMapProducts"
     }
@@ -110,17 +111,6 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Intern
         Log.d(TAG, "hashmap: $hashMapProducts")
     }
 
-    override fun onStart() {
-        super.onStart()
-        hashMapProducts.clear()
-        sellAdapter?.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        sellAdapter?.stopListening()
-    }
-
     private fun searchViewConfiguration(binding: ActivitySellBinding) {
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(this)
@@ -144,5 +134,16 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Intern
     override fun onResume() {
         super.onResume()
         InternetChangeReceiver.connectivityReceiverListener = this
+    }
+
+    override fun onStop() {
+        super.onStop()
+        sellAdapter?.stopListening()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hashMapProducts.clear()
+        sellAdapter?.startListening()
     }
 }
