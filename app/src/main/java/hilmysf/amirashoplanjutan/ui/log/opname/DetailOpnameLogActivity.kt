@@ -1,19 +1,15 @@
 package hilmysf.amirashoplanjutan.ui.log.opname
 
 import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
-import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.databinding.ActivityDetailOpnameLogBinding
-import hilmysf.amirashoplanjutan.databinding.ActivityDetailSellLogBinding
 import hilmysf.amirashoplanjutan.helper.Helper
-import hilmysf.amirashoplanjutan.ui.log.sell.DetailSellLogAdapter
 
 @AndroidEntryPoint
 class DetailOpnameLogActivity : AppCompatActivity() {

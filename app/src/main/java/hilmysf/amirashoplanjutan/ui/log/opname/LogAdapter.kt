@@ -11,7 +11,6 @@ import com.google.firebase.storage.StorageReference
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.ItemLogListBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
-import hilmysf.amirashoplanjutan.ui.log.sell.DetailSellLogActivity
 
 class LogAdapter(
     val context: Context?,

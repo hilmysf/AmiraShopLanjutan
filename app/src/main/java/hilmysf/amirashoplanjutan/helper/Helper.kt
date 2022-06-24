@@ -1,17 +1,12 @@
 package hilmysf.amirashoplanjutan.helper
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.databinding.DataBindingComponent
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import hilmysf.amirashoplanjutan.databinding.ActivityLowStockProductBinding
 import java.text.NumberFormat
 import java.util.*
 

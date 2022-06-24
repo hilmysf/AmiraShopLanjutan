@@ -1,23 +1,13 @@
 package hilmysf.amirashoplanjutan.ui.log.sell
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
 import hilmysf.amirashoplanjutan.databinding.ActivityDetailSellLogBinding
-import hilmysf.amirashoplanjutan.databinding.FragmentSellLogBinding
 import hilmysf.amirashoplanjutan.helper.Helper
-import hilmysf.amirashoplanjutan.ui.log.LogViewModel
 
 @AndroidEntryPoint
 class DetailSellLogActivity : AppCompatActivity() {

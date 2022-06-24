@@ -1,20 +1,15 @@
 package hilmysf.amirashoplanjutan.ui.product.opname
 
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
-import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.StorageReference
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductGridBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp

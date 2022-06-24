@@ -27,8 +27,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -46,15 +46,9 @@ import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.network.InternetChangeReceiver
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.HashMap
-import android.widget.TextView
-import androidx.navigation.ActivityNavigator
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint

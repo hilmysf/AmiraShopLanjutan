@@ -9,19 +9,20 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.data.source.entities.Products
-import hilmysf.amirashoplanjutan.helper.Constant
-import java.util.*
-import kotlin.collections.ArrayList
-import com.google.firebase.firestore.DocumentSnapshot
 import hilmysf.amirashoplanjutan.data.source.entities.SellLogs
+import hilmysf.amirashoplanjutan.helper.Constant
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
+import java.util.*
 
 class FirebaseSource {
     private val firebaseAuth: FirebaseAuth by lazy {

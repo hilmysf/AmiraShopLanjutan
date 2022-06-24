@@ -50,21 +50,4 @@ class SellLogAdapter(
             }
         }
     }
-//    private fun setStatusColor(tv: TextView){
-//        when(tv.text){
-//            "Mengubah" -> {
-//                var shapeDrawable =ShapeDrawable.;
-//                shapeDrawable.getPaint()
-//                    .setColor(ContextCompat.getColor(mContext, R.color.colorToSet));
-//                tv.background =
-//                    context?.let { ContextCompat.getColor(it, R.color.edit_color).toDrawable() }
-//            }
-//            "Menambah" -> tv.background =
-//                context?.let {
-//                    ContextCompat.getColor(it, R.color.add_color).toDrawable()
-//                }
-//            "Menghapus" -> tv.background =
-//                context?.let { ContextCompat.getColor(it, R.color.delete_color).toDrawable() }
-//        }
-//    }
 }

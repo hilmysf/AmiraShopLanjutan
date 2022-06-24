@@ -5,8 +5,6 @@ import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 @Parcelize
 data class SellLogs(

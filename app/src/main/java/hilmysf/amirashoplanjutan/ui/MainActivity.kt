@@ -3,13 +3,12 @@ package hilmysf.amirashoplanjutan.ui
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.databinding.ActivityMainBinding
 import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.network.InternetChangeReceiver

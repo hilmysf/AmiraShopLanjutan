@@ -5,21 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
-import hilmysf.amirashoplanjutan.R
-import hilmysf.amirashoplanjutan.databinding.FragmentSignUpBinding
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.ActivityNavigator
+import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import hilmysf.amirashoplanjutan.R
+import hilmysf.amirashoplanjutan.databinding.FragmentSignUpBinding
 import hilmysf.amirashoplanjutan.helper.Constant
 
 @AndroidEntryPoint
