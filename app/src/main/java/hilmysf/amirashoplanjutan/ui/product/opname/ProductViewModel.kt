@@ -44,9 +44,6 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
         return productsRepository.getProducts(searchQuery, category)
     }
 
-    fun getUser(userId: String) =
-        productsRepository.getUser(userId)
-
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         productsRepository.uploadImage(imageReference, file)
 

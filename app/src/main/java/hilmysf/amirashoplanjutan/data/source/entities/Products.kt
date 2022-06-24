@@ -2,6 +2,7 @@ package hilmysf.amirashoplanjutan.data.source.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class Products(

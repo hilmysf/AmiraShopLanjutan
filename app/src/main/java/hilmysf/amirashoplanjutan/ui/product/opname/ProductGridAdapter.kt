@@ -10,6 +10,7 @@ import androidx.core.util.Pair
 import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.StorageReference
@@ -44,6 +45,8 @@ class ProductGridAdapter(
                 val pathReference = storageReference.child(model.image)
                 GlideApp.with(context)
                     .load(pathReference)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(imgProduct)
                 Log.d("TAG", "path reference: $model")
             }

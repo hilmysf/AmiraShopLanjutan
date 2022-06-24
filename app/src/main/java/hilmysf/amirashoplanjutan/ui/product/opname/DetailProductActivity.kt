@@ -53,6 +53,8 @@ import java.util.*
 import kotlin.collections.HashMap
 import android.widget.TextView
 import androidx.navigation.ActivityNavigator
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -71,7 +73,7 @@ class DetailProductActivity : AppCompatActivity(),
     private lateinit var firestore: FirebaseFirestore
     private var imageReference: String = ""
     private var name: String = ""
-    private var quantity: Long = 0
+    private var quantity: Int = 0
     private var status: String = ""
     private var product: Products? = null
     private lateinit var mAuth: FirebaseAuth
@@ -79,8 +81,10 @@ class DetailProductActivity : AppCompatActivity(),
     private var selectedImgUri: Uri = Uri.EMPTY
     private var hashMapLog: HashMap<String, Any> = HashMap()
     private var hashMapProduct: HashMap<String, Any> = HashMap()
+    private var changedAttribute: HashMap<String, ArrayList<Any>> = HashMap()
     private val viewModel: ProductViewModel by viewModels()
     private val args: DetailProductActivityArgs by navArgs()
+    private var userName: String = ""
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -167,6 +171,9 @@ class DetailProductActivity : AppCompatActivity(),
         } else {
             arguments.product
         }
+        val sharedPreferences =
+            getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        userName = sharedPreferences?.getString(Constant.NAME, "User").toString()
         storage = Firebase.storage
         storageRef = storage.reference
         spinner = binding.spinnerCategory
@@ -184,6 +191,8 @@ class DetailProductActivity : AppCompatActivity(),
                 val pathReference = storageRef.child(product.image)
                 GlideApp.with(applicationContext)
                     .load(pathReference)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(imgProduct)
                 edtProductName.setText(product.name)
                 quantityNumberPicker.value = product.quantity
@@ -228,7 +237,7 @@ class DetailProductActivity : AppCompatActivity(),
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
                         binding.progressBar.visibility = View.GONE
-                    }, 3000)
+                    }, 2000)
 
 
                 } else {
@@ -265,13 +274,14 @@ class DetailProductActivity : AppCompatActivity(),
 
     private fun bind() {
         name = binding.edtProductName.text.toString().lowercase()
-        quantity = binding.quantityNumberPicker.value.toLong()
-        val minQuantity = binding.minQuantityNumberPicker.value.toLong()
+        quantity = binding.quantityNumberPicker.value
+        val minQuantity = binding.minQuantityNumberPicker.value
         val category = binding.spinnerCategory.selectedItem.toString()
         val price = binding.edtPriceValue.text
         val priceCheck = if (price.isNullOrEmpty()) 0 else price.toString().toLong()
         val isLow: Boolean = quantity <= minQuantity
         Log.d(TAG, "isLow bind: $isLow")
+        attributeChanges(name, quantity, minQuantity, category, priceCheck)
         hashMapProduct = hashMapOf(
             Constant.NAME to name,
             Constant.QUANTITY to quantity,
@@ -321,7 +331,9 @@ class DetailProductActivity : AppCompatActivity(),
             } else {
                 Log.d(TAG, "Selected IMG URI: $selectedImgUri")
             }
-            addLogData(product.image)
+            if (changedAttribute.isNotEmpty()) {
+                addLogData(product.image)
+            }
         }
         if (hashMapProduct[Constant.IS_LOW] == true) {
             NotificationManagers.triggerNotification(applicationContext, hashMapProduct)
@@ -329,21 +341,33 @@ class DetailProductActivity : AppCompatActivity(),
         product?.let { viewModel.editProduct(it, hashMapProduct) }
     }
 
-    private fun getUser(hashMapLog: HashMap<String, Any>) {
-        viewModel.getUser(userId)
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val userName: String = document.getString(Constant.NAME).toString()
-                    Log.d(TAG, "userName $userName")
-                    val message = "${messageBuilder()} oleh $userName"
-                    hashMapLog[Constant.OWNER] = userName
-                    hashMapLog[Constant.MESSAGE] = message
-                    viewModel.addLogData(hashMapLog)
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            }
+    private fun attributeChanges(
+        name: String,
+        quantity: Int,
+        minQuantity: Int,
+        category: String,
+        priceCheck: Long
+    ) {
+        Log.d(TAG, "$product")
+        if (name != product?.name) {
+            changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
+        }
+        if (quantity != product?.quantity) {
+            changedAttribute[Constant.QUANTITY] = arrayListOf(product!!.quantity, quantity)
+        }
+        if (minQuantity != product?.minQuantity) {
+            changedAttribute[Constant.MIN_QUANTITY] =
+                arrayListOf(product!!.minQuantity, minQuantity)
+        }
+        if (category != product?.category) {
+            changedAttribute[Constant.CATEGORY] = arrayListOf(product!!.category, category)
+        }
+        if (priceCheck != product?.price) {
+            changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
+        }
+        if (changedAttribute.isEmpty()) {
+            binding.btnAddItem.isEnabled = false
+        }
     }
 
     private fun addLogData(imageReference: String) {
@@ -351,7 +375,7 @@ class DetailProductActivity : AppCompatActivity(),
         val time = DateHelper.timeFormat()
         val created = FieldValue.serverTimestamp()
         val quantityString = "$quantity Barang"
-
+        val message = "${messageBuilder()} oleh $userName"
         hashMapLog = hashMapOf(
             Constant.CREATED to created,
             Constant.PRODUCT_NAME to name,
@@ -360,8 +384,11 @@ class DetailProductActivity : AppCompatActivity(),
             Constant.DATE to date,
             Constant.TIME to time,
             Constant.IMAGE to imageReference,
+            Constant.CHANGED_ATTRIBUTE to changedAttribute,
+            Constant.OWNER to userName,
+            Constant.MESSAGE to message
         )
-        getUser(hashMapLog)
+        viewModel.addLogData(hashMapLog)
         Log.d(TAG, "Add Log Data ya")
     }
 

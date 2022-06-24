@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.ui.product.sell
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
@@ -33,8 +34,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     private var cartAdapter: CartAdapter? = null
     private var checkoutHashMap: HashMap<Products, Int> = HashMap()
     private var hashMapProductsLog: HashMap<String, ArrayList<Any>> = HashMap()
-
-    //    private var arrayProducts: ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
+    private var userName: String = ""
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +49,9 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         supportActionBar?.hide()
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser!!.uid
+        val sharedPreferences =
+            getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        userName = sharedPreferences?.getString(Constant.NAME, "User").toString()
         val storageReference = Firebase.storage.reference
         val intent = intent
         val cartHashMap =
@@ -174,24 +177,10 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
             Constant.CREATED to created,
             Constant.DATE to date,
             Constant.TIME to time,
-            Constant.HASH_PRODUCTS to hashMapProductsLog
+            Constant.HASH_PRODUCTS to hashMapProductsLog,
+            Constant.OWNER to userName
         )
-        getUser(hashMapLog)
-    }
-
-    private fun getUser(hashMapLog: HashMap<String, Any>) {
-        viewModel.getUser(userId)
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val userName: String = document.getString(Constant.NAME).toString()
-                    Log.d(TAG, "userName $userName")
-                    hashMapLog[Constant.OWNER] = userName
-                    viewModel.addSellLogsData(hashMapLog)
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            }
+        viewModel.addSellLogsData(hashMapLog)
     }
 
     override fun onStart() {

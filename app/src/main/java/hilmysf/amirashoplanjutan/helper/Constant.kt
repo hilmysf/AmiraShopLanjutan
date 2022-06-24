@@ -5,6 +5,7 @@ object Constant {
     const val PRODUCTS = "products"
     const val LOGS = "logs"
     const val SELL_LOGS = "sell_logs"
+    const val SHARED_PREFERENCES = "shared_preferences"
 
     const val PRODUCT_ID = "productId"
     const val NAME = "name"
@@ -15,6 +16,7 @@ object Constant {
     const val CATEGORY = "category"
     const val PRICE = "price"
     const val IS_LOW = "isLow"
+    const val CHANGED_ATTRIBUTE = "changedAttribute"
 
     const val CREATED = "created"
     const val STATUS = "status"

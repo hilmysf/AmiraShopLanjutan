@@ -33,12 +33,14 @@ class SellLogAdapter(
 
     override fun onBindViewHolder(holder: SellLogViewHolder, position: Int, model: SellLogs) {
         holder.binding.apply {
-            Log.d("adapter", "model: $model" )
+            Log.d("adapter", "model: $model")
             var productsNameList = model.hashMapProducts.keys.toList()
             var totalPrice: Long = 0
             model.hashMapProducts.forEach { (_, list) ->
                 totalPrice += list[0] as Long
             }
+            tvLogDate.text = "${model.date} ${model.time}"
+            tvLogMessage.text = "Dijual Oleh ${model.owner}"
             tvProductName.text = Helper.camelCase(productsNameList[0])
             tvTotalPrice.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
             itemSellLogs.setOnClickListener {

@@ -46,7 +46,12 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
         category: String
     ): FirestoreRecyclerOptions<Products> = firebaseSource.getProducts(searchQuery, category)
 
-    fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> = firebaseSource.getLowStockProducts(searchQuery)
+    fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> =
+        firebaseSource.getLowStockProducts(searchQuery)
+
+    fun getProfileLogs(userName: String): FirestoreRecyclerOptions<Logs> =
+        firebaseSource.getProfileLogs(userName)
+
     fun getLogs(sortBy: String): FirestoreRecyclerOptions<Logs> = firebaseSource.getLogs(sortBy)
     fun getSellLogs(): FirestoreRecyclerOptions<SellLogs> = firebaseSource.getSellLogs()
 

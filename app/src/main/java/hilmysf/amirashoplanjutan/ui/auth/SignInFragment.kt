@@ -1,6 +1,8 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -13,6 +15,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.ActivityNavigator
+import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -63,7 +67,15 @@ class SignInFragment : Fragment() {
                 viewModel.login(email, password, context)
                 viewModel.isSuccessful.observe(requireActivity(), {
                     if (it.equals(true)) {
-                        navController.navigate(R.id.action_signInFragment_to_homeActivity)
+                        val extras = ActivityNavigator.Extras.Builder()
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .build()
+                        navController.navigate(
+                            SignInFragmentDirections.actionSignInFragmentToHomeActivity(),
+                            extras
+                        )
                     }
                 })
             }

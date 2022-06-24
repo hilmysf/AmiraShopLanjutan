@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
             InternetChangeReceiver(),
             IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
         mAuth = FirebaseAuth.getInstance()
         currentUser = mAuth.currentUser

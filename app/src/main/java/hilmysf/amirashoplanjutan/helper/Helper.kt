@@ -48,10 +48,10 @@ object Helper {
             Snackbar.LENGTH_LONG
         )
         snackbar.setAction("Try Again") {
-            activity.finish();
-            activity.overridePendingTransition(0, 0);
-            activity.startActivity(activity.intent);
-            activity.overridePendingTransition(0, 0);
+            activity.finish()
+            activity.overridePendingTransition(0, 0)
+            activity.startActivity(activity.intent)
+            activity.overridePendingTransition(0, 0)
         }
         snackbar.duration = BaseTransientBottomBar.LENGTH_INDEFINITE
         if (!isConnected) {

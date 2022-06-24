@@ -10,8 +10,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val productsRepository: ProductsRepository) :
     ViewModel() {
-    fun getUser(userId: String) =
-        productsRepository.getUser(userId)
 
     fun getProducts(
         query: String,

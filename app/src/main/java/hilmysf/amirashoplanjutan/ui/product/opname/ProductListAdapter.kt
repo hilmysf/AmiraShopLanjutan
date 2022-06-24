@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.storage.StorageReference
@@ -37,6 +38,8 @@ class ProductListAdapter(
             if (context != null) {
                 GlideApp.with(context)
                     .load(pathReference)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(imgProduct)
             }
             tvProductName.text = Helper.camelCase(model.name)

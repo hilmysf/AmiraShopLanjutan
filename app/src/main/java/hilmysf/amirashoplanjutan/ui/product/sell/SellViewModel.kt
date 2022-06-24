@@ -22,7 +22,5 @@ class SellViewModel @Inject constructor(private val productsRepository: Products
     fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) =
         productsRepository.checkoutProducts(checkoutHashMap, context)
 
-    fun getUser(userId: String) = productsRepository.getUser(userId)
-
     fun addSellLogsData(hashMapLog: HashMap<String, Any>) = productsRepository.addSellLogsData(hashMapLog)
 }

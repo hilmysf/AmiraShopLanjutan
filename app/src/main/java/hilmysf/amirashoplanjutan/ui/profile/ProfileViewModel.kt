@@ -10,9 +10,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val productsRepository: ProductsRepository) :
-    ViewModel(){
+    ViewModel() {
     fun getUser(userId: String) =
         productsRepository.getUser(userId)
 
     fun signOut() = viewModelScope.launch(Dispatchers.IO) { productsRepository.signOut() }
+
+    fun getProfileLogs(userName: String) = productsRepository.getProfileLogs(userName)
 }

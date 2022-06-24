@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.ui.log.opname
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.google.firebase.storage.StorageReference
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.ItemLogListBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
+import hilmysf.amirashoplanjutan.ui.log.sell.DetailSellLogActivity
 
 class LogAdapter(
     val context: Context?,
@@ -42,25 +44,12 @@ class LogAdapter(
             tvLogTime.text = model.time
             tvLogMessage.text = model.message
             tvStatus.text = model.status
-//            setStatusColor(tvStatus)
             tvProductStock.text = model.quantity
+            cvItemLog.setOnClickListener {
+                context?.startActivity(Intent(context, DetailOpnameLogActivity::class.java).apply {
+                    putExtra(DetailOpnameLogActivity.OPNAME_LOGS_BUNDLE, model)
+                })
+            }
         }
     }
-//    private fun setStatusColor(tv: TextView){
-//        when(tv.text){
-//            "Mengubah" -> {
-//                var shapeDrawable =ShapeDrawable.;
-//                shapeDrawable.getPaint()
-//                    .setColor(ContextCompat.getColor(mContext, R.color.colorToSet));
-//                tv.background =
-//                    context?.let { ContextCompat.getColor(it, R.color.edit_color).toDrawable() }
-//            }
-//            "Menambah" -> tv.background =
-//                context?.let {
-//                    ContextCompat.getColor(it, R.color.add_color).toDrawable()
-//                }
-//            "Menghapus" -> tv.background =
-//                context?.let { ContextCompat.getColor(it, R.color.delete_color).toDrawable() }
-//        }
-//    }
 }

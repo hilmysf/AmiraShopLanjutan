@@ -23,6 +23,9 @@
         android:theme="@style/Theme.AmiraShopLanjutan"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.log.opname.DetailOpnameLogActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.log.sell.DetailSellLogActivity"
             android:exported="false" />
 

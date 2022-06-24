@@ -1,16 +1,12 @@
 package hilmysf.amirashoplanjutan.ui.dashboard
 
-import androidx.core.util.Pair as UtilPair
-import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.ActivityNavigatorExtras
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +21,7 @@ import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.FragmentHomeBinding
 import hilmysf.amirashoplanjutan.helper.Constant
+import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
 import hilmysf.amirashoplanjutan.ui.product.opname.ProductListAdapter
 
@@ -38,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var userId: String
     private var productListAdapter: ProductListAdapter? = null
     private lateinit var options: FirestoreRecyclerOptions<Products>
+    private var userName = ""
     private val viewModel: HomeViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +51,10 @@ class HomeFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser!!.uid
         val storageReference = Firebase.storage.reference
-        getUser()
+        val sharedPreferences =
+            activity?.getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        userName = sharedPreferences?.getString(Constant.NAME, "User").toString()
+        binding.tvHallo.text = "Hallo, ${Helper.camelCase(userName)}!"
         getProductsData(storageReference)
         navigation(requireView())
     }
@@ -67,22 +68,6 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             adapter = productListAdapter
         }
-    }
-
-    private fun getUser() {
-        viewModel.getUser(userId)
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val name = document.getString(Constant.NAME)
-                    binding.tvHallo.text = "Hallo, $name!"
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
     }
 
     private fun navigation(view: View) {

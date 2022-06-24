@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.util.*
 
 @Parcelize
@@ -18,5 +19,6 @@ data class Logs(
     var date: String = "",
     var time: String = "",
     var quantity: String = "",
-    var owner: String = ""
+    var owner: String = "",
+    var changedAttribute: @RawValue HashMap<String, ArrayList<Any>> = hashMapOf()
 ) : Parcelable

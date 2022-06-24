@@ -172,6 +172,16 @@ class FirebaseSource {
             .build()
     }
 
+    fun getProfileLogs(userName: String): FirestoreRecyclerOptions<Logs> {
+        val query =
+            firestore.collection(Constant.LOGS)
+                .whereEqualTo(Constant.OWNER, userName)
+                .orderBy(Constant.BY_DATE, Query.Direction.DESCENDING)
+        return FirestoreRecyclerOptions.Builder<Logs>()
+            .setQuery(query, Logs::class.java)
+            .build()
+    }
+
     fun getLogs(sortBy: String): FirestoreRecyclerOptions<Logs> {
         Log.d(TAG, "sortBy: $sortBy")
         val query = when (sortBy) {
@@ -217,18 +227,20 @@ class FirebaseSource {
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> {
         var productRef = storageRef.child(imageReference)
-//        val name = "products/${productRef.name}"
-//        Log.d(TAG, "nama vs reference $name dan $imageReference")
-//        if (name == imageReference) {
-//            productRef.delete()
-//                .addOnSuccessListener {
-//                    Log.d(TAG, "berhasil dihapus")
-//                }
-//                .addOnFailureListener {
-//                    Log.d(TAG, "gagal menghapus")
-//                }
-//            productRef = storageRef.child(imageReference)
-//        }
+        val name = "products/${productRef.name}"
+        Log.d(TAG, "nama vs reference $name dan $imageReference")
+        if (name == imageReference) {
+
+            productRef.delete()
+                .addOnSuccessListener {
+                    Log.d(TAG, "berhasil dihapus")
+                }
+                .addOnFailureListener {
+                    Log.d(TAG, "gagal menghapus")
+                }
+            productRef = storageRef.child(imageReference)
+            Log.d(TAG, "download url: ${productRef.downloadUrl}")
+        }
         return productRef.putFile(file!!)
     }
 

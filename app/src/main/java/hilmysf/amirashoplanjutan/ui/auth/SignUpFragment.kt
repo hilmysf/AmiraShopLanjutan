@@ -1,6 +1,8 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.ActivityNavigator
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import hilmysf.amirashoplanjutan.helper.Constant
@@ -44,7 +47,10 @@ class SignUpFragment : Fragment() {
         binding.emailValue.addTextChangedListener { emailValue ->
             binding.nameValue.addTextChangedListener { nameValue ->
                 binding.passwordValue.addTextChangedListener { password ->
-                    if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(emailValue) && !TextUtils.isEmpty(nameValue)) {
+                    if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(emailValue) && !TextUtils.isEmpty(
+                            nameValue
+                        )
+                    ) {
                         binding.btnSignup.apply {
                             isClickable = true
                             backgroundTintList =
@@ -62,10 +68,11 @@ class SignUpFragment : Fragment() {
         }
         binding.btnSignup.setOnClickListener {
             val email = binding.emailValue.text.toString()
-            val name = binding.nameValue.text.toString()
+            val name = binding.nameValue.text.toString().lowercase()
             val password = binding.passwordValue.text.toString()
             Log.w(TAG, "email password $email $password")
             if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
+                storeUserName(name)
                 viewModel.signUp(email, password, context)
                 viewModel.isSuccessful.observe(requireActivity(), {
                     if (it.equals(true)) {
@@ -84,11 +91,25 @@ class SignUpFragment : Fragment() {
                             .addOnFailureListener {
 
                             }
-                        navController.navigate(R.id.action_signUpFragment_to_homeActivity)
+                        val extras = ActivityNavigator.Extras.Builder()
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .build()
+                        navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeActivity(), extras)
                     }
                 }
                 )
             }
+        }
+    }
+
+    private fun storeUserName(userName: String) {
+        val sharedPreference =
+            activity?.getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        sharedPreference?.edit()?.apply {
+            putString(Constant.NAME, userName)
+            apply()
         }
     }
 }

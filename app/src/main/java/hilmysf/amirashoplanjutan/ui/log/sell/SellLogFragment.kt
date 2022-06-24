@@ -50,7 +50,6 @@ class SellLogFragment : Fragment() {
             setHasFixedSize(true)
             adapter = sellLogAdapter
             Log.d(ContentValues.TAG, "isi adapter: ${adapter?.itemCount}")
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 
