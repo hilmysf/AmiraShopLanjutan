@@ -266,7 +266,41 @@ class DetailProductActivity : AppCompatActivity(),
     override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 
-    private fun bind() {
+    private fun attributeChanges(
+        name: String,
+        quantity: Int,
+        minQuantity: Int,
+        category: String,
+        priceCheck: Long
+    ) {
+        Log.d(TAG, "$product")
+        if (product == null) {
+
+        }
+        if (name != product?.name) {
+            changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
+        }
+        if (quantity != product?.quantity) {
+            changedAttribute[Constant.QUANTITY] = arrayListOf(product!!.quantity, quantity)
+        }
+        if (minQuantity != product?.minQuantity) {
+            changedAttribute[Constant.MIN_QUANTITY] =
+                arrayListOf(product!!.minQuantity, minQuantity)
+        }
+        if (category != product?.category) {
+            changedAttribute[Constant.CATEGORY] = arrayListOf(product!!.category, category)
+        }
+        if (priceCheck != product?.price) {
+            changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
+        }
+//        changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
+//        changedAttribute[Constant.QUANTITY] = arrayListOf(product!!.quantity, quantity)
+//        changedAttribute[Constant.MIN_QUANTITY] = arrayListOf(product!!.minQuantity, minQuantity)
+//        changedAttribute[Constant.CATEGORY] = arrayListOf(product!!.category, category)
+//        changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
+    }
+
+    private fun bind(isEdit: Boolean) {
         name = binding.edtProductName.text.toString().lowercase()
         quantity = binding.quantityNumberPicker.value
         val minQuantity = binding.minQuantityNumberPicker.value
@@ -275,7 +309,9 @@ class DetailProductActivity : AppCompatActivity(),
         val priceCheck = if (price.isNullOrEmpty()) 0 else price.toString().toLong()
         val isLow: Boolean = quantity <= minQuantity
         Log.d(TAG, "isLow bind: $isLow")
-        attributeChanges(name, quantity, minQuantity, category, priceCheck)
+        if (isEdit) {
+            attributeChanges(name, quantity, minQuantity, category, priceCheck)
+        }
         hashMapProduct = hashMapOf(
             Constant.NAME to name,
             Constant.QUANTITY to quantity,
@@ -296,7 +332,7 @@ class DetailProductActivity : AppCompatActivity(),
     }
 
     private fun addData() {
-        bind()
+        bind(false)
         viewModel.addProduct(hashMapProduct)
             .addSnapshotListener { value, _ ->
                 if (value != null) {
@@ -312,7 +348,7 @@ class DetailProductActivity : AppCompatActivity(),
     }
 
     private fun editData(product: Products?) {
-        bind()
+        bind(true)
         Log.d(TAG, "edit data $product")
         if (product != null) {
             val image = product.image
@@ -333,35 +369,6 @@ class DetailProductActivity : AppCompatActivity(),
             NotificationManagers.triggerNotification(applicationContext, hashMapProduct)
         }
         product?.let { viewModel.editProduct(it, hashMapProduct) }
-    }
-
-    private fun attributeChanges(
-        name: String,
-        quantity: Int,
-        minQuantity: Int,
-        category: String,
-        priceCheck: Long
-    ) {
-        Log.d(TAG, "$product")
-        if (name != product?.name) {
-            changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
-        }
-        if (quantity != product?.quantity) {
-            changedAttribute[Constant.QUANTITY] = arrayListOf(product!!.quantity, quantity)
-        }
-        if (minQuantity != product?.minQuantity) {
-            changedAttribute[Constant.MIN_QUANTITY] =
-                arrayListOf(product!!.minQuantity, minQuantity)
-        }
-        if (category != product?.category) {
-            changedAttribute[Constant.CATEGORY] = arrayListOf(product!!.category, category)
-        }
-        if (priceCheck != product?.price) {
-            changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
-        }
-        if (changedAttribute.isEmpty()) {
-            binding.btnAddItem.isEnabled = false
-        }
     }
 
     private fun addLogData(imageReference: String) {

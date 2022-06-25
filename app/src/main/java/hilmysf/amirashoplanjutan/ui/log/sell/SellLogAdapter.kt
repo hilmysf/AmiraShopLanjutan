@@ -40,7 +40,7 @@ class SellLogAdapter(
                 totalPrice += list[0] as Long
             }
             tvLogDate.text = "${model.date} ${model.time}"
-            tvLogMessage.text = "Dijual Oleh ${model.owner}"
+            tvLogMessage.text = Helper.camelCase("Dijual Oleh ${model.owner}")
             tvProductName.text = Helper.camelCase(productsNameList[0])
             tvTotalPrice.text = "Rp. ${Helper.currencyFormatter(totalPrice)}"
             itemSellLogs.setOnClickListener {

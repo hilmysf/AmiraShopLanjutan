@@ -4,13 +4,12 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.ActivityNavigator
@@ -23,7 +22,7 @@ import hilmysf.amirashoplanjutan.databinding.FragmentSignUpBinding
 import hilmysf.amirashoplanjutan.helper.Constant
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment() {
+class SignUpFragment : Fragment(), TextWatcher {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: FragmentSignUpBinding
     private lateinit var firestore: FirebaseFirestore
@@ -44,28 +43,10 @@ class SignUpFragment : Fragment() {
         binding.tvToLogin.setOnClickListener {
             navController.navigate(R.id.action_signUpFragment_to_signInFragment)
         }
-        binding.emailValue.addTextChangedListener { emailValue ->
-            binding.nameValue.addTextChangedListener { nameValue ->
-                binding.passwordValue.addTextChangedListener { password ->
-                    if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(emailValue) && !TextUtils.isEmpty(
-                            nameValue
-                        )
-                    ) {
-                        binding.btnSignup.apply {
-                            isClickable = true
-                            backgroundTintList =
-                                ContextCompat.getColorStateList(context, R.color.yellow)
-                        }
-                    } else {
-                        binding.btnSignup.apply {
-                            isClickable = false
-                            backgroundTintList =
-                                ContextCompat.getColorStateList(context, R.color.text_grey)
-                        }
-                    }
-                }
-            }
-        }
+        checkFieldsForEmptyValues()
+        binding.emailValue.addTextChangedListener(this)
+        binding.nameValue.addTextChangedListener(this)
+        binding.passwordValue.addTextChangedListener(this)
         binding.btnSignup.setOnClickListener {
             val email = binding.emailValue.text.toString()
             val name = binding.nameValue.text.toString().lowercase()
@@ -96,7 +77,10 @@ class SignUpFragment : Fragment() {
                             .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .build()
-                        navController.navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeActivity(), extras)
+                        navController.navigate(
+                            SignUpFragmentDirections.actionSignUpFragmentToHomeActivity(),
+                            extras
+                        )
                     }
                 }
                 )
@@ -111,5 +95,23 @@ class SignUpFragment : Fragment() {
             putString(Constant.NAME, userName)
             apply()
         }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        checkFieldsForEmptyValues()
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+    }
+
+    private fun checkFieldsForEmptyValues() {
+        val email = binding.emailValue.text.toString()
+        val name = binding.nameValue.text.toString()
+        val password = binding.passwordValue.text.toString()
+        binding.btnSignup.isEnabled =
+            email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()
     }
 }

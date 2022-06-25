@@ -38,7 +38,7 @@
     <string name="user_name">User_Name</string>
     <string name="email">your_email_here</string>
     <string name="phone">your_phone_here</string>
-    <string name="user_log">Your Log</string>
+    <string name="user_log">Log Anda</string>
     <string name="btn_logout">Logout</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>

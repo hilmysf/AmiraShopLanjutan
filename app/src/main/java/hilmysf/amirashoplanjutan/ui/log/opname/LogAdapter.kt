@@ -11,6 +11,7 @@ import com.google.firebase.storage.StorageReference
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.ItemLogListBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
+import hilmysf.amirashoplanjutan.helper.Helper
 
 class LogAdapter(
     val context: Context?,
@@ -41,9 +42,8 @@ class LogAdapter(
             tvProductName.text = model.productName
             tvLogDate.text = model.date
             tvLogTime.text = model.time
-            tvLogMessage.text = model.message
+            tvLogMessage.text = "${Helper.camelCase(model.message)}"
             tvStatus.text = model.status
-            tvProductStock.text = model.quantity
             cvItemLog.setOnClickListener {
                 context?.startActivity(Intent(context, DetailOpnameLogActivity::class.java).apply {
                     putExtra(DetailOpnameLogActivity.OPNAME_LOGS_BUNDLE, model)

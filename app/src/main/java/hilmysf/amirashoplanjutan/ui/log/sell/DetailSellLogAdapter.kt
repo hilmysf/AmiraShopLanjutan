@@ -26,8 +26,8 @@ class DetailSellLogAdapter(private val productList: ArrayList<HashMap<String, Ar
     ) {
         val productValue = productList[position].values.toList()
         val productName = productList[position].keys.toList()
-        val productQuantity = productValue[0][1]
-        val productsPrice = productValue[0][0] as Long
+        val productQuantity = productValue[0][1] as Long
+        val productsPrice = productValue[0][0] as Long / productQuantity
 
         holder.binding.apply {
             tvProductName.text = Helper.camelCase(productName[0])

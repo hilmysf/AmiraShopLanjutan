@@ -2,6 +2,7 @@ package hilmysf.amirashoplanjutan.ui.profile
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -18,7 +20,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.data.source.entities.Logs
 import hilmysf.amirashoplanjutan.databinding.FragmentProfileBinding
 import hilmysf.amirashoplanjutan.helper.Constant
@@ -60,7 +61,12 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             viewModel.signOut()
             Log.d(TAG, "current user is null ${mAuth.currentUser == null}")
-            navController.navigate(R.id.action_profile_to_mainActivity)
+            val extras = ActivityNavigator.Extras.Builder()
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .build()
+            navController.navigate(ProfileFragmentDirections.actionProfileToMainActivity(), extras)
         }
     }
 

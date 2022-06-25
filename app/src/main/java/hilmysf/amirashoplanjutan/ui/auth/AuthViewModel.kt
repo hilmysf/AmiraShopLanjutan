@@ -1,6 +1,5 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
@@ -36,13 +35,14 @@ class AuthViewModel @Inject constructor(private val productsRepository: Products
     }
 
     fun signUp(email: String, password: String, context: Context?) {
+        var errorMessage = ""
         viewModelScope.launch(Dispatchers.IO) {
             productsRepository.signUp(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     _isSuccessful.postValue(true)
                 } else {
                     _isSuccessful.postValue(false)
-                    Log.w(ContentValues.TAG, "createUserWithEmail:failure", it.exception)
+                    Log.w(TAG, "createUserWithEmail:failure", it.exception)
                     Helper.alertDialog(context, "Invalid Sign Up", it.exception?.message)
                 }
             }

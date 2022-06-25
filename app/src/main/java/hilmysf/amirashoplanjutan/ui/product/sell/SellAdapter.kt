@@ -1,6 +1,7 @@
 package hilmysf.amirashoplanjutan.ui.product.sell
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,45 @@ class SellAdapter(
         null
 
     inner class SellViewHolder(val binding: ItemProductSellBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root){
+            fun bind(model: Products){
+                binding.apply {
+                    val pathReference = storageReference.child(model.image)
+                    if (context != null) {
+                        GlideApp.with(context)
+                            .load(pathReference)
+                            .into(imgProduct)
+                    }
+                    if (model.quantity == 0){
+                        Log.d("debug", "selladaptermodel: $model")
+                        btnAddToCart.isEnabled = false
+                    }
+                    tvProductName.text = Helper.camelCase(model.name)
+                    tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
+                    tvProductStock.text = model.quantity.toString()
+                    quantityNumberPicker.max = model.quantity
+                    quantityNumberPicker.setOnClickListener {
+
+                    }
+                    quantityNumberPicker.setValueChangedListener { itemCount, action ->
+                        if (itemCount == 0) {
+                            visibility(false, this)
+                            onItemClick?.invoke(model, -1)
+                            totalPrice(-1, model)
+                        }
+                        totalPrice(itemCount, model)
+                    }
+                    btnAddToCart.setOnClickListener {
+                        if (model.quantity != 0) {
+                            visibility(true, this)
+                        }
+                        quantityNumberPicker.value = 1
+                        onItemClick?.invoke(model, 1)
+                        totalPrice(1, model)
+                    }
+                }
+            }
+        }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,40 +74,7 @@ class SellAdapter(
     }
 
     override fun onBindViewHolder(holder: SellViewHolder, position: Int, model: Products) {
-        holder.binding.apply {
-            val pathReference = storageReference.child(model.image)
-            if (context != null) {
-                GlideApp.with(context)
-                    .load(pathReference)
-                    .into(imgProduct)
-            }
-            if (model.quantity <= 0){
-                btnAddToCart.isEnabled = false
-            }
-            tvProductName.text = Helper.camelCase(model.name)
-            tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
-            tvProductStock.text = model.quantity.toString()
-            quantityNumberPicker.max = model.quantity
-            quantityNumberPicker.setOnClickListener {
-
-            }
-            quantityNumberPicker.setValueChangedListener { itemCount, action ->
-                if (itemCount == 0) {
-                    visibility(false, this)
-                    onItemClick?.invoke(model, -1)
-                    totalPrice(-1, model)
-                }
-                totalPrice(itemCount, model)
-            }
-            btnAddToCart.setOnClickListener {
-                if (model.quantity != 0) {
-                    visibility(true, this)
-                }
-                quantityNumberPicker.value = 1
-                onItemClick?.invoke(model, 1)
-                totalPrice(1, model)
-            }
-        }
+        holder.bind(model)
     }
 
     private fun totalPrice(itemCount: Int, model: Products) {

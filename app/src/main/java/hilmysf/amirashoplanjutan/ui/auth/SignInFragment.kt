@@ -3,24 +3,23 @@ package hilmysf.amirashoplanjutan.ui.auth
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import hilmysf.amirashoplanjutan.R
 import hilmysf.amirashoplanjutan.databinding.FragmentSignInBinding
 
+
 @AndroidEntryPoint
-class SignInFragment : Fragment() {
+class SignInFragment : Fragment(), TextWatcher {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var binding: FragmentSignInBinding
     private val viewModel: AuthViewModel by viewModels()
@@ -36,24 +35,9 @@ class SignInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mAuth = FirebaseAuth.getInstance()
         val navController = Navigation.findNavController(requireView())
-        binding.emailValue.addTextChangedListener { emailValue ->
-            binding.passwordValue.addTextChangedListener { password ->
-                if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(emailValue)) {
-                    binding.btnLogin.apply {
-                        isClickable = true
-                        backgroundTintList =
-                            ContextCompat.getColorStateList(context, R.color.yellow)
-                    }
-                } else {
-                    binding.btnLogin.apply {
-                        isClickable = false
-                        backgroundTintList =
-                            ContextCompat.getColorStateList(context, R.color.text_grey)
-                    }
-                }
-            }
-        }
-
+        binding.emailValue.addTextChangedListener(this)
+        binding.passwordValue.addTextChangedListener(this)
+        checkFieldsForEmptyValues()
         binding.btnLogin.setOnClickListener {
             val email = binding.emailValue.text.toString()
             val password = binding.passwordValue.text.toString()
@@ -75,6 +59,22 @@ class SignInFragment : Fragment() {
                 })
             }
         }
-        binding.tvToSignup.setOnClickListener { navController.navigate(R.id.action_signInFragment_to_signUpFragment) }
+        binding.tvToSignup.setOnClickListener { navController.navigate(hilmysf.amirashoplanjutan.R.id.action_signInFragment_to_signUpFragment) }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        checkFieldsForEmptyValues()
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+    }
+
+    private fun checkFieldsForEmptyValues() {
+        val email = binding.emailValue.text.toString()
+        val password = binding.passwordValue.text.toString()
+        binding.btnLogin.isEnabled = email.isNotEmpty() && password.isNotEmpty()
     }
 }
