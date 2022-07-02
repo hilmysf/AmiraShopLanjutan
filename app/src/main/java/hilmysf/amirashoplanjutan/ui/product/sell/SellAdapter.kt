@@ -34,12 +34,13 @@ class SellAdapter(
                             .into(imgProduct)
                     }
                     if (model.quantity == 0){
+
                         Log.d("debug", "selladaptermodel: $model")
                         btnAddToCart.isEnabled = false
                     }
                     tvProductName.text = Helper.camelCase(model.name)
                     tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
-                    tvProductStock.text = model.quantity.toString()
+                    tvProductStock.text = "Stock: ${model.quantity}"
                     quantityNumberPicker.max = model.quantity
                     quantityNumberPicker.setOnClickListener {
 
@@ -74,7 +75,41 @@ class SellAdapter(
     }
 
     override fun onBindViewHolder(holder: SellViewHolder, position: Int, model: Products) {
-        holder.bind(model)
+        holder.binding.apply {
+            val pathReference = storageReference.child(model.image)
+            if (context != null) {
+                GlideApp.with(context)
+                    .load(pathReference)
+                    .into(imgProduct)
+            }
+            if (model.quantity == 0){
+                holder.itemView.visibility = View.GONE
+                holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            }
+            tvProductName.text = Helper.camelCase(model.name)
+            tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
+            tvProductStock.text = "Stock: ${model.quantity}"
+            quantityNumberPicker.max = model.quantity
+            quantityNumberPicker.setOnClickListener {
+
+            }
+            quantityNumberPicker.setValueChangedListener { itemCount, action ->
+                if (itemCount == 0) {
+                    visibility(false, this)
+                    onItemClick?.invoke(model, -1)
+                    totalPrice(-1, model)
+                }
+                totalPrice(itemCount, model)
+            }
+            btnAddToCart.setOnClickListener {
+                if (model.quantity != 0) {
+                    visibility(true, this)
+                }
+                quantityNumberPicker.value = 1
+                onItemClick?.invoke(model, 1)
+                totalPrice(1, model)
+            }
+        }
     }
 
     private fun totalPrice(itemCount: Int, model: Products) {

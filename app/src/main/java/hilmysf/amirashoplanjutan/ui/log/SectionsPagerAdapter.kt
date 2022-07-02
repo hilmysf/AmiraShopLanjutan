@@ -22,5 +22,4 @@ class SectionsPagerAdapter(fm: FragmentManager) :
     override fun getPageTitle(position: Int): CharSequence = TAB_TITLES[position]
 
     override fun getCount(): Int = 2
-
 }

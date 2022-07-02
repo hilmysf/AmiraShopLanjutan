@@ -39,7 +39,7 @@ class LogAdapter(
                     .load(pathReference)
                     .into(imgProduct)
             }
-            tvProductName.text = model.productName
+            tvProductName.text = Helper.camelCase(model.productName)
             tvLogDate.text = model.date
             tvLogTime.text = model.time
             tvLogMessage.text = "${Helper.camelCase(model.message)}"

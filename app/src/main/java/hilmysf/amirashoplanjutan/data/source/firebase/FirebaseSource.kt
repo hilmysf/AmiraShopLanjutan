@@ -116,8 +116,6 @@ class FirebaseSource {
         product.forEach {
             productNameList.add(it.name)
         }
-        Log.d(TAG, "productName: $productNameList")
-        Log.d(TAG, "List hash : $product")
         val query =
             firestore.collection(Constant.PRODUCTS)
                 .whereIn(Constant.NAME, productNameList)
@@ -137,14 +135,16 @@ class FirebaseSource {
         Log.d(TAG, "query firebase source: $searchQuery")
         val query = if (!TextUtils.isEmpty(searchQuery) && category != "") {
             firestore.collection(Constant.PRODUCTS)
-                .whereEqualTo(Constant.NAME, searchQuery)
                 .whereEqualTo(Constant.CATEGORY, category)
+                .whereGreaterThanOrEqualTo(Constant.NAME, searchQuery)
+                .whereLessThanOrEqualTo(Constant.NAME, searchQuery+ '\uf8ff')
         } else if (TextUtils.isEmpty(searchQuery) && category != "") {
             firestore.collection(Constant.PRODUCTS)
                 .whereEqualTo(Constant.CATEGORY, category)
         } else if (!TextUtils.isEmpty(searchQuery) && category == "") {
             firestore.collection(Constant.PRODUCTS)
-                .whereEqualTo(Constant.NAME, searchQuery)
+                .whereGreaterThanOrEqualTo(Constant.NAME, searchQuery)
+                .whereLessThanOrEqualTo(Constant.NAME, searchQuery+ '\uf8ff')
         } else {
             Log.d(TAG, "daftar semua")
             firestore.collection(Constant.PRODUCTS)
@@ -161,7 +161,8 @@ class FirebaseSource {
         val query = if (!TextUtils.isEmpty(searchQuery)) {
             firestore.collection(Constant.PRODUCTS)
                 .whereEqualTo(Constant.IS_LOW, true)
-                .whereEqualTo(Constant.NAME, searchQuery)
+                .whereGreaterThanOrEqualTo(Constant.NAME, searchQuery)
+                .whereLessThanOrEqualTo(Constant.NAME, searchQuery+ '\uf8ff')
 
         } else {
             firestore.collection(Constant.PRODUCTS)
@@ -206,6 +207,7 @@ class FirebaseSource {
 
     fun getSellLogs(): FirestoreRecyclerOptions<SellLogs> {
         val query = firestore.collection(Constant.SELL_LOGS)
+            .orderBy(Constant.CREATED, Query.Direction.DESCENDING)
 
         return FirestoreRecyclerOptions.Builder<SellLogs>()
             .setQuery(query, SellLogs::class.java)

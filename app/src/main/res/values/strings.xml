@@ -64,6 +64,7 @@
     <string name="cart_total_price">Rp. 0</string>
     <string name="sell_title">Penjualan</string>
     <string name="product_quantity">x3</string>
+    <string name="signup_desc">Daftar untuk mulai melakukan pencatatan dan transaksi lainnya.</string>
     <string-array name="products_category">
         <item>Makanan</item>
         <item>Minuman</item>

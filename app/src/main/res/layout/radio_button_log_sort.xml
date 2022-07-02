@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:text="Waktu"
+            android:text="Waktu Transaksi"
             android:textAlignment="textStart"
             android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:text="Nama"
+            android:text="Nama Admin"
             android:textAlignment="textStart"
             android:textSize="16sp" />
 

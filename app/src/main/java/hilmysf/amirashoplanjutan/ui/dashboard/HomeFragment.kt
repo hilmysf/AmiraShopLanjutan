@@ -1,12 +1,16 @@
 package hilmysf.amirashoplanjutan.ui.dashboard
 
+import android.content.ContentValues
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +29,8 @@ import hilmysf.amirashoplanjutan.helper.Helper
 import hilmysf.amirashoplanjutan.notification.NotificationManagers
 import hilmysf.amirashoplanjutan.ui.product.opname.ProductListAdapter
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
@@ -50,18 +52,17 @@ class HomeFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
         userId = mAuth.currentUser!!.uid
+        Log.d(ContentValues.TAG, "build version: ${Build.VERSION.SDK_INT}")
         val storageReference = Firebase.storage.reference
-        val sharedPreferences =
-            activity?.getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        userName = sharedPreferences?.getString(Constant.NAME, "User").toString()
-        binding.tvHallo.text = "Hallo, ${Helper.camelCase(userName)}!"
-        getProductsData(storageReference)
+        val navController = Navigation.findNavController(view)
+        getUser()
+        getProductsData(storageReference, navController)
         navigation(requireView())
     }
 
-    private fun getProductsData(storageReference: StorageReference) {
+    private fun getProductsData(storageReference: StorageReference, navController: NavController) {
         options = viewModel.getProducts("", Constant.SEMUA)
-        productListAdapter = ProductListAdapter(context, options, storageReference)
+        productListAdapter = ProductListAdapter(context, options, navController, storageReference)
         with(binding.rvProducts) {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             layoutManager = LinearLayoutManager(context)
@@ -83,6 +84,32 @@ class HomeFragment : Fragment() {
         }
         binding.searchView.setOnClickListener {
             navController.navigate(R.id.action_home_to_product)
+        }
+    }
+
+    private fun getUser() {
+        viewModel.getUser(userId)
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val name = Helper.camelCase(document.getString(Constant.NAME).toString())
+                    binding.tvHallo.text = "Hallo, ${Helper.camelCase(name)}"
+                    storeUserName(name)
+                    Log.d(ContentValues.TAG, "DocumentSnapshot data: ${document.data}")
+                } else {
+                    Log.d(ContentValues.TAG, "No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "get failed with ", exception)
+            }
+    }
+
+    private fun storeUserName(userName: String) {
+        val sharedPreference =
+            activity?.getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        sharedPreference?.edit()?.apply {
+            putString(Constant.NAME, userName)
+            apply()
         }
     }
 

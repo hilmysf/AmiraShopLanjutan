@@ -28,7 +28,7 @@ class DetailOpnameLogActivity : AppCompatActivity() {
         Log.d(TAG, "extras: $opnameLogsBundle")
         val changedAttribute = opnameLogsBundle?.changedAttribute as HashMap<String, ArrayList<Any>>
         bind(opnameLogsBundle)
-        changedAttribute.let { getLogsList(it) }
+        getLogsList(changedAttribute)
         binding.btnBackHome.setOnClickListener {
             onBackPressed()
         }

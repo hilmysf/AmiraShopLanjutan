@@ -23,7 +23,6 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -94,7 +93,7 @@ class DetailProductActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.action_delete_item -> {
                 val options = arrayOf<CharSequence>("Batal", "Hapus")
-                AlertDialog.Builder(this)
+                androidx.appcompat.app.AlertDialog.Builder(this)
                     .apply {
                         setTitle("Apakah Anda yakin?")
                         setMessage("Apakah Anda ingin menghapus produk ini? Produk yang telah dihapus tidak dapat dikembalikan")
@@ -187,6 +186,7 @@ class DetailProductActivity : AppCompatActivity(),
                     .load(pathReference)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
+                    .centerInside()
                     .into(imgProduct)
                 edtProductName.setText(product.name)
                 quantityNumberPicker.value = product.quantity
@@ -199,7 +199,7 @@ class DetailProductActivity : AppCompatActivity(),
     private fun onClick(product: Products?) {
         binding.imgProduct.setOnClickListener {
             val options = arrayOf<CharSequence>("Foto", "Gallery")
-            AlertDialog.Builder(this).apply {
+            androidx.appcompat.app.AlertDialog.Builder(this).apply {
                 setTitle("Mau foto apa gallery")
                 setItems(options) { _, item ->
                     if (options[item] == "Foto") {
@@ -232,8 +232,6 @@ class DetailProductActivity : AppCompatActivity(),
                         finish()
                         binding.progressBar.visibility = View.GONE
                     }, 2000)
-
-
                 } else {
                     Helper.alertDialog(
                         this@DetailProductActivity,
@@ -273,10 +271,6 @@ class DetailProductActivity : AppCompatActivity(),
         category: String,
         priceCheck: Long
     ) {
-        Log.d(TAG, "$product")
-        if (product == null) {
-
-        }
         if (name != product?.name) {
             changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
         }
@@ -293,11 +287,6 @@ class DetailProductActivity : AppCompatActivity(),
         if (priceCheck != product?.price) {
             changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
         }
-//        changedAttribute[Constant.NAME] = arrayListOf(product!!.name, name)
-//        changedAttribute[Constant.QUANTITY] = arrayListOf(product!!.quantity, quantity)
-//        changedAttribute[Constant.MIN_QUANTITY] = arrayListOf(product!!.minQuantity, minQuantity)
-//        changedAttribute[Constant.CATEGORY] = arrayListOf(product!!.category, category)
-//        changedAttribute[Constant.PRICE] = arrayListOf(product!!.price, priceCheck)
     }
 
     private fun bind(isEdit: Boolean) {
@@ -326,7 +315,7 @@ class DetailProductActivity : AppCompatActivity(),
         Log.d(TAG, "delete data: $product")
         product?.let {
             viewModel.deleteProduct(it)
-            viewModel.deleteImage(it)
+//            viewModel.deleteImage(it)
             addLogData(it.image)
         }
     }

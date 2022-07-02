@@ -26,6 +26,7 @@
         android:background="#ffffff"
         android:elevation="16dp"
         android:padding="8dp"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

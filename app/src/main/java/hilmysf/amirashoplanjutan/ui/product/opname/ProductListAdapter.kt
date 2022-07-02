@@ -3,6 +3,7 @@ package hilmysf.amirashoplanjutan.ui.product.opname
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -12,11 +13,13 @@ import hilmysf.amirashoplanjutan.data.source.entities.Products
 import hilmysf.amirashoplanjutan.databinding.ItemProductListBinding
 import hilmysf.amirashoplanjutan.helper.GlideApp
 import hilmysf.amirashoplanjutan.helper.Helper
+import hilmysf.amirashoplanjutan.ui.dashboard.HomeFragmentDirections
 import hilmysf.amirashoplanjutan.ui.product.opname.ProductListAdapter.ProductViewHolder
 
 class ProductListAdapter(
     val context: Context?,
     options: FirestoreRecyclerOptions<Products>,
+    private val navController: NavController,
     private val storageReference: StorageReference
 ) : FirestoreRecyclerAdapter<Products, ProductViewHolder?>(options) {
 
@@ -45,6 +48,10 @@ class ProductListAdapter(
             tvProductName.text = Helper.camelCase(model.name)
             tvProductPrice.text = "Rp. ${Helper.currencyFormatter(model.price)}"
             tvProductStock.text = "Stock: ${model.quantity}"
+            cvItemProduct.setOnClickListener {
+                val directions = HomeFragmentDirections.actionHomeToDetailProductActivity(model)
+                navController.navigate(directions)
+            }
         }
     }
 }

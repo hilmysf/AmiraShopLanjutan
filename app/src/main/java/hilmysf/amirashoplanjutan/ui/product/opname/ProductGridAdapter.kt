@@ -40,6 +40,7 @@ class ProductGridAdapter(
                 val pathReference = storageReference.child(model.image)
                 GlideApp.with(context)
                     .load(pathReference)
+                    .fitCenter()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(imgProduct)

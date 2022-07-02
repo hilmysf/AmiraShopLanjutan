@@ -55,19 +55,18 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
             navController.navigate(R.id.action_product_to_detailProductActivity)
         }
         binding.chipsCategories.chipsCategoriesGroup.setOnCheckedChangeListener { group, checkedId ->
-            val newId = if (checkedId == -1) {
-                2131296885
-            } else {
-                checkedId
-            }
-            var category = ""
-            Log.d(TAG, "checkId: $newId")
-            val chip: Chip = group.findViewById(newId)
-            category = if (chip.text.toString() != "Semua") {
-                chip.text.toString()
-            } else {
-                Constant.SEMUA
-            }
+//            var chip = Chip(context)
+            Log.d(TAG, "checkId: $checkedId")
+//            chip.isCheckable = checkedId != -1
+//            if (checkedId != -1)
+            val chip: Chip? = group.findViewById(checkedId)
+            Log.d(TAG, "isChecked: ${chip?.isChecked}")
+//            category = if (chip.text.toString() != "Semua") {
+//                chip.text.toString()
+//            } else {
+//                Constant.SEMUA
+//            }
+            category = chip?.text?.toString() ?: Constant.SEMUA
             Log.d(TAG, "category: $category")
             val newOptions = viewModel.getProducts(query, category)
             productGridAdapter?.updateOptions(newOptions)
@@ -76,12 +75,13 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun getProductsList(navController: NavController, storageReference: StorageReference) {
         Log.d(TAG, "DocumentSnapshot Home: $options")
-        productGridAdapter = ProductGridAdapter(context, options, navController, storageReference)
+        Log.d(TAG, "diatas O")
+        productGridAdapter =
+            ProductGridAdapter(context, options, navController, storageReference)
         with(binding.rvProducts) {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             adapter = productGridAdapter
-            Log.d(TAG, "jumlah item ${adapter!!.itemCount}")
         }
     }
 

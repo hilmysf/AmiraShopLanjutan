@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_gravity="center"
+    android:id="@+id/cv_item_product"
     app:cardElevation="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,8 +13,8 @@
 
         <ImageView
             android:id="@+id/img_product"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             android:background="@drawable/box"

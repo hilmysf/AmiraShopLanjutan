@@ -1,7 +1,6 @@
 package hilmysf.amirashoplanjutan.ui.auth
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -53,7 +52,6 @@ class SignUpFragment : Fragment(), TextWatcher {
             val password = binding.passwordValue.text.toString()
             Log.w(TAG, "email password $email $password")
             if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
-                storeUserName(name)
                 viewModel.signUp(email, password, context)
                 viewModel.isSuccessful.observe(requireActivity(), {
                     if (it.equals(true)) {
@@ -85,15 +83,6 @@ class SignUpFragment : Fragment(), TextWatcher {
                 }
                 )
             }
-        }
-    }
-
-    private fun storeUserName(userName: String) {
-        val sharedPreference =
-            activity?.getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        sharedPreference?.edit()?.apply {
-            putString(Constant.NAME, userName)
-            apply()
         }
     }
 

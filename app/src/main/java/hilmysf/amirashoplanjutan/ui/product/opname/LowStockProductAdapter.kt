@@ -50,8 +50,6 @@ class LowStockProductAdapter(
                 this.putExtra(DetailProductActivity.PRODUCTS_BUNDLE, model)
                 this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             })
-//            val directions = ProductFragmentDirections.actionProductToDetailProductActivity(model)
-//            navController.navigate(directions)
         }
     }
 }
