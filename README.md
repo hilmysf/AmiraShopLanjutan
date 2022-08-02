@@ -1,5 +1,5 @@
 # AmiraShopLanjutan
-Final Project for Thesis
+Final Project for Thesis <br />
 This Inventory Management Application is made for MSME Amira Shop
 
 # Tech Stack
