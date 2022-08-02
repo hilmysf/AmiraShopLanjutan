@@ -18,8 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(private val productsRepository: ProductsRepository) :
     ViewModel() {
-    private var _products = MutableLiveData<FirestoreRecyclerOptions<Products>>()
-    val products: LiveData<FirestoreRecyclerOptions<Products>> get() = _products
 
     fun addProduct(hashMapProduct: HashMap<String, Any>) =
         productsRepository.addProduct(hashMapProduct)
@@ -36,8 +34,7 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
     }
 
     fun addLogData(hashMapLog: HashMap<String, Any>) {
-            productsRepository.addLogData(hashMapLog)
-
+        productsRepository.addLogData(hashMapLog)
     }
 
     fun getProducts(
@@ -49,12 +46,6 @@ class ProductViewModel @Inject constructor(private val productsRepository: Produ
 
     fun uploadImage(imageReference: String, file: Uri?): StorageTask<UploadTask.TaskSnapshot> =
         productsRepository.uploadImage(imageReference, file)
-
-    fun deleteImage(product: Products) {
-        viewModelScope.launch(Dispatchers.IO) {
-            productsRepository.deleteImage(product)
-        }
-    }
 
     fun getLowStockProduct(searchQuery: String): FirestoreRecyclerOptions<Products> =
         productsRepository.getLowStockProducts(searchQuery)

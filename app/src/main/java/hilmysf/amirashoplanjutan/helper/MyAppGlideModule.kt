@@ -11,7 +11,6 @@ import java.io.InputStream
 
 @GlideModule
 class MyAppGlideModule : AppGlideModule() {
-
     override fun registerComponents(
         context: Context,
         glide: Glide,

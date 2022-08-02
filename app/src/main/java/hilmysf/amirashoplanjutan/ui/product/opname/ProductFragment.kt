@@ -50,32 +50,20 @@ class ProductFragment : Fragment(), SearchView.OnQueryTextListener {
         navController = Navigation.findNavController(view)
         options = viewModel.getProducts(query, category)
         searchViewConfiguration(binding)
-        getProductsList(navController, storageReference)
+        getProducts(navController, storageReference)
         binding.productsFab.setOnClickListener {
             navController.navigate(R.id.action_product_to_detailProductActivity)
         }
         binding.chipsCategories.chipsCategoriesGroup.setOnCheckedChangeListener { group, checkedId ->
-//            var chip = Chip(context)
-            Log.d(TAG, "checkId: $checkedId")
-//            chip.isCheckable = checkedId != -1
-//            if (checkedId != -1)
             val chip: Chip? = group.findViewById(checkedId)
-            Log.d(TAG, "isChecked: ${chip?.isChecked}")
-//            category = if (chip.text.toString() != "Semua") {
-//                chip.text.toString()
-//            } else {
-//                Constant.SEMUA
-//            }
             category = chip?.text?.toString() ?: Constant.SEMUA
-            Log.d(TAG, "category: $category")
             val newOptions = viewModel.getProducts(query, category)
             productGridAdapter?.updateOptions(newOptions)
         }
     }
 
-    private fun getProductsList(navController: NavController, storageReference: StorageReference) {
+    private fun getProducts(navController: NavController, storageReference: StorageReference) {
         Log.d(TAG, "DocumentSnapshot Home: $options")
-        Log.d(TAG, "diatas O")
         productGridAdapter =
             ProductGridAdapter(context, options, navController, storageReference)
         with(binding.rvProducts) {

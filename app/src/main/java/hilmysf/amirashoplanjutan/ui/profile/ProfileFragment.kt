@@ -33,7 +33,6 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var userId: String
     private lateinit var userEmail: String
-    private lateinit var firestore: FirebaseFirestore
     private lateinit var options: FirestoreRecyclerOptions<Logs>
     private val viewModel: ProfileViewModel by viewModels()
     private var userName: String = ""

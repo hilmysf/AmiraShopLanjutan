@@ -35,8 +35,6 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
     private var checkoutHashMap: HashMap<Products, Int> = HashMap()
     private var hashMapProductsLog: HashMap<String, ArrayList<Any>> = HashMap()
     private var userName: String = ""
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
@@ -47,8 +45,6 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         )
         supportActionBar?.title = "Keranjang"
         supportActionBar?.hide()
-        mAuth = FirebaseAuth.getInstance()
-        userId = mAuth.currentUser!!.uid
         val sharedPreferences =
             getSharedPreferences(Constant.SHARED_PREFERENCES, Context.MODE_PRIVATE)
         userName = sharedPreferences?.getString(Constant.NAME, "User").toString()
@@ -58,7 +54,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
             intent.getSerializableExtra(SellActivity.HASH_MAP_PRODUCTS) as? HashMap<Products, ArrayList<Any>>
         cartHashMap?.let { defaultTotalPrice(it) }
         if (cartHashMap?.isNotEmpty()!!) {
-            getProductsData(storageReference, cartHashMap)
+            getProducts(storageReference, cartHashMap)
         } else {
             showEmptyMessage(binding)
         }
@@ -72,7 +68,7 @@ class CartActivity : AppCompatActivity(), InternetChangeReceiver.ConnectivityRec
         }
     }
 
-    private fun getProductsData(
+    private fun getProducts(
         storageReference: StorageReference,
         cartHashMap: HashMap<Products, ArrayList<Any>>
     ) {

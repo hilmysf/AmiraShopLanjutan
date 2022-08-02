@@ -17,7 +17,6 @@ class DetailOpnameLogActivity : AppCompatActivity() {
         const val OPNAME_LOGS_BUNDLE = "opname_logs_bundle"
     }
 
-    private var productList: ArrayList<HashMap<String, ArrayList<Any>>> = arrayListOf()
     private var detailSellLogAdapter: DetailOpnameAdapter? = null
     private lateinit var binding: ActivityDetailOpnameLogBinding
     override fun onCreate(savedInstanceState: Bundle?) {

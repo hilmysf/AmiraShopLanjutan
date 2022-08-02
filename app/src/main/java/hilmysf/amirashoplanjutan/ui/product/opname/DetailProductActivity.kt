@@ -72,7 +72,6 @@ class DetailProductActivity : AppCompatActivity(),
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userId: String
     private var selectedImgUri: Uri = Uri.EMPTY
-    private var hashMapLog: HashMap<String, Any> = HashMap()
     private var hashMapProduct: HashMap<String, Any> = HashMap()
     private var changedAttribute: HashMap<String, ArrayList<Any>> = HashMap()
     private val viewModel: ProductViewModel by viewModels()
@@ -104,7 +103,7 @@ class DetailProductActivity : AppCompatActivity(),
                         }
                         setPositiveButton(options[1]) { _, _ ->
                             status = "Menghapus"
-                            deleteData(product)
+                            deleteProduct(product)
                             finish()
                         }
                         show()
@@ -212,6 +211,7 @@ class DetailProductActivity : AppCompatActivity(),
             }
         }
         binding.btnAddItem.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
             binding.apply {
                 if (imgProduct.drawable != null && !TextUtils.isEmpty(edtProductName.text) && !TextUtils.isEmpty(
                         edtPriceValue.text
@@ -220,14 +220,13 @@ class DetailProductActivity : AppCompatActivity(),
                     if (product == null) {
                         Log.d(TAG, "Ini tambah data")
                         status = "Menambah"
-                        addData()
+                        addProduct()
                     } else {
                         Log.d(TAG, "Ini edit data")
                         status = "Mengubah"
-                        editData(product)
+                        editProduct(product)
                         Log.d(TAG, "islow: $product")
                     }
-                    binding.progressBar.visibility = View.VISIBLE
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish()
                         binding.progressBar.visibility = View.GONE
@@ -311,16 +310,16 @@ class DetailProductActivity : AppCompatActivity(),
         )
     }
 
-    private fun deleteData(product: Products?) {
+    private fun deleteProduct(product: Products?) {
         Log.d(TAG, "delete data: $product")
         product?.let {
             viewModel.deleteProduct(it)
-//            viewModel.deleteImage(it)
             addLogData(it.image)
+            Helper.makeToast(applicationContext, "Berhasil menghapus ${it.name}")
         }
     }
 
-    private fun addData() {
+    private fun addProduct() {
         bind(false)
         viewModel.addProduct(hashMapProduct)
             .addSnapshotListener { value, _ ->
@@ -332,11 +331,12 @@ class DetailProductActivity : AppCompatActivity(),
                     addLogData(imageReference)
                 }
             }
+        Helper.makeToast(applicationContext, "Berhasil menambah ${product?.name}")
         Log.d(TAG, "nambah data $product")
 
     }
 
-    private fun editData(product: Products?) {
+    private fun editProduct(product: Products?) {
         bind(true)
         Log.d(TAG, "edit data $product")
         if (product != null) {
@@ -357,7 +357,10 @@ class DetailProductActivity : AppCompatActivity(),
         if (hashMapProduct[Constant.IS_LOW] == true) {
             NotificationManagers.triggerNotification(applicationContext, hashMapProduct)
         }
-        product?.let { viewModel.editProduct(it, hashMapProduct) }
+        product?.let {
+            viewModel.editProduct(it, hashMapProduct)
+            Helper.makeToast(applicationContext, "Berhasil mengubah ${it.name}")
+        }
     }
 
     private fun addLogData(imageReference: String) {
@@ -366,7 +369,7 @@ class DetailProductActivity : AppCompatActivity(),
         val created = FieldValue.serverTimestamp()
         val quantityString = "$quantity Barang"
         val message = "${messageBuilder()} oleh $userName"
-        hashMapLog = hashMapOf(
+        val hashMapLog = hashMapOf(
             Constant.CREATED to created,
             Constant.PRODUCT_NAME to name,
             Constant.QUANTITY to quantityString,
@@ -379,7 +382,7 @@ class DetailProductActivity : AppCompatActivity(),
             Constant.MESSAGE to message
         )
         viewModel.addLogData(hashMapLog)
-        Log.d(TAG, "Add Log Data ya")
+        Log.d(TAG, "Add Log Data ya $hashMapLog")
     }
 
     private fun messageBuilder(): String {
@@ -433,7 +436,10 @@ class DetailProductActivity : AppCompatActivity(),
     }
 
     private fun startTakePhoto() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
         launcherIntentCamera.launch(intent)
     }
 

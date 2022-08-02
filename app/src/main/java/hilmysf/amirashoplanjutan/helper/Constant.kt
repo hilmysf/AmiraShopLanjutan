@@ -35,6 +35,9 @@ object Constant {
     const val ALAT_TULIS = "Alat tulis"
     const val RUMAH_TANGGA = "Rumah Tangga"
     const val LAIN_LAIN = "Lain-lain"
+    const val KOSMETIK = "Kosmetik"
+    const val MAINAN = "Mainan"
+    const val PERLENGKAPAN_SEKOLAH = "Perlengkapan Sekolah"
 
     const val BY_NAME = "owner"
     const val BY_DATE = "created"

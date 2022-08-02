@@ -78,7 +78,6 @@ class FirebaseSource {
         firestore.collection(Constant.PRODUCTS)
             .document(product.productId)
             .delete()
-
     }
 
     fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) {
@@ -128,10 +127,7 @@ class FirebaseSource {
             .build()
     }
 
-    fun getProducts(
-        searchQuery: String,
-        category: String
-    ): FirestoreRecyclerOptions<Products> {
+    fun getProducts(searchQuery: String, category: String): FirestoreRecyclerOptions<Products> {
         Log.d(TAG, "query firebase source: $searchQuery")
         val query = if (!TextUtils.isEmpty(searchQuery) && category != "") {
             firestore.collection(Constant.PRODUCTS)
@@ -155,9 +151,7 @@ class FirebaseSource {
             .build()
     }
 
-    fun getLowStockProducts(
-        searchQuery: String
-    ): FirestoreRecyclerOptions<Products> {
+    fun getLowStockProducts(searchQuery: String): FirestoreRecyclerOptions<Products> {
         val query = if (!TextUtils.isEmpty(searchQuery)) {
             firestore.collection(Constant.PRODUCTS)
                 .whereEqualTo(Constant.IS_LOW, true)
@@ -219,6 +213,7 @@ class FirebaseSource {
             .document()
         hashMapLog[Constant.LOG_ID] = document.id
         document.set(hashMapLog)
+        Log.d(TAG, "add log firebase: $hashMapLog")
     }
 
     fun addSellLog(hashMapLog: HashMap<String, Any>) {
@@ -233,7 +228,6 @@ class FirebaseSource {
         val name = "products/${productRef.name}"
         Log.d(TAG, "nama vs reference $name dan $imageReference")
         if (name == imageReference) {
-
             productRef.delete()
                 .addOnSuccessListener {
                     Log.d(TAG, "berhasil dihapus")

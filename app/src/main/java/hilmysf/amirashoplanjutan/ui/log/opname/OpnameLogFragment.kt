@@ -56,7 +56,7 @@ class OpnameLogFragment : Fragment() {
     }
 
     private fun getLogsList(storageReference: StorageReference) {
-        options = viewModel.getLogsData(sortBy)
+        options = viewModel.getLogs(sortBy)
         Log.d(TAG, "DocumentSnapshot Home: $options")
         logAdapter = LogAdapter(context, options, storageReference)
         with(binding.rvLogs) {
@@ -84,7 +84,7 @@ class OpnameLogFragment : Fragment() {
             "Tipe Transaksi" -> this.sortBy = Constant.BY_STATUS
         }
         Log.d(TAG, "sortBy: $sortBy")
-        val newOptions = viewModel.getLogsData(this.sortBy)
+        val newOptions = viewModel.getLogs(this.sortBy)
         logAdapter?.updateOptions(newOptions)
     }
 

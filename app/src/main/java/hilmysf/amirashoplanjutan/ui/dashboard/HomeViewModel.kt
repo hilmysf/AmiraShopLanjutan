@@ -11,10 +11,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val productsRepository: ProductsRepository) :
     ViewModel() {
 
-    fun getProducts(
-        query: String,
-        category: String
-    ): FirestoreRecyclerOptions<Products> = productsRepository.getProducts(query, category)
+    fun getProducts(query: String, category: String): FirestoreRecyclerOptions<Products> =
+        productsRepository.getProducts(query, category)
 
     fun getUser(userId: String) = productsRepository.getUser(userId)
 

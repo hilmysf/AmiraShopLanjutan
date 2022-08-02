@@ -22,7 +22,7 @@ class SellLogFragment : Fragment() {
     private lateinit var binding: FragmentSellLogBinding
     private lateinit var firestore: FirebaseFirestore
     private val viewModel: LogViewModel by viewModels()
-    private lateinit var options: FirestoreRecyclerOptions<SellLogs>
+        private lateinit var options: FirestoreRecyclerOptions<SellLogs>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

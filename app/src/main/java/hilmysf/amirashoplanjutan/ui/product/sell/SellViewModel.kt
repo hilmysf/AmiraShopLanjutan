@@ -11,10 +11,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SellViewModel @Inject constructor(private val productsRepository: ProductsRepository) :
     ViewModel() {
-    fun getProducts(
-        searchQuery: String,
-        category: String
-    ): FirestoreRecyclerOptions<Products> = productsRepository.getProducts(searchQuery, category)
+    fun getProducts(searchQuery: String, category: String): FirestoreRecyclerOptions<Products> =
+        productsRepository.getProducts(searchQuery, category)
 
     fun getCartProducts(cartList: HashMap<Products, ArrayList<Any>>): FirestoreRecyclerOptions<Products> =
         productsRepository.getCartProducts(cartList)

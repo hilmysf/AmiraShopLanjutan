@@ -3,6 +3,7 @@ package hilmysf.amirashoplanjutan.helper
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -56,6 +57,9 @@ object Helper {
             snackbar.dismiss()
             binding.root.visibility = View.VISIBLE
         }
+    }
+    fun makeToast(context: Context?, message: String?){
+        Toast.makeText(context, message, Toast.LENGTH_SHORT)
     }
 //    fun isLowChecker(products: Products): Boolean {
 //        return products.quantity <= products.minQuantity

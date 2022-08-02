@@ -20,10 +20,4 @@ object DateHelper {
         time = simpleDateFormat.format(calendar.time).toString()
         return time
     }
-
-    fun createdFormat(): String {
-        simpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
-        created = simpleDateFormat.format(calendar.time).toString()
-        return created
-    }
 }

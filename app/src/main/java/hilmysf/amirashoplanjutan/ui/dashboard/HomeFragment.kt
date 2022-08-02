@@ -37,7 +37,6 @@ class HomeFragment : Fragment() {
     private lateinit var userId: String
     private var productListAdapter: ProductListAdapter? = null
     private lateinit var options: FirestoreRecyclerOptions<Products>
-    private var userName = ""
     private val viewModel: HomeViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

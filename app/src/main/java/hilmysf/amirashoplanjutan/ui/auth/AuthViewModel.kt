@@ -35,7 +35,6 @@ class AuthViewModel @Inject constructor(private val productsRepository: Products
     }
 
     fun signUp(email: String, password: String, context: Context?) {
-        var errorMessage = ""
         viewModelScope.launch(Dispatchers.IO) {
             productsRepository.signUp(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {

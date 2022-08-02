@@ -46,7 +46,7 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         supportActionBar?.hide()
         val storageReference = Firebase.storage.reference
         searchViewConfiguration(binding)
-        getProductsData(storageReference)
+        getProducts(storageReference)
         onProductsClick()
         navigation()
     }
@@ -63,7 +63,7 @@ class SellActivity : AppCompatActivity(), SearchView.OnQueryTextListener,
         }
     }
 
-    private fun getProductsData(storageReference: StorageReference) {
+    private fun getProducts(storageReference: StorageReference) {
         options = viewModel.getProducts("", Constant.SEMUA)
         sellAdapter = SellAdapter(applicationContext, options, storageReference)
         with(binding.rvProducts) {

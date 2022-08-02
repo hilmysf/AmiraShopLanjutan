@@ -59,6 +59,7 @@ class ProductsRepository @Inject constructor(private val firebaseSource: Firebas
         firebaseSource.uploadImage(imageReference, file)
 
     fun deleteImage(product: Products) = firebaseSource.deleteImage(product)
+
     fun checkoutProducts(checkoutHashMap: HashMap<Products, Int>, context: Context) =
         firebaseSource.checkoutProducts(checkoutHashMap, context)
 }

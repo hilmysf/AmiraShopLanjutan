@@ -21,13 +21,6 @@
     <string name="product_price_hint">Rp. </string>
     <string name="sell_total">Total 0 Produk</string>
     <string name="sell_total_price">Rp. 0</string>
-    <string name="category_all">Semua</string>
-    <string name="category_foods">Makanan</string>
-    <string name="category_drinks">Minuman</string>
-    <string name="category_clothes">Pakaian</string>
-    <string name="category_stationary">Alat Tulis</string>
-    <string name="category_domestic">Rumah Tangga</string>
-    <string name="category_etc">Lain-lain</string>
     <string name="empty_state_message">Maaf Produk Masih Kosong</string>
     <string name="hallo_message">Hallo</string>
     <string name="quick_action">Quick Action</string>
@@ -65,12 +58,25 @@
     <string name="sell_title">Penjualan</string>
     <string name="product_quantity">x3</string>
     <string name="signup_desc">Daftar untuk mulai melakukan pencatatan dan transaksi lainnya.</string>
+    <string name="category_all">Semua</string>
+    <string name="category_foods">Makanan</string>
+    <string name="category_drinks">Minuman</string>
+    <string name="category_clothes">Pakaian</string>
+    <string name="category_stationary">Alat Tulis</string>
+    <string name="category_domestic">Rumah Tangga</string>
+    <string name="category_etc">Lain-lain</string>
+    <string name="category_cosmetic">Kosmetik</string>
+    <string name="category_toys">Mainan</string>
+    <string name="category_schools">Perlengkapan Sekolah</string>
     <string-array name="products_category">
         <item>Makanan</item>
         <item>Minuman</item>
         <item>Pakaian</item>
         <item>Alat Tulis</item>
         <item>Rumah Tangga</item>
+        <item>Kosmetik</item>
+        <item>Mainan</item>
+        <item>Perlengkapan Sekolah</item>
         <item>Lain-lain</item>
     </string-array>
 </resources>
